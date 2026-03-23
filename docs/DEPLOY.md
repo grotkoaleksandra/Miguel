@@ -22,7 +22,7 @@ CI bumps automatically via GitHub Action on every push. **Never bump locally.**
 
 | Environment | URL |
 |---|---|
-| GitHub Pages | https://USERNAME.github.io/REPO/ |
+| GitHub Pages | https://grotkoaleksandra.github.io/Miguel/ |
 
 ## Tailwind CSS
 
