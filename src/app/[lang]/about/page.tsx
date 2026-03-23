@@ -1,7 +1,6 @@
 import { getDictionary } from "@/i18n/get-dictionary";
 import type { Locale } from "@/i18n/config";
 import { ScrollReveal } from "@/components/scroll-reveal";
-import { Marquee } from "@/components/marquee";
 import Link from "next/link";
 
 export default async function AboutPage({
@@ -68,20 +67,6 @@ export default async function AboutPage({
           ))}
         </div>
       </section>
-
-      {/* Marquee */}
-      <div className="py-6 bg-accent text-white">
-        <Marquee speed={20}>
-          <span className="text-sm tracking-[0.3em] uppercase mx-8">
-            Let&apos;s build something great together
-          </span>
-          <span className="text-lg mx-4">✦</span>
-          <span className="text-sm tracking-[0.3em] uppercase mx-8">
-            Free pilot for your first project
-          </span>
-          <span className="text-lg mx-4">✦</span>
-        </Marquee>
-      </div>
 
       {/* CTA */}
       <section className="py-32 md:py-40 px-6 md:px-10 text-center">
