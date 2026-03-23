@@ -1,65 +1,127 @@
 {
   "metadata": {
-    "title": "My Organization",
-    "description": "Community management platform"
+    "title": "Syrena Creative",
+    "description": "Creative agency in Warsaw — websites, apps, and social media for businesses, artists, and startups."
   },
   "nav": {
     "home": "Home",
-    "about": "About",
-    "programs": "Programs",
+    "work": "Work",
+    "about": "Agency",
     "contact": "Contact",
+    "letsTalk": "Let's talk",
     "signIn": "Sign In",
     "intranet": "Intranet"
   },
   "home": {
     "hero": {
-      "title": "Welcome",
-      "subtitle": "Building community, empowering futures",
-      "cta": "Learn More"
+      "line1": "We design",
+      "line2": "digital experiences",
+      "line3": "for bold brands."
     },
-    "mission": {
-      "title": "Our Mission",
-      "description": "We are dedicated to serving our community, supporting education, and strengthening bonds across generations."
+    "projects": {
+      "title": "Selected Work",
+      "viewAll": "View all projects",
+      "list": [
+        {
+          "title": "Syrena Travel",
+          "category": "Web App",
+          "description": "Travel discovery platform connecting explorers with curated experiences.",
+          "image": "/Miguel/images/projects/syrena-travel.jpg",
+          "status": "In Progress"
+        },
+        {
+          "title": "Max Kennedy",
+          "category": "Personal App",
+          "description": "A bespoke personal app built for fun and daily utility.",
+          "image": "/Miguel/images/projects/max-kennedy.jpg",
+          "status": "In Progress"
+        },
+        {
+          "title": "Yoga Studio",
+          "category": "Website",
+          "description": "Online class platform for a Warsaw yoga studio.",
+          "image": "/Miguel/images/projects/yoga-studio.jpg",
+          "status": "Planned"
+        },
+        {
+          "title": "Massage Therapist",
+          "category": "Website",
+          "description": "Clean, minimal booking site for a wellness professional.",
+          "image": "/Miguel/images/projects/massage.jpg",
+          "status": "Planned"
+        },
+        {
+          "title": "Art Marketplace",
+          "category": "E-Commerce",
+          "description": "Curated art marketplace connecting artists with collectors, hotels, and restaurants.",
+          "image": "/Miguel/images/projects/art-marketplace.jpg",
+          "status": "Planned"
+        },
+        {
+          "title": "Cultural Magazine",
+          "category": "Digital Platform",
+          "description": "A digital magazine exploring spirituality, art, and Warsaw culture.",
+          "image": "/Miguel/images/projects/magazine.jpg",
+          "status": "Planned"
+        }
+      ]
+    },
+    "services": {
+      "title": "What we do",
+      "list": [
+        {
+          "title": "Website Design & Development",
+          "description": "Custom websites that look sharp and load fast."
+        },
+        {
+          "title": "Web Apps & Prototypes",
+          "description": "From idea to working product — startup-speed delivery."
+        },
+        {
+          "title": "E-Commerce",
+          "description": "Shopify stores and custom commerce solutions."
+        },
+        {
+          "title": "Social Media Content",
+          "description": "TikTok, Reels, and content strategy for growing brands."
+        },
+        {
+          "title": "AI Video & Visuals",
+          "description": "Next-generation visual content powered by AI tools."
+        },
+        {
+          "title": "Branding & Design",
+          "description": "Identity systems, logos, and visual direction."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Have a project in mind?",
+      "subtitle": "We'd love to hear about it. Free consultation for your first project.",
+      "button": "Get in touch"
     }
   },
   "about": {
-    "title": "About Us",
-    "description": "Learn about our history, mission, and the community we serve.",
+    "title": "Agency",
+    "description": "Syrena Creative is a small creative agency in Warsaw building websites, apps, and social media content for businesses, artists, and startups.",
     "history": {
-      "title": "Our History",
-      "content": "Our organization has a rich history of community service. We work to maintain traditions while embracing the future."
+      "title": "Our Approach",
+      "content": "We believe great digital work starts with understanding the people behind the brand. Every project begins with a conversation — no templates, no shortcuts. We build from scratch because your business deserves it."
     }
   },
-  "programs": {
-    "title": "Our Programs",
-    "description": "Explore the programs and initiatives we offer to our community.",
-    "list": [
-      {
-        "title": "Community Programs",
-        "description": "Programs dedicated to serving and strengthening our community."
-      },
-      {
-        "title": "Education",
-        "description": "Educational initiatives supporting youth and lifelong learning."
-      },
-      {
-        "title": "Community Support",
-        "description": "Resources and services that strengthen our community bonds."
-      }
-    ]
-  },
   "contact": {
-    "title": "Contact Us",
-    "description": "Get in touch with us. We'd love to hear from you.",
+    "title": "Let's talk",
+    "description": "Tell us about your project. We offer a free pilot for new clients.",
     "form": {
       "name": "Your Name",
       "email": "Your Email",
-      "message": "Your Message",
+      "message": "Tell us about your project",
       "submit": "Send Message"
     }
   },
   "footer": {
     "rights": "All rights reserved.",
-    "language": "Language"
+    "language": "Language",
+    "tagline": "Creative agency in Warsaw"
   }
 }

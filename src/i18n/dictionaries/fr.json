@@ -1,65 +1,127 @@
 {
   "metadata": {
-    "title": "My Organization",
-    "description": "Community management platform"
+    "title": "Syrena Creative",
+    "description": "Agence créative à Varsovie — sites web, apps et réseaux sociaux pour entreprises, artistes et startups."
   },
   "nav": {
-    "home": "Home",
-    "about": "About",
-    "programs": "Programs",
+    "home": "Accueil",
+    "work": "Projets",
+    "about": "Agence",
     "contact": "Contact",
-    "signIn": "Sign In",
+    "letsTalk": "Parlons-en",
+    "signIn": "Connexion",
     "intranet": "Intranet"
   },
   "home": {
     "hero": {
-      "title": "Welcome",
-      "subtitle": "Building community, empowering futures",
-      "cta": "Learn More"
+      "line1": "Nous créons",
+      "line2": "des expériences digitales",
+      "line3": "pour les marques audacieuses."
     },
-    "mission": {
-      "title": "Our Mission",
-      "description": "We are dedicated to serving our community, supporting education, and strengthening bonds across generations."
+    "projects": {
+      "title": "Projets Sélectionnés",
+      "viewAll": "Voir tous les projets",
+      "list": [
+        {
+          "title": "Syrena Travel",
+          "category": "Web App",
+          "description": "Plateforme de voyage connectant les explorateurs avec des expériences sélectionnées.",
+          "image": "/Miguel/images/projects/syrena-travel.jpg",
+          "status": "En Cours"
+        },
+        {
+          "title": "Max Kennedy",
+          "category": "App Personnelle",
+          "description": "Une app personnelle sur mesure, créée pour le plaisir et l'utilité quotidienne.",
+          "image": "/Miguel/images/projects/max-kennedy.jpg",
+          "status": "En Cours"
+        },
+        {
+          "title": "Studio de Yoga",
+          "category": "Site Web",
+          "description": "Plateforme de cours en ligne pour un studio de yoga à Varsovie.",
+          "image": "/Miguel/images/projects/yoga-studio.jpg",
+          "status": "Planifié"
+        },
+        {
+          "title": "Massothérapeute",
+          "category": "Site Web",
+          "description": "Site de réservation épuré et minimal pour un professionnel du bien-être.",
+          "image": "/Miguel/images/projects/massage.jpg",
+          "status": "Planifié"
+        },
+        {
+          "title": "Marché de l'Art",
+          "category": "E-Commerce",
+          "description": "Marché d'art sélectionné connectant artistes avec collectionneurs, hôtels et restaurants.",
+          "image": "/Miguel/images/projects/art-marketplace.jpg",
+          "status": "Planifié"
+        },
+        {
+          "title": "Magazine Culturel",
+          "category": "Plateforme Digitale",
+          "description": "Un magazine digital explorant la spiritualité, l'art et la culture de Varsovie.",
+          "image": "/Miguel/images/projects/magazine.jpg",
+          "status": "Planifié"
+        }
+      ]
+    },
+    "services": {
+      "title": "Ce que nous faisons",
+      "list": [
+        {
+          "title": "Conception & Développement Web",
+          "description": "Sites web personnalisés, esthétiques et rapides."
+        },
+        {
+          "title": "Apps Web & Prototypes",
+          "description": "De l'idée au produit fonctionnel — vitesse startup."
+        },
+        {
+          "title": "E-Commerce",
+          "description": "Boutiques Shopify et solutions commerce personnalisées."
+        },
+        {
+          "title": "Contenu Réseaux Sociaux",
+          "description": "TikTok, Reels et stratégie de contenu pour les marques en croissance."
+        },
+        {
+          "title": "Vidéo & Visuels IA",
+          "description": "Contenu visuel nouvelle génération propulsé par l'IA."
+        },
+        {
+          "title": "Branding & Design",
+          "description": "Systèmes d'identité, logos et direction artistique."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Vous avez un projet en tête?",
+      "subtitle": "Nous serions ravis d'en discuter. Consultation gratuite pour votre premier projet.",
+      "button": "Contactez-nous"
     }
   },
   "about": {
-    "title": "About Us",
-    "description": "Learn about our history, mission, and the community we serve.",
+    "title": "Agence",
+    "description": "Syrena Creative est une petite agence créative à Varsovie qui crée des sites web, apps et contenu pour les réseaux sociaux.",
     "history": {
-      "title": "Our History",
-      "content": "Our organization has a rich history of community service. We work to maintain traditions while embracing the future."
+      "title": "Notre Approche",
+      "content": "Nous croyons que le grand travail digital commence par comprendre les personnes derrière la marque. Chaque projet commence par une conversation — sans templates, sans raccourcis."
     }
   },
-  "programs": {
-    "title": "Our Programs",
-    "description": "Explore the programs and initiatives we offer to our community.",
-    "list": [
-      {
-        "title": "Community Programs",
-        "description": "Programs dedicated to serving and strengthening our community."
-      },
-      {
-        "title": "Education",
-        "description": "Educational initiatives supporting youth and lifelong learning."
-      },
-      {
-        "title": "Community Support",
-        "description": "Resources and services that strengthen our community bonds."
-      }
-    ]
-  },
   "contact": {
-    "title": "Contact Us",
-    "description": "Get in touch with us. We'd love to hear from you.",
+    "title": "Parlons-en",
+    "description": "Parlez-nous de votre projet. Nous offrons un pilote gratuit pour les nouveaux clients.",
     "form": {
-      "name": "Your Name",
-      "email": "Your Email",
-      "message": "Your Message",
-      "submit": "Send Message"
+      "name": "Votre Nom",
+      "email": "Votre Email",
+      "message": "Parlez-nous de votre projet",
+      "submit": "Envoyer"
     }
   },
   "footer": {
-    "rights": "All rights reserved.",
-    "language": "Language"
+    "rights": "Tous droits réservés.",
+    "language": "Langue",
+    "tagline": "Agence créative à Varsovie"
   }
 }
