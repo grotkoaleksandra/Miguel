@@ -24,6 +24,6 @@
 
 ## Quick Refs
 
-- **Tech:** Vanilla HTML/JS + Tailwind v4 | Supabase | GitHub Pages
+- **Tech:** Next.js 16 + React 19 + Tailwind v4 (PostCSS) | Supabase | GitHub Pages
 - **Live:** https://grotkoaleksandra.github.io/Miguel/
-- **Architecture:** Browser → GitHub Pages → Supabase (no server-side code)
+- **Architecture:** Next.js SSG → GitHub Pages → Supabase
