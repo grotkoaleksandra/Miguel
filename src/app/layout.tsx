@@ -8,8 +8,8 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "AlpacApps",
-  description: "Community management platform",
+  title: "Syrena Creative",
+  description: "Creative agency in Warsaw — websites, apps, and social media for businesses, artists, and startups.",
 };
 
 export default function RootLayout({

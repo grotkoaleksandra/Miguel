@@ -5,21 +5,41 @@ export interface Dictionary {
   };
   nav: {
     home: string;
+    work: string;
     about: string;
-    programs: string;
     contact: string;
+    letsTalk: string;
     signIn: string;
     intranet: string;
   };
   home: {
     hero: {
+      line1: string;
+      line2: string;
+      line3: string;
+    };
+    projects: {
+      title: string;
+      viewAll: string;
+      list: {
+        title: string;
+        category: string;
+        description: string;
+        image: string;
+        status: string;
+      }[];
+    };
+    services: {
+      title: string;
+      list: {
+        title: string;
+        description: string;
+      }[];
+    };
+    cta: {
       title: string;
       subtitle: string;
-      cta: string;
-    };
-    mission: {
-      title: string;
-      description: string;
+      button: string;
     };
   };
   about: {
@@ -29,14 +49,6 @@ export interface Dictionary {
       title: string;
       content: string;
     };
-  };
-  programs: {
-    title: string;
-    description: string;
-    list: {
-      title: string;
-      description: string;
-    }[];
   };
   contact: {
     title: string;
@@ -51,5 +63,6 @@ export interface Dictionary {
   footer: {
     rights: string;
     language: string;
+    tagline: string;
   };
 }
