@@ -3,7 +3,6 @@ import type { Locale } from "@/i18n/config";
 import Link from "next/link";
 import { VideoHero } from "@/components/video-hero";
 import { ScrollReveal } from "@/components/scroll-reveal";
-import { Marquee } from "@/components/marquee";
 import { ProjectCard } from "@/components/project-card";
 
 export default async function HomePage({
@@ -25,36 +24,6 @@ export default async function HomePage({
         line2={dict.home.hero.line2}
         line3={dict.home.hero.line3}
       />
-
-      {/* ═══ MARQUEE — Running text strip ═══ */}
-      <div className="py-6 border-y border-border bg-background">
-        <Marquee speed={25} className="text-foreground">
-          <span className="text-sm tracking-[0.3em] uppercase mx-8">
-            Websites &amp; Apps
-          </span>
-          <span className="text-accent text-lg mx-4">✦</span>
-          <span className="text-sm tracking-[0.3em] uppercase mx-8">
-            Social Media
-          </span>
-          <span className="text-accent text-lg mx-4">✦</span>
-          <span className="text-sm tracking-[0.3em] uppercase mx-8">
-            AI Video
-          </span>
-          <span className="text-accent text-lg mx-4">✦</span>
-          <span className="text-sm tracking-[0.3em] uppercase mx-8">
-            Branding
-          </span>
-          <span className="text-accent text-lg mx-4">✦</span>
-          <span className="text-sm tracking-[0.3em] uppercase mx-8">
-            E-Commerce
-          </span>
-          <span className="text-accent text-lg mx-4">✦</span>
-          <span className="text-sm tracking-[0.3em] uppercase mx-8">
-            Prototypes
-          </span>
-          <span className="text-accent text-lg mx-4">✦</span>
-        </Marquee>
-      </div>
 
       {/* ═══ BIG STATEMENT ═══ */}
       <section className="py-32 md:py-40 px-6 md:px-10">
