@@ -18,13 +18,11 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/* Selection */
 ::selection {
   background: var(--accent);
   color: #fff;
 }
 
-/* Smooth scroll */
 html {
   scroll-behavior: smooth;
 }
@@ -35,46 +33,59 @@ body {
   font-family: var(--font-geist, "Helvetica Neue", Helvetica, Arial, sans-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-/* Locomotive-style reveal animation */
+/* ---- Animations ---- */
+
 @keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-
 .animate-fade-up {
   animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   opacity: 0;
 }
-
 .animate-delay-1 { animation-delay: 0.1s; }
 .animate-delay-2 { animation-delay: 0.2s; }
 .animate-delay-3 { animation-delay: 0.3s; }
 .animate-delay-4 { animation-delay: 0.4s; }
 .animate-delay-5 { animation-delay: 0.5s; }
 
-/* Project card hover */
-.project-card {
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+/* Gradient background animation for hero */
+@keyframes gradientShift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(10%, -10%) scale(1.1); }
+  50% { transform: translate(-5%, 15%) scale(1.05); }
+  75% { transform: translate(-10%, -5%) scale(1.15); }
 }
-.project-card:hover {
-  transform: scale(1.02);
+.animate-gradient-shift {
+  animation: gradientShift 15s ease-in-out infinite;
 }
-.project-card .project-image {
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.project-card:hover .project-image {
-  transform: scale(1.05);
+.animate-gradient-shift-reverse {
+  animation: gradientShift 20s ease-in-out infinite reverse;
 }
 
-/* Link hover underline effect */
+/* Marquee */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee linear infinite;
+}
+
+/* Pulse line for scroll indicator */
+@keyframes pulseLine {
+  0%, 100% { opacity: 0.2; transform: scaleY(1); }
+  50% { opacity: 0.6; transform: scaleY(1.2); }
+}
+.animate-pulse-line {
+  animation: pulseLine 2s ease-in-out infinite;
+  transform-origin: top;
+}
+
+/* Link hover underline */
 .link-hover {
   position: relative;
   display: inline-block;
@@ -91,4 +102,26 @@ body {
 }
 .link-hover:hover::after {
   width: 100%;
+}
+
+/* Horizontal rule animation */
+@keyframes expandLine {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.animate-expand-line {
+  transform-origin: left;
+  animation: expandLine 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform: scaleX(0);
+}
+
+/* Counter animation helper */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Smooth section transitions */
+section {
+  position: relative;
 }
