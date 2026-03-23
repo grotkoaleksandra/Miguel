@@ -1,25 +1,29 @@
 # Database Schema Reference
 
 > This file is loaded on-demand. Referenced from CLAUDE.md.
-> Updated by the setup wizard and as tables are added/modified.
 
 ## Core Tables
 
-<!-- The setup wizard populates this section based on your domain -->
+```
+app_users           - Admin/authenticated users
+brand_config        - Site branding (name, colors, logo)
+property_config     - Site-level settings (single row)
+page_display_config - Tab visibility per section
+people              - Contact records
+media               - Uploaded files and images
+```
+
+## Email Tables
 
 ```
-(tables will be listed here after setup)
+email_templates     - Reusable email templates (subject, body, variables)
+inbound_emails      - Received emails (via Resend webhook)
 ```
 
-## Service Config Tables
-
-These are created when optional services are enabled:
+## Other Tables
 
 ```
-telnyx_config    - SMS configuration (single row, id=1)
-resend_config    - Email configuration
-square_config    - Payment processing configuration
-signwell_config  - E-signature configuration
+thoughts            - AI-generated content / notes
 ```
 
 ## Common Patterns
