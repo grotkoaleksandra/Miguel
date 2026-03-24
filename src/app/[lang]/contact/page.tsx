@@ -1,6 +1,8 @@
 import { getDictionary } from "@/i18n/get-dictionary";
 import type { Locale } from "@/i18n/config";
 import { ScrollReveal } from "@/components/scroll-reveal";
+import { TextReveal } from "@/components/text-reveal";
+import { MagneticButton } from "@/components/magnetic-button";
 
 export default async function ContactPage({
   params,
@@ -14,35 +16,47 @@ export default async function ContactPage({
   return (
     <>
       {/* Hero */}
-      <section className="min-h-[50vh] flex items-end bg-black text-white px-6 md:px-10 pb-20">
-        <div className="max-w-6xl w-full pt-32">
-          <h1 className="text-6xl sm:text-7xl md:text-8xl font-medium tracking-tight animate-fade-up">
+      <section className="min-h-[60vh] flex items-end bg-black text-white px-6 md:px-10 pb-24 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.03]" style={{
+          backgroundImage: `linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)`,
+          backgroundSize: "60px 60px",
+        }} />
+
+        <div className="max-w-6xl w-full pt-32 relative z-10">
+          <TextReveal
+            tag="h1"
+            className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-medium tracking-tighter"
+            stagger={0.06}
+          >
             {dict.contact.title}
-          </h1>
-          <p className="text-lg md:text-xl text-white/50 mt-6 max-w-xl animate-fade-up animate-delay-2">
-            {dict.contact.description}
-          </p>
+          </TextReveal>
+          <ScrollReveal delay={0.4}>
+            <p className="text-lg md:text-xl text-white/40 mt-8 max-w-xl leading-relaxed">
+              {dict.contact.description}
+            </p>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* Form + Info */}
-      <section className="py-24 md:py-32 px-6 md:px-10">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
+      <section className="py-32 md:py-44 px-6 md:px-10">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-20 md:gap-32">
           {/* Form */}
           <div>
-            <form className="space-y-10">
+            <form className="space-y-12">
               <ScrollReveal>
                 <div>
                   <label
                     htmlFor="name"
-                    className="block text-[10px] tracking-[0.2em] uppercase text-muted mb-4"
+                    className="block text-[10px] tracking-[0.25em] uppercase text-muted mb-4"
                   >
                     {dict.contact.form.name}
                   </label>
                   <input
                     id="name"
                     type="text"
-                    className="w-full border-b-2 border-border bg-transparent py-4 text-xl focus:outline-none focus:border-accent transition-colors duration-300"
+                    className="w-full border-b border-border bg-transparent py-4 text-xl focus:outline-none focus:border-accent transition-colors duration-500"
+                    data-cursor-hover
                   />
                 </div>
               </ScrollReveal>
@@ -51,14 +65,15 @@ export default async function ContactPage({
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-[10px] tracking-[0.2em] uppercase text-muted mb-4"
+                    className="block text-[10px] tracking-[0.25em] uppercase text-muted mb-4"
                   >
                     {dict.contact.form.email}
                   </label>
                   <input
                     id="email"
                     type="email"
-                    className="w-full border-b-2 border-border bg-transparent py-4 text-xl focus:outline-none focus:border-accent transition-colors duration-300"
+                    className="w-full border-b border-border bg-transparent py-4 text-xl focus:outline-none focus:border-accent transition-colors duration-500"
+                    data-cursor-hover
                   />
                 </div>
               </ScrollReveal>
@@ -67,73 +82,78 @@ export default async function ContactPage({
                 <div>
                   <label
                     htmlFor="message"
-                    className="block text-[10px] tracking-[0.2em] uppercase text-muted mb-4"
+                    className="block text-[10px] tracking-[0.25em] uppercase text-muted mb-4"
                   >
                     {dict.contact.form.message}
                   </label>
                   <textarea
                     id="message"
                     rows={4}
-                    className="w-full border-b-2 border-border bg-transparent py-4 text-xl focus:outline-none focus:border-accent transition-colors duration-300 resize-none"
+                    className="w-full border-b border-border bg-transparent py-4 text-xl focus:outline-none focus:border-accent transition-colors duration-500 resize-none"
+                    data-cursor-hover
                   />
                 </div>
               </ScrollReveal>
 
               <ScrollReveal delay={0.3}>
-                <button
-                  type="submit"
-                  className="group inline-flex items-center gap-4 text-sm tracking-[0.2em] uppercase border-2 border-foreground rounded-full px-10 py-4 hover:bg-foreground hover:text-background transition-all duration-500"
-                >
-                  {dict.contact.form.submit}
-                  <span className="group-hover:translate-x-2 transition-transform duration-300">
-                    →
-                  </span>
-                </button>
+                <MagneticButton className="inline-block">
+                  <button
+                    type="submit"
+                    className="group inline-flex items-center gap-4 text-sm tracking-[0.15em] uppercase border border-foreground rounded-full px-12 py-5 hover:bg-foreground hover:text-background transition-all duration-700"
+                    data-cursor-hover
+                  >
+                    {dict.contact.form.submit}
+                    <span className="group-hover:translate-x-2 transition-transform duration-500">
+                      →
+                    </span>
+                  </button>
+                </MagneticButton>
               </ScrollReveal>
             </form>
           </div>
 
           {/* Info */}
-          <div className="md:pt-4">
+          <div className="md:pt-2">
             <ScrollReveal delay={0.1}>
-              <div className="space-y-10">
+              <div className="space-y-12">
                 <div>
-                  <h3 className="text-[10px] tracking-[0.2em] uppercase text-muted mb-3">
+                  <h3 className="text-[10px] tracking-[0.25em] uppercase text-muted mb-4">
                     Email
                   </h3>
                   <a
                     href="mailto:hello@syrenacreative.com"
-                    className="text-lg link-hover hover:text-accent transition-colors"
+                    className="text-xl link-hover hover:text-accent transition-colors duration-500"
+                    data-cursor-hover
                   >
                     hello@syrenacreative.com
                   </a>
                 </div>
 
                 <div>
-                  <h3 className="text-[10px] tracking-[0.2em] uppercase text-muted mb-3">
+                  <h3 className="text-[10px] tracking-[0.25em] uppercase text-muted mb-4">
                     Location
                   </h3>
-                  <p className="text-lg">Warsaw, Poland</p>
+                  <p className="text-xl">Warsaw, Poland</p>
                 </div>
 
                 <div>
-                  <h3 className="text-[10px] tracking-[0.2em] uppercase text-muted mb-3">
+                  <h3 className="text-[10px] tracking-[0.25em] uppercase text-muted mb-4">
                     Pricing
                   </h3>
-                  <p className="text-lg">Free pilot → €200 packages</p>
-                  <p className="text-sm text-muted mt-1">
+                  <p className="text-xl">Free pilot → €200 packages</p>
+                  <p className="text-sm text-muted mt-2 leading-relaxed">
                     We offer a free first project to prove our value.
                   </p>
                 </div>
 
                 <div>
-                  <h3 className="text-[10px] tracking-[0.2em] uppercase text-muted mb-3">
+                  <h3 className="text-[10px] tracking-[0.25em] uppercase text-muted mb-4">
                     Social
                   </h3>
-                  <div className="flex gap-6">
-                    <span className="text-lg link-hover cursor-pointer">Instagram</span>
-                    <span className="text-lg link-hover cursor-pointer">TikTok</span>
-                    <span className="text-lg link-hover cursor-pointer">LinkedIn</span>
+                  <div className="flex gap-8">
+                    <span className="text-lg link-hover cursor-pointer" data-cursor-hover>Instagram</span>
+                    <span className="text-lg link-hover cursor-pointer" data-cursor-hover>TikTok</span>
+                    <span className="text-lg link-hover cursor-pointer" data-cursor-hover>LinkedIn</span>
                   </div>
                 </div>
               </div>
