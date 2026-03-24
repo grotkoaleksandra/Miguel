@@ -2,10 +2,10 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #000000;
+  --foreground: #0a0a0a;
   --accent: #DA382E;
-  --muted: #999999;
-  --border: #e5e5e5;
+  --muted: #888888;
+  --border: #e0e0e0;
 }
 
 @theme inline {
@@ -52,7 +52,6 @@ body {
 .animate-delay-4 { animation-delay: 0.4s; }
 .animate-delay-5 { animation-delay: 0.5s; }
 
-/* Gradient background animation for hero */
 @keyframes gradientShift {
   0%, 100% { transform: translate(0, 0) scale(1); }
   25% { transform: translate(10%, -10%) scale(1.1); }
@@ -66,7 +65,6 @@ body {
   animation: gradientShift 20s ease-in-out infinite reverse;
 }
 
-/* Marquee */
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
@@ -75,13 +73,12 @@ body {
   animation: marquee linear infinite;
 }
 
-/* Pulse line for scroll indicator */
 @keyframes pulseLine {
-  0%, 100% { opacity: 0.2; transform: scaleY(1); }
-  50% { opacity: 0.6; transform: scaleY(1.2); }
+  0%, 100% { opacity: 0.15; transform: scaleY(1); }
+  50% { opacity: 0.5; transform: scaleY(1.15); }
 }
 .animate-pulse-line {
-  animation: pulseLine 2s ease-in-out infinite;
+  animation: pulseLine 2.5s ease-in-out infinite;
   transform-origin: top;
 }
 
@@ -98,13 +95,12 @@ body {
   width: 0;
   height: 1px;
   background: currentColor;
-  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .link-hover:hover::after {
   width: 100%;
 }
 
-/* Horizontal rule animation */
 @keyframes expandLine {
   from { transform: scaleX(0); }
   to { transform: scaleX(1); }
@@ -115,23 +111,33 @@ body {
   transform: scaleX(0);
 }
 
-/* Counter animation helper */
-@keyframes countUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Preloader loading bar */
 @keyframes loadingBar {
   0% { width: 0; }
   60% { width: 70%; }
   100% { width: 100%; }
 }
 .animate-loading-bar {
-  animation: loadingBar 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: loadingBar 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Smooth section transitions */
 section {
   position: relative;
+}
+
+/* Global film grain — subtle analog feel */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9990;
+  pointer-events: none;
+  opacity: 0.025;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* Smoother image loading */
+img {
+  transition: opacity 0.5s ease;
 }
