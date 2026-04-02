@@ -4,32 +4,49 @@ import { getVersion } from "@/lib/version";
 export function Footer({ dict }: { dict: Dictionary }) {
   const version = getVersion();
   return (
-    <footer className="border-t border-foreground/[0.06] py-24 px-6 md:px-10">
-      <div className="max-w-[1200px] mx-auto">
-        <div className="flex flex-col md:flex-row justify-between gap-12">
-          {/* Left */}
-          <div>
-            <div className="font-display text-2xl tracking-[0.01em] font-normal mb-4">
-              Syrena Creative<span className="align-super text-[8px] ml-0.5">®</span>
-            </div>
-            <p className="text-[13px] text-muted leading-relaxed">{dict.footer.tagline}</p>
+    <footer className="border-t border-foreground/[0.06] py-16 md:py-20 px-6 md:px-12 lg:px-20">
+      <div className="max-w-[1400px] mx-auto grid grid-cols-12 gap-x-4 md:gap-x-8">
+        {/* Logo */}
+        <div className="col-span-12 md:col-span-3 mb-10 md:mb-0">
+          <div className="text-[15px] tracking-[0.02em] mb-3">
+            Syrena Creative<span className="align-super text-[8px] ml-0.5">®</span>
           </div>
-
-          {/* Right */}
-          <div className="flex flex-col items-start md:items-end gap-4 text-[13px] text-muted">
-            <span>Warsaw, Poland</span>
-            <a href="mailto:hello@syrenacreative.com" className="link-hover hover:text-foreground transition-colors duration-500" data-cursor-hover>
-              hello@syrenacreative.com
-            </a>
-          </div>
+          <p className="text-[13px] text-foreground/30 leading-relaxed">
+            {dict.footer.tagline}
+          </p>
         </div>
 
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mt-24 pt-8 border-t border-foreground/[0.06] gap-4">
-          <span className="text-[11px] text-muted/50 tracking-[0.05em]">
-            &copy; {new Date().getFullYear()} {dict.metadata.title}. {dict.footer.rights}
+        {/* Contact */}
+        <div className="col-span-6 md:col-span-2 md:col-start-7">
+          <div className="text-[10px] tracking-[0.25em] uppercase text-foreground/20 mb-4">
+            Contact
+          </div>
+          <a
+            href="mailto:hello@syrenacreative.com"
+            className="text-[13px] text-foreground/40 link-hover hover:text-foreground transition-colors duration-500 block"
+            data-cursor-hover
+          >
+            hello@syrenacreative.com
+          </a>
+        </div>
+
+        {/* Location */}
+        <div className="col-span-6 md:col-span-2 md:col-start-10">
+          <div className="text-[10px] tracking-[0.25em] uppercase text-foreground/20 mb-4">
+            Location
+          </div>
+          <span className="text-[13px] text-foreground/40">
+            Warsaw, Poland
+          </span>
+        </div>
+
+        {/* Bottom line */}
+        <div className="col-span-12 mt-16 pt-6 border-t border-foreground/[0.04] flex items-center justify-between">
+          <span className="text-[10px] text-foreground/15 tracking-[0.05em]">
+            &copy; {new Date().getFullYear()} {dict.metadata.title}
           </span>
           {version !== "dev" && (
-            <span className="text-[11px] text-muted/25" data-site-version>
+            <span className="text-[10px] text-foreground/10" data-site-version>
               {version}
             </span>
           )}
