@@ -29,25 +29,25 @@ export function Navbar({ dict, lang }: { dict: Dictionary; lang: Locale }) {
         {/* Logo */}
         <Link
           href={`/${lang}`}
-          className="text-white text-lg tracking-tight font-medium"
+          className="text-white text-[15px] tracking-[0.02em] font-medium"
         >
-          Syrena Creative<span className="align-super text-[10px] ml-0.5">®</span>
+          Syrena Creative<span className="align-super text-[9px] ml-0.5">®</span>
         </Link>
 
         {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-10">
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="text-white text-sm tracking-wide link-hover"
+              className="text-white text-[13px] tracking-[0.04em] link-hover"
             >
               {link.label}
             </Link>
           ))}
           <Link
             href={`/${lang}/contact`}
-            className="text-white text-sm tracking-wide border border-white/40 rounded-full px-5 py-2 hover:bg-white hover:text-black transition-all duration-300"
+            className="text-white text-[13px] tracking-[0.04em] border border-white/30 rounded-full px-6 py-2.5 hover:bg-white hover:text-black transition-all duration-500"
           >
             {dict.nav.letsTalk}
           </Link>
@@ -61,9 +61,9 @@ export function Navbar({ dict, lang }: { dict: Dictionary; lang: Locale }) {
         >
           <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             {menuOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M6 18L18 6M6 6l12 12" />
             ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 8h16M4 16h16" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 8h16M4 16h16" />
             )}
           </svg>
         </button>
@@ -71,14 +71,14 @@ export function Navbar({ dict, lang }: { dict: Dictionary; lang: Locale }) {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden fixed inset-0 bg-black z-40 flex flex-col justify-center items-center gap-8">
+        <div className="md:hidden fixed inset-0 bg-[#030303] z-40 flex flex-col justify-center items-center gap-10">
           <button
             onClick={() => setMenuOpen(false)}
             className="absolute top-6 right-6 text-white p-2"
             aria-label="Close menu"
           >
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
           {links.map((link) => (
@@ -86,7 +86,7 @@ export function Navbar({ dict, lang }: { dict: Dictionary; lang: Locale }) {
               key={link.href}
               href={link.href}
               onClick={() => setMenuOpen(false)}
-              className="text-white text-3xl font-light tracking-wide"
+              className="text-white font-display text-4xl font-normal tracking-tight"
             >
               {link.label}
             </Link>
@@ -94,7 +94,7 @@ export function Navbar({ dict, lang }: { dict: Dictionary; lang: Locale }) {
           <Link
             href={`/${lang}/contact`}
             onClick={() => setMenuOpen(false)}
-            className="text-white text-3xl font-light tracking-wide"
+            className="text-white font-display text-4xl font-normal tracking-tight"
           >
             {dict.nav.contact}
           </Link>
@@ -102,7 +102,7 @@ export function Navbar({ dict, lang }: { dict: Dictionary; lang: Locale }) {
             <Link
               href={`/${intranetLang}/intranet`}
               onClick={() => setMenuOpen(false)}
-              className="text-white/50 text-sm mt-8"
+              className="text-white/40 text-[11px] tracking-[0.2em] uppercase mt-12"
             >
               {dict.nav.intranet}
             </Link>
