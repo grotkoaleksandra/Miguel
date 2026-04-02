@@ -29,19 +29,24 @@ export default async function HomePage({
       />
 
       {/* ═══ BIG STATEMENT ═══ */}
-      <section className="py-40 md:py-56 px-6 md:px-10 relative">
-        <div className="max-w-6xl mx-auto">
+      <section className="py-40 md:py-60 px-6 md:px-10 relative">
+        <div className="max-w-[1200px] mx-auto">
+          <ScrollReveal delay={0.1}>
+            <div className="text-[11px] tracking-[0.3em] uppercase text-muted mb-16">
+              Philosophy
+            </div>
+          </ScrollReveal>
           <TextReveal
             tag="blockquote"
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-light leading-[1.2] tracking-tight"
+            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-[3.8rem] font-normal leading-[1.15] tracking-[-0.01em]"
             stagger={0.04}
           >
             Code and design are just tools. What makes work unforgettable is understanding the people behind the brand.
           </TextReveal>
           <ScrollReveal delay={0.6}>
-            <div className="mt-16 flex items-center gap-4">
-              <div className="w-16 h-px bg-accent" />
-              <span className="text-xs text-muted tracking-[0.2em] uppercase">
+            <div className="mt-20 flex items-center gap-6">
+              <div className="w-20 h-[1px] bg-foreground/20" />
+              <span className="text-[11px] text-muted tracking-[0.25em] uppercase">
                 Syrena Creative, Warsaw
               </span>
             </div>
@@ -51,21 +56,21 @@ export default async function HomePage({
 
       {/* ═══ PROJECTS — Horizontal Scroll Showcase ═══ */}
       <section className="relative">
-        <div className="px-6 md:px-10 mb-12">
-          <div className="max-w-7xl mx-auto flex items-baseline justify-between">
+        <div className="px-6 md:px-10 mb-16">
+          <div className="max-w-[1600px] mx-auto flex items-baseline justify-between">
             <ScrollReveal>
-              <h2 className="text-sm tracking-[0.2em] uppercase text-muted">
+              <h2 className="text-[11px] tracking-[0.3em] uppercase text-muted">
                 {dict.home.projects.title}
               </h2>
             </ScrollReveal>
             <ScrollReveal delay={0.1}>
-              <span className="text-xs text-muted tracking-wider">
+              <span className="text-[11px] text-muted/60 tracking-[0.15em]">
                 ( {projects.length} )
               </span>
             </ScrollReveal>
           </div>
           <ScrollReveal delay={0.15}>
-            <div className="max-w-7xl mx-auto h-px bg-border mt-6" />
+            <div className="max-w-[1600px] mx-auto h-[1px] bg-foreground/[0.08] mt-8" />
           </ScrollReveal>
         </div>
 
@@ -78,13 +83,13 @@ export default async function HomePage({
             <MagneticButton>
               <Link
                 href={`/${lang}/contact`}
-                className="group flex flex-col items-center gap-4 text-muted hover:text-foreground transition-colors duration-500"
+                className="group flex flex-col items-center gap-5 text-muted hover:text-foreground transition-colors duration-700"
                 data-cursor-hover
               >
-                <div className="w-24 h-24 rounded-full border border-current flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                  <span className="text-2xl group-hover:rotate-45 transition-transform duration-500">+</span>
+                <div className="w-28 h-28 rounded-full border border-foreground/15 flex items-center justify-center group-hover:scale-110 group-hover:border-foreground/40 transition-all duration-700">
+                  <span className="text-2xl group-hover:rotate-90 transition-transform duration-700">+</span>
                 </div>
-                <span className="text-xs tracking-[0.2em] uppercase">Your project</span>
+                <span className="text-[11px] tracking-[0.25em] uppercase">Your project</span>
               </Link>
             </MagneticButton>
           </div>
@@ -92,16 +97,10 @@ export default async function HomePage({
       </section>
 
       {/* ═══ CAPABILITIES ═══ */}
-      <section className="py-40 md:py-56 px-6 md:px-10 bg-black text-white relative overflow-hidden">
-        {/* Subtle grid pattern */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)`,
-          backgroundSize: "60px 60px",
-        }} />
-
-        <div className="max-w-7xl mx-auto relative">
+      <section className="py-40 md:py-60 px-6 md:px-10 bg-[#030303] text-white relative overflow-hidden">
+        <div className="max-w-[1200px] mx-auto relative">
           <ScrollReveal>
-            <h2 className="text-sm tracking-[0.2em] uppercase text-white/30 mb-24">
+            <h2 className="text-[11px] tracking-[0.3em] uppercase text-white/25 mb-28">
               {dict.home.services.title}
             </h2>
           </ScrollReveal>
@@ -109,20 +108,20 @@ export default async function HomePage({
           <div className="space-y-0">
             {dict.home.services.list.map((service, i) => (
               <ScrollReveal key={service.title} delay={i * 0.06}>
-                <div className="group border-b border-white/[0.06] py-10 md:py-12 flex items-start md:items-center justify-between gap-6 cursor-pointer transition-all duration-700 hover:border-white/20" data-cursor-hover>
-                  <div className="flex items-start md:items-center gap-8 md:gap-12">
-                    <span className="text-white/15 text-xs tabular-nums font-mono mt-1 md:mt-0">
+                <div className="group border-b border-white/[0.06] py-10 md:py-14 flex items-start md:items-center justify-between gap-6 cursor-pointer transition-all duration-700 hover:border-white/15" data-cursor-hover>
+                  <div className="flex items-start md:items-center gap-8 md:gap-16">
+                    <span className="text-white/10 text-[11px] tabular-nums font-mono mt-1 md:mt-0 tracking-wider">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <h3 className="text-2xl md:text-3xl lg:text-[2.5rem] font-light tracking-tight group-hover:text-accent transition-colors duration-500">
+                    <h3 className="font-display text-2xl md:text-3xl lg:text-[2.8rem] font-normal tracking-[-0.01em] group-hover:text-accent transition-colors duration-700">
                       {service.title}
                     </h3>
                   </div>
-                  <div className="flex items-center gap-8">
-                    <p className="hidden lg:block text-sm text-white/30 max-w-xs text-right leading-relaxed group-hover:text-white/50 transition-colors duration-500">
+                  <div className="flex items-center gap-10">
+                    <p className="hidden lg:block text-[13px] text-white/25 max-w-xs text-right leading-relaxed group-hover:text-white/40 transition-colors duration-700">
                       {service.description}
                     </p>
-                    <span className="text-white/15 group-hover:text-accent group-hover:translate-x-2 transition-all duration-500 text-xl">
+                    <span className="text-white/10 group-hover:text-accent group-hover:translate-x-2 transition-all duration-700 text-lg">
                       →
                     </span>
                   </div>
@@ -133,37 +132,37 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* ═══ REEL / VISUAL BREAK ═══ */}
+      {/* ═══ VISUAL BREAK ═══ */}
       <section className="relative h-[60vh] md:h-[80vh] overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1920&h=1080&fit=crop"
           alt=""
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-black/35" />
         <div className="absolute inset-0 flex items-center justify-center">
           <ScrollReveal direction="none">
             <div className="text-center text-white">
-              <div className="text-xs tracking-[0.3em] uppercase text-white/50 mb-6">Based in</div>
-              <div className="text-5xl md:text-7xl lg:text-8xl font-light tracking-tight">Warsaw</div>
-              <div className="text-xs tracking-[0.3em] uppercase text-white/50 mt-6">Working globally</div>
+              <div className="text-[11px] tracking-[0.4em] uppercase text-white/40 mb-8">Based in</div>
+              <div className="font-display text-6xl md:text-8xl lg:text-9xl font-normal tracking-[-0.02em]">Warsaw</div>
+              <div className="text-[11px] tracking-[0.4em] uppercase text-white/40 mt-8">Working globally</div>
             </div>
           </ScrollReveal>
         </div>
       </section>
 
       {/* ═══ CTA ═══ */}
-      <section className="py-40 md:py-56 px-6 md:px-10 text-center relative">
+      <section className="py-40 md:py-60 px-6 md:px-10 text-center relative">
         <div className="max-w-5xl mx-auto">
           <TextReveal
             tag="h2"
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-medium tracking-tighter leading-[0.95]"
+            className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-normal tracking-[-0.02em] leading-[0.95]"
             stagger={0.05}
           >
             {dict.home.cta.title}
           </TextReveal>
           <ScrollReveal delay={0.4}>
-            <p className="text-lg md:text-xl text-muted mt-10 mb-14 max-w-xl mx-auto leading-relaxed">
+            <p className="text-base md:text-lg text-muted mt-12 mb-16 max-w-lg mx-auto leading-relaxed">
               {dict.home.cta.subtitle}
             </p>
           </ScrollReveal>
@@ -171,7 +170,7 @@ export default async function HomePage({
             <MagneticButton className="inline-block">
               <Link
                 href={`/${lang}/contact`}
-                className="group inline-flex items-center gap-4 text-sm tracking-[0.15em] uppercase border border-foreground rounded-full px-14 py-6 hover:bg-foreground hover:text-background transition-all duration-700"
+                className="group inline-flex items-center gap-4 text-[12px] tracking-[0.2em] uppercase border border-foreground/20 rounded-full px-14 py-6 hover:bg-foreground hover:text-background transition-all duration-700"
                 data-cursor-hover
               >
                 {dict.home.cta.button}

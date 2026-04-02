@@ -37,8 +37,8 @@ export function ProjectCard({
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     setMousePos({
-      x: ((e.clientX - rect.left) / rect.width - 0.5) * 15,
-      y: ((e.clientY - rect.top) / rect.height - 0.5) * 15,
+      x: ((e.clientX - rect.left) / rect.width - 0.5) * 10,
+      y: ((e.clientY - rect.top) / rect.height - 0.5) * 10,
     });
   };
 
@@ -63,24 +63,24 @@ export function ProjectCard({
         data-cursor-hover
       >
         <div
-          className="relative overflow-hidden aspect-[3/4] md:aspect-[4/5] rounded-sm"
+          className="relative overflow-hidden aspect-[3/4] md:aspect-[4/5]"
           style={{
-            transform: `perspective(1200px) rotateX(${-mousePos.y * 0.2}deg) rotateY(${mousePos.x * 0.2}deg)`,
-            transition: "transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
+            transform: `perspective(1200px) rotateX(${-mousePos.y * 0.15}deg) rotateY(${mousePos.x * 0.15}deg)`,
+            transition: "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
           }}
         >
           <img
             src={imageUrl}
             alt={project.title}
-            className={`absolute inset-0 w-full h-full object-cover transition-transform duration-[1.2s] ease-out ${
-              isHovered ? "scale-110" : "scale-100"
+            className={`absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out ${
+              isHovered ? "scale-105" : "scale-100"
             }`}
           />
-          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-700" />
+          <div className="absolute inset-0 bg-black/15 group-hover:bg-black/35 transition-colors duration-700" />
 
           {/* Number watermark */}
           <div className="absolute top-6 left-6 md:top-8 md:left-8">
-            <span className="text-white/30 text-sm font-mono tracking-wider">
+            <span className="text-white/25 text-[11px] font-mono tracking-[0.15em]">
               {String(index + 1).padStart(2, "0")}
             </span>
           </div>
@@ -88,10 +88,10 @@ export function ProjectCard({
           {/* Status */}
           <div className="absolute top-6 right-6 md:top-8 md:right-8">
             <span
-              className={`text-[10px] tracking-[0.15em] uppercase px-3 py-1.5 rounded-full backdrop-blur-md ${
+              className={`text-[10px] tracking-[0.2em] uppercase px-3 py-1.5 rounded-full backdrop-blur-md ${
                 project.status === "In Progress"
-                  ? "bg-white/20 text-white"
-                  : "bg-white/10 text-white/60"
+                  ? "bg-white/15 text-white/80"
+                  : "bg-white/8 text-white/50"
               }`}
             >
               {project.status}
@@ -99,17 +99,17 @@ export function ProjectCard({
           </div>
 
           {/* Bottom info on hover */}
-          <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-            <span className="text-white/60 text-xs tracking-[0.15em] uppercase">{project.category}</span>
-            <p className="text-white/80 text-sm mt-2 max-w-sm leading-relaxed">{project.description}</p>
+          <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-600">
+            <span className="text-white/50 text-[10px] tracking-[0.2em] uppercase">{project.category}</span>
+            <p className="text-white/70 text-[13px] mt-2 max-w-sm leading-relaxed">{project.description}</p>
           </div>
         </div>
 
-        <div className="mt-5 flex items-start justify-between gap-4">
-          <h3 className="text-xl md:text-2xl font-medium tracking-tight group-hover:text-accent transition-colors duration-300">
+        <div className="mt-6 flex items-start justify-between gap-4">
+          <h3 className="font-display text-xl md:text-2xl font-normal tracking-tight group-hover:text-accent transition-colors duration-500">
             {project.title}
           </h3>
-          <span className="text-accent opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300 text-lg mt-1">
+          <span className="text-foreground/30 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-500 text-lg mt-1">
             →
           </span>
         </div>
@@ -127,45 +127,45 @@ export function ProjectCard({
       data-cursor-hover
     >
       <div
-        className={`relative overflow-hidden rounded-sm ${
+        className={`relative overflow-hidden ${
           isFeatured ? "aspect-[21/9]" : "aspect-[4/3]"
         }`}
         style={{
-          transform: `perspective(1200px) rotateX(${-mousePos.y * 0.2}deg) rotateY(${mousePos.x * 0.2}deg)`,
-          transition: "transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
+          transform: `perspective(1200px) rotateX(${-mousePos.y * 0.15}deg) rotateY(${mousePos.x * 0.15}deg)`,
+          transition: "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
         }}
       >
         <img
           src={imageUrl}
           alt={project.title}
-          className={`absolute inset-0 w-full h-full object-cover transition-transform duration-[1.2s] ease-out ${
-            isHovered ? "scale-110" : "scale-100"
+          className={`absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out ${
+            isHovered ? "scale-105" : "scale-100"
           }`}
         />
-        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-700" />
+        <div className="absolute inset-0 bg-black/15 group-hover:bg-black/35 transition-colors duration-700" />
 
         {/* Number watermark */}
         <div className="absolute top-6 left-6 md:top-8 md:left-8">
-          <span className="text-white/30 text-sm font-mono tracking-wider">
+          <span className="text-white/25 text-[11px] font-mono tracking-[0.15em]">
             {String(index + 1).padStart(2, "0")}
           </span>
         </div>
 
         {/* Hover overlay */}
-        <div className="absolute inset-0 flex items-end p-6 md:p-8 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+        <div className="absolute inset-0 flex items-end p-6 md:p-8 bg-gradient-to-t from-black/60 via-black/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-600">
           <div>
-            <span className="text-white/60 text-xs tracking-[0.15em] uppercase">{project.category}</span>
-            <p className="text-white/80 text-sm mt-2 max-w-md leading-relaxed">{project.description}</p>
+            <span className="text-white/50 text-[10px] tracking-[0.2em] uppercase">{project.category}</span>
+            <p className="text-white/70 text-[13px] mt-2 max-w-md leading-relaxed">{project.description}</p>
           </div>
         </div>
 
         {/* Status */}
         <div className="absolute top-6 right-6 md:top-8 md:right-8">
           <span
-            className={`text-[10px] tracking-[0.15em] uppercase px-3 py-1.5 rounded-full backdrop-blur-md ${
+            className={`text-[10px] tracking-[0.2em] uppercase px-3 py-1.5 rounded-full backdrop-blur-md ${
               project.status === "In Progress"
-                ? "bg-white/20 text-white"
-                : "bg-white/10 text-white/60"
+                ? "bg-white/15 text-white/80"
+                : "bg-white/8 text-white/50"
             }`}
           >
             {project.status}
@@ -173,11 +173,11 @@ export function ProjectCard({
         </div>
       </div>
 
-      <div className="mt-5 flex items-start justify-between gap-4">
-        <h3 className="text-xl md:text-2xl font-medium tracking-tight group-hover:text-accent transition-colors duration-300">
+      <div className="mt-6 flex items-start justify-between gap-4">
+        <h3 className="font-display text-xl md:text-2xl font-normal tracking-tight group-hover:text-accent transition-colors duration-500">
           {project.title}
         </h3>
-        <span className="text-[10px] tracking-[0.15em] uppercase text-muted whitespace-nowrap mt-2 border border-border rounded-full px-3 py-1">
+        <span className="text-[10px] tracking-[0.2em] uppercase text-muted whitespace-nowrap mt-2 border border-foreground/10 rounded-full px-3 py-1">
           {project.category}
         </span>
       </div>
