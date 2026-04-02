@@ -3,9 +3,7 @@ import type { Locale } from "@/i18n/config";
 import Link from "next/link";
 import { VideoHero } from "@/components/video-hero";
 import { ScrollReveal } from "@/components/scroll-reveal";
-import { ProjectCard } from "@/components/project-card";
 import { TextReveal } from "@/components/text-reveal";
-import { HorizontalScroll } from "@/components/horizontal-scroll";
 import { MagneticButton } from "@/components/magnetic-button";
 
 export default async function HomePage({
@@ -28,102 +26,94 @@ export default async function HomePage({
         line3={dict.home.hero.line3}
       />
 
-      {/* ═══ BIG STATEMENT ═══ */}
-      <section className="py-40 md:py-60 px-6 md:px-10 relative">
-        <div className="max-w-[1200px] mx-auto">
-          <ScrollReveal delay={0.1}>
-            <div className="text-[11px] tracking-[0.3em] uppercase text-muted mb-16">
-              Philosophy
-            </div>
-          </ScrollReveal>
-          <TextReveal
-            tag="blockquote"
-            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-[3.8rem] font-normal leading-[1.15] tracking-[-0.01em]"
-            stagger={0.04}
-          >
-            Code and design are just tools. What makes work unforgettable is understanding the people behind the brand.
-          </TextReveal>
-          <ScrollReveal delay={0.6}>
-            <div className="mt-20 flex items-center gap-6">
-              <div className="w-20 h-[1px] bg-foreground/20" />
-              <span className="text-[11px] text-muted tracking-[0.25em] uppercase">
-                Syrena Creative, Warsaw
+      {/* ═══ INTRO / PHILOSOPHY ═══ */}
+      <section className="py-32 md:py-48 px-6 md:px-12 lg:px-20 bg-[#030303] text-white">
+        <div className="max-w-[1400px] mx-auto grid grid-cols-12 gap-x-4 md:gap-x-8">
+          <div className="col-span-12 md:col-span-3 mb-12 md:mb-0">
+            <ScrollReveal>
+              <span className="text-white/25 text-[11px] tracking-[0.3em] uppercase">
+                About us
               </span>
-            </div>
-          </ScrollReveal>
+            </ScrollReveal>
+          </div>
+          <div className="col-span-12 md:col-span-8 md:col-start-5">
+            <TextReveal
+              tag="p"
+              className="font-display text-3xl md:text-4xl lg:text-[2.8rem] font-normal leading-[1.25] tracking-[-0.01em] text-white/90"
+              stagger={0.035}
+            >
+              Code and design are just tools. What makes work unforgettable is understanding the people behind the brand.
+            </TextReveal>
+            <ScrollReveal delay={0.5}>
+              <div className="mt-16 h-[1px] bg-white/[0.06]" />
+              <div className="mt-6 flex items-center justify-between">
+                <span className="text-white/20 text-[11px] tracking-[0.2em] uppercase">
+                  Syrena Creative
+                </span>
+                <span className="text-white/20 text-[11px] tracking-[0.2em] uppercase">
+                  Warsaw, 2025
+                </span>
+              </div>
+            </ScrollReveal>
+          </div>
         </div>
       </section>
 
-      {/* ═══ PROJECTS — Horizontal Scroll Showcase ═══ */}
-      <section className="relative">
-        <div className="px-6 md:px-10 mb-16">
-          <div className="max-w-[1600px] mx-auto flex items-baseline justify-between">
-            <ScrollReveal>
-              <h2 className="text-[11px] tracking-[0.3em] uppercase text-muted">
+      {/* ═══ PROJECTS — Stacked Grid ═══ */}
+      <section className="py-32 md:py-48 px-6 md:px-12 lg:px-20">
+        <div className="max-w-[1400px] mx-auto">
+          <ScrollReveal>
+            <div className="flex items-baseline justify-between mb-20">
+              <h2 className="text-[11px] tracking-[0.3em] uppercase text-foreground/30">
                 {dict.home.projects.title}
               </h2>
-            </ScrollReveal>
-            <ScrollReveal delay={0.1}>
-              <span className="text-[11px] text-muted/60 tracking-[0.15em]">
+              <span className="text-[11px] text-foreground/20 tracking-[0.15em]">
                 ( {projects.length} )
               </span>
-            </ScrollReveal>
-          </div>
-          <ScrollReveal delay={0.15}>
-            <div className="max-w-[1600px] mx-auto h-[1px] bg-foreground/[0.08] mt-8" />
-          </ScrollReveal>
-        </div>
-
-        <HorizontalScroll className="h-[300vh]">
-          {projects.map((project, i) => (
-            <ProjectCard key={project.title} project={project} index={i} variant="horizontal" />
-          ))}
-          {/* End card */}
-          <div className="flex-shrink-0 w-[40vw] md:w-[25vw] flex items-center justify-center">
-            <MagneticButton>
-              <Link
-                href={`/${lang}/contact`}
-                className="group flex flex-col items-center gap-5 text-muted hover:text-foreground transition-colors duration-700"
-                data-cursor-hover
-              >
-                <div className="w-28 h-28 rounded-full border border-foreground/15 flex items-center justify-center group-hover:scale-110 group-hover:border-foreground/40 transition-all duration-700">
-                  <span className="text-2xl group-hover:rotate-90 transition-transform duration-700">+</span>
-                </div>
-                <span className="text-[11px] tracking-[0.25em] uppercase">Your project</span>
-              </Link>
-            </MagneticButton>
-          </div>
-        </HorizontalScroll>
-      </section>
-
-      {/* ═══ CAPABILITIES ═══ */}
-      <section className="py-40 md:py-60 px-6 md:px-10 bg-[#030303] text-white relative overflow-hidden">
-        <div className="max-w-[1200px] mx-auto relative">
-          <ScrollReveal>
-            <h2 className="text-[11px] tracking-[0.3em] uppercase text-white/25 mb-28">
-              {dict.home.services.title}
-            </h2>
+            </div>
           </ScrollReveal>
 
-          <div className="space-y-0">
-            {dict.home.services.list.map((service, i) => (
-              <ScrollReveal key={service.title} delay={i * 0.06}>
-                <div className="group border-b border-white/[0.06] py-10 md:py-14 flex items-start md:items-center justify-between gap-6 cursor-pointer transition-all duration-700 hover:border-white/15" data-cursor-hover>
-                  <div className="flex items-start md:items-center gap-8 md:gap-16">
-                    <span className="text-white/10 text-[11px] tabular-nums font-mono mt-1 md:mt-0 tracking-wider">
+          <div className="space-y-24 md:space-y-32">
+            {projects.map((project, i) => (
+              <ScrollReveal key={project.title} delay={0.1}>
+                <div className={`grid grid-cols-12 gap-x-4 md:gap-x-8 items-start ${
+                  i % 2 === 0 ? "" : "md:direction-rtl"
+                }`}>
+                  {/* Image */}
+                  <div className={`col-span-12 ${
+                    i % 2 === 0 ? "md:col-span-7" : "md:col-span-7 md:col-start-6"
+                  } mb-8 md:mb-0`}>
+                    <div className="relative overflow-hidden aspect-[4/3] group cursor-pointer" data-cursor-hover>
+                      <img
+                        src={projectImageMap[project.title] || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&h=800&fit=crop"}
+                        alt={project.title}
+                        className="w-full h-full object-cover transition-transform duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+                      />
+                    </div>
+                  </div>
+                  {/* Info */}
+                  <div className={`col-span-12 ${
+                    i % 2 === 0 ? "md:col-span-4 md:col-start-9" : "md:col-span-4 md:col-start-1 md:row-start-1"
+                  } flex flex-col justify-center`}>
+                    <span className="text-foreground/20 text-[11px] font-mono tracking-[0.15em] mb-4">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <h3 className="font-display text-2xl md:text-3xl lg:text-[2.8rem] font-normal tracking-[-0.01em] group-hover:text-accent transition-colors duration-700">
-                      {service.title}
+                    <h3 className="font-display text-3xl md:text-4xl font-normal tracking-[-0.01em] mb-4">
+                      {project.title}
                     </h3>
-                  </div>
-                  <div className="flex items-center gap-10">
-                    <p className="hidden lg:block text-[13px] text-white/25 max-w-xs text-right leading-relaxed group-hover:text-white/40 transition-colors duration-700">
-                      {service.description}
+                    <p className="text-foreground/40 text-[14px] leading-relaxed mb-6">
+                      {project.description}
                     </p>
-                    <span className="text-white/10 group-hover:text-accent group-hover:translate-x-2 transition-all duration-700 text-lg">
-                      →
-                    </span>
+                    <div className="flex items-center gap-4">
+                      <span className="text-[10px] tracking-[0.2em] uppercase text-foreground/25 border border-foreground/[0.08] rounded-full px-4 py-1.5">
+                        {project.category}
+                      </span>
+                      <span className={`text-[10px] tracking-[0.2em] uppercase ${
+                        project.status === "In Progress" ? "text-foreground/40" : "text-foreground/20"
+                      }`}>
+                        {project.status}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </ScrollReveal>
@@ -132,37 +122,80 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* ═══ VISUAL BREAK ═══ */}
-      <section className="relative h-[60vh] md:h-[80vh] overflow-hidden">
-        <img
-          src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1920&h=1080&fit=crop"
-          alt=""
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/35" />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <ScrollReveal direction="none">
-            <div className="text-center text-white">
-              <div className="text-[11px] tracking-[0.4em] uppercase text-white/40 mb-8">Based in</div>
-              <div className="font-display text-6xl md:text-8xl lg:text-9xl font-normal tracking-[-0.02em]">Warsaw</div>
-              <div className="text-[11px] tracking-[0.4em] uppercase text-white/40 mt-8">Working globally</div>
+      {/* ═══ SERVICES ═══ */}
+      <section className="py-32 md:py-48 px-6 md:px-12 lg:px-20 bg-[#030303] text-white">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="grid grid-cols-12 gap-x-4 md:gap-x-8 mb-20 md:mb-28">
+            <div className="col-span-12 md:col-span-3">
+              <ScrollReveal>
+                <h2 className="text-[11px] tracking-[0.3em] uppercase text-white/25">
+                  {dict.home.services.title}
+                </h2>
+              </ScrollReveal>
             </div>
-          </ScrollReveal>
+            <div className="col-span-12 md:col-span-5 md:col-start-5 mt-6 md:mt-0">
+              <ScrollReveal delay={0.1}>
+                <p className="text-white/30 text-[14px] leading-relaxed">
+                  We combine design, development, and strategy to build digital products that work — and look the part.
+                </p>
+              </ScrollReveal>
+            </div>
+          </div>
+
+          <div>
+            {dict.home.services.list.map((service, i) => (
+              <ScrollReveal key={service.title} delay={i * 0.05}>
+                <div className="group border-t border-white/[0.06] last:border-b py-8 md:py-10 flex items-start md:items-center justify-between gap-6 cursor-pointer transition-colors duration-700 hover:border-white/[0.12]" data-cursor-hover>
+                  <div className="flex items-start md:items-center gap-6 md:gap-12">
+                    <span className="text-white/[0.06] text-[11px] tabular-nums font-mono mt-1 md:mt-0 tracking-wider">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <h3 className="text-xl md:text-2xl font-light tracking-[-0.01em] group-hover:text-white/60 transition-colors duration-500">
+                      {service.title}
+                    </h3>
+                  </div>
+                  <span className="text-white/[0.06] group-hover:text-white/30 group-hover:translate-x-1 transition-all duration-500 text-sm">
+                    →
+                  </span>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
         </div>
       </section>
 
+      {/* ═══ VISUAL BREAK — Abstract ink video ═══ */}
+      <section className="relative h-[50vh] md:h-[70vh] overflow-hidden">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="https://videos.pexels.com/video-files/3129671/3129671-hd_1920_1080_30fps.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-black/20" />
+      </section>
+
       {/* ═══ CTA ═══ */}
-      <section className="py-40 md:py-60 px-6 md:px-10 text-center relative">
-        <div className="max-w-5xl mx-auto">
+      <section className="py-32 md:py-48 px-6 md:px-12 lg:px-20 text-center">
+        <div className="max-w-[900px] mx-auto">
+          <ScrollReveal>
+            <span className="text-foreground/20 text-[11px] tracking-[0.3em] uppercase block mb-12">
+              Next step
+            </span>
+          </ScrollReveal>
           <TextReveal
             tag="h2"
-            className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-normal tracking-[-0.02em] leading-[0.95]"
+            className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-normal tracking-[-0.03em] leading-[0.95]"
             stagger={0.05}
           >
             {dict.home.cta.title}
           </TextReveal>
           <ScrollReveal delay={0.4}>
-            <p className="text-base md:text-lg text-muted mt-12 mb-16 max-w-lg mx-auto leading-relaxed">
+            <p className="text-[15px] text-foreground/35 mt-10 mb-14 max-w-md mx-auto leading-relaxed">
               {dict.home.cta.subtitle}
             </p>
           </ScrollReveal>
@@ -170,11 +203,11 @@ export default async function HomePage({
             <MagneticButton className="inline-block">
               <Link
                 href={`/${lang}/contact`}
-                className="group inline-flex items-center gap-4 text-[12px] tracking-[0.2em] uppercase border border-foreground/20 rounded-full px-14 py-6 hover:bg-foreground hover:text-background transition-all duration-700"
+                className="group inline-flex items-center gap-4 text-[11px] tracking-[0.25em] uppercase border border-foreground/[0.12] rounded-full px-12 py-5 hover:bg-foreground hover:text-[#e8e8e8] transition-all duration-700"
                 data-cursor-hover
               >
                 {dict.home.cta.button}
-                <span className="group-hover:translate-x-2 transition-transform duration-500">
+                <span className="group-hover:translate-x-1 transition-transform duration-500 text-xs">
                   →
                 </span>
               </Link>
@@ -185,3 +218,12 @@ export default async function HomePage({
     </>
   );
 }
+
+const projectImageMap: Record<string, string> = {
+  "Syrena Travel": "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&h=800&fit=crop",
+  "Max Kennedy": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&h=800&fit=crop",
+  "Yoga Studio": "https://images.unsplash.com/photo-1545389336-cf090694435e?w=1200&h=800&fit=crop",
+  "Massage Therapist": "https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=1200&h=800&fit=crop",
+  "Art Marketplace": "https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=1200&h=800&fit=crop",
+  "Cultural Magazine": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=1200&h=800&fit=crop",
+};
