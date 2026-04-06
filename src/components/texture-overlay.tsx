@@ -156,7 +156,8 @@ export function TextureOverlay() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 z-[2] pointer-events-none"
+      className="fixed inset-0 z-[50] pointer-events-none"
+      style={{ mixBlendMode: "soft-light" }}
     />
   );
 }
