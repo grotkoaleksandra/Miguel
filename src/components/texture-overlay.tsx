@@ -107,19 +107,19 @@ export function TextureOverlay() {
       const my = mouseRef.current.y;
 
       if (mx > -500 && my > -500) {
-        // Warm glow (slightly warm tint)
-        const g = ctx.createRadialGradient(mx, my, 0, mx, my, 220);
-        g.addColorStop(0, "rgba(255, 248, 235, 0.18)");
-        g.addColorStop(0.3, "rgba(255, 245, 225, 0.10)");
-        g.addColorStop(0.7, "rgba(255, 240, 215, 0.04)");
-        g.addColorStop(1, "rgba(255, 240, 215, 0)");
+        // Bright warm spotlight around cursor
+        const g = ctx.createRadialGradient(mx, my, 0, mx, my, 260);
+        g.addColorStop(0, "rgba(255, 255, 255, 0.35)");
+        g.addColorStop(0.2, "rgba(255, 250, 240, 0.20)");
+        g.addColorStop(0.5, "rgba(255, 245, 230, 0.08)");
+        g.addColorStop(1, "rgba(255, 245, 230, 0)");
         ctx.fillStyle = g;
         ctx.beginPath();
-        ctx.arc(mx, my, 220, 0, Math.PI * 2);
+        ctx.arc(mx, my, 260, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      // 3. Trail — warm fading glow spots
+      // 3. Trail — bright warm fading glow spots
       const trail = trailRef.current;
       for (let i = trail.length - 1; i >= 0; i--) {
         const p = trail[i];
@@ -131,14 +131,14 @@ export function TextureOverlay() {
         }
 
         const life = 1 - p.age / maxTrailAge;
-        const easedLife = life * life; // ease out
-        const alpha = easedLife * 0.14 * p.strength;
-        const radius = 80 + (1 - life) * 60;
+        const easedLife = life * life;
+        const alpha = easedLife * 0.28 * p.strength;
+        const radius = 100 + (1 - life) * 80;
 
         const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, radius);
-        g.addColorStop(0, `rgba(255, 245, 220, ${alpha})`);
-        g.addColorStop(0.5, `rgba(255, 240, 210, ${alpha * 0.4})`);
-        g.addColorStop(1, "rgba(255, 240, 210, 0)");
+        g.addColorStop(0, `rgba(255, 255, 255, ${alpha})`);
+        g.addColorStop(0.4, `rgba(255, 248, 230, ${alpha * 0.5})`);
+        g.addColorStop(1, "rgba(255, 245, 220, 0)");
         ctx.fillStyle = g;
         ctx.beginPath();
         ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
@@ -160,7 +160,7 @@ export function TextureOverlay() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 z-[9989] pointer-events-none"
+      className="fixed inset-0 z-[2] pointer-events-none"
     />
   );
 }
