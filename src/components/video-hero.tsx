@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 
 export function VideoHero({
   line1,
@@ -12,8 +12,6 @@ export function VideoHero({
   line3: string;
 }) {
   const [phase, setPhase] = useState<"preloader" | "reveal" | "done">("preloader");
-  const videoWrapRef = useRef<HTMLDivElement>(null);
-  const rafRef = useRef<number>(0);
 
   useEffect(() => {
     const t1 = setTimeout(() => setPhase("reveal"), 1600);
@@ -23,35 +21,6 @@ export function VideoHero({
       clearTimeout(t2);
     };
   }, []);
-
-  // Scroll-driven video shrink
-  const onScroll = useCallback(() => {
-    if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    rafRef.current = requestAnimationFrame(() => {
-      const el = videoWrapRef.current;
-      if (!el) return;
-      const scrollY = window.scrollY;
-      const vh = window.innerHeight;
-      // Progress: 0 at top, 1 at 1vh of scroll
-      const progress = Math.min(scrollY / vh, 1);
-      // Scale from 1 → 0.85
-      const scale = 1 - progress * 0.15;
-      // Border radius from 0 → 24px
-      const radius = progress * 24;
-      // Slight vertical offset to keep it centered as it shrinks
-      const yOffset = progress * 20;
-      el.style.transform = `translate3d(0, ${yOffset}px, 0) scale(${scale})`;
-      el.style.borderRadius = `${radius}px`;
-    });
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, [onScroll]);
 
   const showText = phase === "reveal" || phase === "done";
 
@@ -80,29 +49,8 @@ export function VideoHero({
         </div>
       </div>
 
-      {/* ═══ FIXED VIDEO BACKGROUND ═══ */}
-      <div className="fixed inset-0 z-0">
-        <div
-          ref={videoWrapRef}
-          className="w-full h-full overflow-hidden"
-          style={{ willChange: "transform, border-radius" }}
-        >
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            className="w-full h-full object-cover"
-          >
-            <source src="https://videos.pexels.com/video-files/3051492/3051492-hd_1920_1080_25fps.mp4" type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-black/30" />
-        </div>
-      </div>
-
-      {/* ═══ HERO CONTENT (transparent, over the fixed video) ═══ */}
-      <section className="relative z-10 min-h-screen flex flex-col justify-between pointer-events-none">
+      {/* ═══ HERO CONTENT — transparent, sits over the layout background video ═══ */}
+      <section className="relative z-[1] min-h-screen flex flex-col justify-between">
         {/* Main heading */}
         <div className="flex-1 flex items-center px-6 md:px-12 lg:px-20 pt-20">
           <div className="w-full max-w-[1800px] mx-auto">
