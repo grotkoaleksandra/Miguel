@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 
 export function BackgroundVideo() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number>(0);
+  const [hidden, setHidden] = useState(false);
 
   const onScroll = useCallback(() => {
     if (rafRef.current) cancelAnimationFrame(rafRef.current);
@@ -13,9 +14,10 @@ export function BackgroundVideo() {
       if (!el) return;
       const scrollY = window.scrollY;
       const vh = window.innerHeight;
-      // Fade out between 0.5vh and 1vh of scroll
-      const opacity = Math.max(0, 1 - (scrollY - vh * 0.3) / (vh * 0.5));
-      el.style.opacity = `${opacity}`;
+      const progress = Math.min(scrollY / (vh * 0.8), 1);
+      el.style.opacity = `${1 - progress}`;
+      // Fully hide once scrolled past hero
+      setHidden(progress >= 1);
     });
   }, []);
 
@@ -28,7 +30,11 @@ export function BackgroundVideo() {
   }, [onScroll]);
 
   return (
-    <div ref={wrapRef} className="fixed inset-0 z-0 overflow-hidden" style={{ willChange: "opacity" }}>
+    <div
+      ref={wrapRef}
+      className="fixed inset-0 z-0 overflow-hidden"
+      style={{ willChange: "opacity", display: hidden ? "none" : "block" }}
+    >
       <video
         autoPlay
         muted

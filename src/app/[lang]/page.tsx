@@ -27,7 +27,7 @@ export default async function HomePage({
       />
 
       {/* ═══ SCROLLABLE CONTENT — slides up over the fixed video ═══ */}
-      <div className="relative z-10">
+      <div className="relative z-10 bg-[#e8e8e8]">
         {/* ─── INTRO / PHILOSOPHY ─── */}
         <section className="py-32 md:py-48 px-6 md:px-12 lg:px-20 bg-[#e8e8e8]">
           <div className="max-w-[1400px] mx-auto grid grid-cols-12 gap-x-4 md:gap-x-8">
