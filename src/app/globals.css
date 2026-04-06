@@ -30,10 +30,6 @@ html {
 
 body {
   background: var(--background);
-  background-image: url("https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=1920&q=80");
-  background-size: cover;
-  background-attachment: fixed;
-  background-position: center;
   color: var(--foreground);
   font-family: var(--font-geist, "Helvetica Neue", Helvetica, Arial, sans-serif);
   -webkit-font-smoothing: antialiased;
