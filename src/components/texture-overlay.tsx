@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef } from "react";
 
 interface Point {
   x: number;
@@ -14,34 +14,6 @@ export function TextureOverlay() {
   const mouseRef = useRef({ x: -1000, y: -1000 });
   const trailRef = useRef<Point[]>([]);
   const rafRef = useRef<number>(0);
-  const noiseCanvasRef = useRef<HTMLCanvasElement | null>(null);
-
-  // Pre-render a static noise texture to an offscreen canvas
-  const buildNoiseCanvas = useCallback((w: number, h: number) => {
-    const offscreen = document.createElement("canvas");
-    offscreen.width = w;
-    offscreen.height = h;
-    const ctx = offscreen.getContext("2d")!;
-    const imageData = ctx.createImageData(w, h);
-    const d = imageData.data;
-    for (let i = 0; i < d.length; i += 4) {
-      // Dark speckles on light bg
-      const dark = Math.random() < 0.5;
-      if (dark) {
-        d[i] = 0;
-        d[i + 1] = 0;
-        d[i + 2] = 0;
-        d[i + 3] = Math.random() * 30 + 5; // 5-35 alpha — visible dark specks
-      } else {
-        d[i] = 255;
-        d[i + 1] = 255;
-        d[i + 2] = 255;
-        d[i + 3] = Math.random() * 18 + 2; // lighter white specks
-      }
-    }
-    ctx.putImageData(imageData, 0, 0);
-    return offscreen;
-  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -52,16 +24,21 @@ export function TextureOverlay() {
     let w = 0;
     let h = 0;
 
+    // Small offscreen tile for noise — regenerated every frame
+    const TILE = 128;
+    const tileCanvas = document.createElement("canvas");
+    tileCanvas.width = TILE;
+    tileCanvas.height = TILE;
+    const tileCtx = tileCanvas.getContext("2d")!;
+    const tileData = tileCtx.createImageData(TILE, TILE);
+
     const resize = () => {
       w = window.innerWidth;
       h = window.innerHeight;
-      const dpr = 1; // keep at 1x for noise — higher DPR wastes perf
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
+      canvas.width = w;
+      canvas.height = h;
       canvas.style.width = `${w}px`;
       canvas.style.height = `${h}px`;
-      // Rebuild noise texture at new size
-      noiseCanvasRef.current = buildNoiseCanvas(w, h);
     };
     resize();
     window.addEventListener("resize", resize);
@@ -75,7 +52,6 @@ export function TextureOverlay() {
 
       mouseRef.current = { x: e.clientX, y: e.clientY };
 
-      // Add trail point — scale strength by speed
       const strength = Math.min(dist / 6, 1);
       if (dist > 2) {
         trailRef.current.push({
@@ -84,7 +60,6 @@ export function TextureOverlay() {
           age: 0,
           strength,
         });
-        // Cap trail length for perf
         if (trailRef.current.length > 120) {
           trailRef.current.splice(0, 20);
         }
@@ -93,21 +68,42 @@ export function TextureOverlay() {
     window.addEventListener("mousemove", onMouseMove);
 
     const maxTrailAge = 90;
+    let frame = 0;
 
     const animate = () => {
       ctx.clearRect(0, 0, w, h);
+      frame++;
 
-      // 1. Draw static noise texture
-      if (noiseCanvasRef.current) {
-        ctx.drawImage(noiseCanvasRef.current, 0, 0);
+      // 1. Regenerate noise tile every frame — animated grain
+      const d = tileData.data;
+      for (let i = 0; i < d.length; i += 4) {
+        const v = Math.random();
+        if (v < 0.5) {
+          d[i] = 0;
+          d[i + 1] = 0;
+          d[i + 2] = 0;
+          d[i + 3] = (Math.random() * 28 + 4) | 0;
+        } else {
+          d[i] = 255;
+          d[i + 1] = 255;
+          d[i + 2] = 255;
+          d[i + 3] = (Math.random() * 16 + 2) | 0;
+        }
+      }
+      tileCtx.putImageData(tileData, 0, 0);
+
+      // Tile the noise across the full canvas
+      const pat = ctx.createPattern(tileCanvas, "repeat");
+      if (pat) {
+        ctx.fillStyle = pat;
+        ctx.fillRect(0, 0, w, h);
       }
 
-      // 2. Cursor spotlight — a bright warm area around cursor
+      // 2. Cursor spotlight
       const mx = mouseRef.current.x;
       const my = mouseRef.current.y;
 
       if (mx > -500 && my > -500) {
-        // Bright warm spotlight around cursor
         const g = ctx.createRadialGradient(mx, my, 0, mx, my, 260);
         g.addColorStop(0, "rgba(255, 255, 255, 0.35)");
         g.addColorStop(0.2, "rgba(255, 250, 240, 0.20)");
@@ -119,7 +115,7 @@ export function TextureOverlay() {
         ctx.fill();
       }
 
-      // 3. Trail — bright warm fading glow spots
+      // 3. Trail — warm fading glow
       const trail = trailRef.current;
       for (let i = trail.length - 1; i >= 0; i--) {
         const p = trail[i];
@@ -155,7 +151,7 @@ export function TextureOverlay() {
       window.removeEventListener("mousemove", onMouseMove);
       cancelAnimationFrame(rafRef.current);
     };
-  }, [buildNoiseCanvas]);
+  }, []);
 
   return (
     <canvas
