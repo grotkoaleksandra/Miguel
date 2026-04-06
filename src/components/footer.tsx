@@ -4,7 +4,7 @@ import { getVersion } from "@/lib/version";
 export function Footer({ dict }: { dict: Dictionary }) {
   const version = getVersion();
   return (
-    <footer className="relative z-10 border-t border-foreground/[0.06] py-16 md:py-20 px-6 md:px-12 lg:px-20 bg-[#e8e8e8]/85 backdrop-blur-sm">
+    <footer className="relative z-10 border-t border-foreground/[0.06] py-16 md:py-20 px-6 md:px-12 lg:px-20 bg-[#e8e8e8]">
       <div className="max-w-[1400px] mx-auto grid grid-cols-12 gap-x-4 md:gap-x-8">
         {/* Logo */}
         <div className="col-span-12 md:col-span-3 mb-10 md:mb-0">

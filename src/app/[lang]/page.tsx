@@ -29,7 +29,7 @@ export default async function HomePage({
       {/* ═══ SCROLLABLE CONTENT — slides up over the fixed video ═══ */}
       <div className="relative z-10">
         {/* ─── INTRO / PHILOSOPHY ─── */}
-        <section className="py-32 md:py-48 px-6 md:px-12 lg:px-20 bg-[#e8e8e8]/85 backdrop-blur-sm">
+        <section className="py-32 md:py-48 px-6 md:px-12 lg:px-20 bg-[#e8e8e8]">
           <div className="max-w-[1400px] mx-auto grid grid-cols-12 gap-x-4 md:gap-x-8">
             <div className="col-span-12 md:col-span-3 mb-12 md:mb-0">
               <ScrollReveal>
@@ -62,7 +62,7 @@ export default async function HomePage({
         </section>
 
         {/* ─── PROJECTS — Stacked Grid ─── */}
-        <section className="py-32 md:py-48 px-6 md:px-12 lg:px-20 bg-[#e8e8e8]/85 backdrop-blur-sm">
+        <section className="py-32 md:py-48 px-6 md:px-12 lg:px-20 bg-[#e8e8e8]">
           <div className="max-w-[1400px] mx-auto">
             <ScrollReveal>
               <div className="flex items-baseline justify-between mb-20">
@@ -125,7 +125,7 @@ export default async function HomePage({
         </section>
 
         {/* ─── SERVICES ─── */}
-        <section className="py-32 md:py-48 px-6 md:px-12 lg:px-20 bg-[#030303]/90 backdrop-blur-sm text-white">
+        <section className="py-32 md:py-48 px-6 md:px-12 lg:px-20 bg-[#030303] text-white">
           <div className="max-w-[1400px] mx-auto">
             <div className="grid grid-cols-12 gap-x-4 md:gap-x-8 mb-20 md:mb-28">
               <div className="col-span-12 md:col-span-3">
@@ -167,7 +167,7 @@ export default async function HomePage({
         </section>
 
         {/* ─── CTA ─── */}
-        <section className="py-32 md:py-48 px-6 md:px-12 lg:px-20 text-center bg-[#e8e8e8]/85 backdrop-blur-sm">
+        <section className="py-32 md:py-48 px-6 md:px-12 lg:px-20 text-center bg-[#e8e8e8]">
           <div className="max-w-[900px] mx-auto">
             <ScrollReveal>
               <span className="text-foreground/20 text-[11px] tracking-[0.3em] uppercase block mb-12">
