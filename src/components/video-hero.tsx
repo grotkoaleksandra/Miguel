@@ -49,10 +49,12 @@ export function VideoHero({
         </div>
       </div>
 
-      {/* ═══ HERO CONTENT — transparent, sits over the layout background video ═══ */}
+      {/* ═══ HERO CONTENT — sits over the layout background video ═══ */}
       <section className="relative z-[1] min-h-screen flex flex-col justify-between">
+        {/* Dark overlay for hero readability */}
+        <div className="absolute inset-0 bg-black/40 z-0" />
         {/* Main heading */}
-        <div className="flex-1 flex items-center px-6 md:px-12 lg:px-20 pt-20">
+        <div className="relative z-[1] flex-1 flex items-center px-6 md:px-12 lg:px-20 pt-20">
           <div className="w-full max-w-[1800px] mx-auto">
             <h1 className="leading-[0.88] tracking-[-0.04em]">
               {[line1, line2, line3].map((line, i) => (
@@ -76,7 +78,7 @@ export function VideoHero({
         </div>
 
         {/* Bottom bar */}
-        <div className="px-6 md:px-12 lg:px-20 pb-8 md:pb-12">
+        <div className="relative z-[1] px-6 md:px-12 lg:px-20 pb-8 md:pb-12">
           <div className="max-w-[1800px] mx-auto">
             <div
               className={`flex items-end justify-between border-t border-white/[0.1] pt-6 transition-all duration-[0.8s] ease-out ${
