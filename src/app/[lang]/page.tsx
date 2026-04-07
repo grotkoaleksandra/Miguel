@@ -26,10 +26,10 @@ export default async function HomePage({
         line3={dict.home.hero.line3}
       />
 
-      {/* ═══ SCROLLABLE CONTENT — slides up over the fixed video ═══ */}
-      <div className="relative z-10 bg-[#e8e8e8]">
+      {/* ═══ SCROLLABLE CONTENT — waves video shows through ═══ */}
+      <div className="relative z-10">
         {/* ─── INTRO / PHILOSOPHY ─── */}
-        <section className="py-32 md:py-48 px-6 md:px-12 lg:px-20 bg-[#e8e8e8]">
+        <section className="py-32 md:py-48 px-6 md:px-12 lg:px-20 bg-white/60 backdrop-blur-sm">
           <div className="max-w-[1400px] mx-auto grid grid-cols-12 gap-x-4 md:gap-x-8">
             <div className="col-span-12 md:col-span-3 mb-12 md:mb-0">
               <ScrollReveal>
@@ -62,7 +62,7 @@ export default async function HomePage({
         </section>
 
         {/* ─── PROJECTS — Stacked Grid ─── */}
-        <section className="py-32 md:py-48 px-6 md:px-12 lg:px-20 bg-[#e8e8e8]">
+        <section className="py-32 md:py-48 px-6 md:px-12 lg:px-20 bg-white/60 backdrop-blur-sm">
           <div className="max-w-[1400px] mx-auto">
             <ScrollReveal>
               <div className="flex items-baseline justify-between mb-20">
@@ -125,7 +125,7 @@ export default async function HomePage({
         </section>
 
         {/* ─── SERVICES ─── */}
-        <section className="py-32 md:py-48 px-6 md:px-12 lg:px-20 bg-[#030303] text-white">
+        <section className="py-32 md:py-48 px-6 md:px-12 lg:px-20 bg-[#030303]/90 backdrop-blur-sm text-white">
           <div className="max-w-[1400px] mx-auto">
             <div className="grid grid-cols-12 gap-x-4 md:gap-x-8 mb-20 md:mb-28">
               <div className="col-span-12 md:col-span-3">
@@ -167,7 +167,7 @@ export default async function HomePage({
         </section>
 
         {/* ─── CTA ─── */}
-        <section className="py-32 md:py-48 px-6 md:px-12 lg:px-20 text-center bg-[#e8e8e8]">
+        <section className="py-32 md:py-48 px-6 md:px-12 lg:px-20 text-center bg-white/60 backdrop-blur-sm">
           <div className="max-w-[900px] mx-auto">
             <ScrollReveal>
               <span className="text-foreground/20 text-[11px] tracking-[0.3em] uppercase block mb-12">
@@ -190,7 +190,7 @@ export default async function HomePage({
               <MagneticButton className="inline-block">
                 <Link
                   href={`/${lang}/contact`}
-                  className="group inline-flex items-center gap-4 text-[11px] tracking-[0.25em] uppercase border border-foreground/[0.12] rounded-full px-12 py-5 hover:bg-foreground hover:text-[#e8e8e8] transition-all duration-700"
+                  className="group inline-flex items-center gap-4 text-[11px] tracking-[0.25em] uppercase border border-foreground/[0.12] rounded-full px-12 py-5 hover:bg-foreground hover:text-white transition-all duration-700"
                   data-cursor-hover
                 >
                   {dict.home.cta.button}
