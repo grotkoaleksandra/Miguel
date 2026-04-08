@@ -21,7 +21,6 @@ export function Navbar({ dict, lang }: { dict: Dictionary; lang: Locale }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Lock body scroll when menu is open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -39,14 +38,18 @@ export function Navbar({ dict, lang }: { dict: Dictionary; lang: Locale }) {
     <>
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled ? "bg-[#f7f7f5]/90 backdrop-blur-md" : ""
+          scrolled
+            ? "bg-[#f7f7f5]/90 backdrop-blur-md"
+            : ""
         }`}
       >
         <div className="mx-auto px-6 md:px-12 lg:px-20 flex items-center justify-between h-20">
-          {/* Logo */}
+          {/* Logo — white on dark hero, dark once scrolled */}
           <Link
             href={`/${lang}`}
-            className="text-[#111] text-[15px] font-semibold tracking-[0.02em] relative z-[60]"
+            className={`text-[15px] font-semibold tracking-[0.02em] relative z-[60] transition-colors duration-500 ${
+              scrolled ? "text-[#111]" : "text-white"
+            }`}
           >
             Syrena Creative<span className="align-super text-[8px] ml-0.5">®</span>
           </Link>
@@ -57,7 +60,11 @@ export function Navbar({ dict, lang }: { dict: Dictionary; lang: Locale }) {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-[#111]/60 text-[13px] tracking-[0.02em] hover:text-[#111] transition-colors duration-300"
+                className={`text-[13px] tracking-[0.02em] transition-colors duration-500 ${
+                  scrolled
+                    ? "text-[#111]/60 hover:text-[#111]"
+                    : "text-white/60 hover:text-white"
+                }`}
               >
                 {link.label}
               </Link>
@@ -67,7 +74,9 @@ export function Navbar({ dict, lang }: { dict: Dictionary; lang: Locale }) {
           {/* Menu trigger */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="text-[#111] text-[13px] tracking-[0.08em] uppercase relative z-[60] md:hidden"
+            className={`text-[13px] tracking-[0.08em] uppercase relative z-[60] md:hidden transition-colors duration-500 ${
+              menuOpen ? "text-[#111]" : scrolled ? "text-[#111]" : "text-white"
+            }`}
             aria-label="Toggle menu"
           >
             {menuOpen ? "Close" : "Menu"}
