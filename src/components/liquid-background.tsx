@@ -2,239 +2,172 @@
 
 import { useEffect, useRef } from "react";
 
+interface Ripple {
+  x: number;
+  y: number;
+  age: number;
+  maxAge: number;
+  strength: number;
+}
+
 /**
- * Renders video to canvas with real water ripple distortion on mouse move.
- * Uses classic 2-buffer wave propagation + pixel displacement.
- * Runs at half resolution for performance.
+ * Video background + canvas overlay for interactive water ripple effect.
+ * Video plays normally (no CORS issues). Canvas overlay draws ripple
+ * rings + caustic light effects on mouse movement, blended over the video.
  */
 export function LiquidBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const ripplesRef = useRef<Ripple[]>([]);
+  const mouseRef = useRef({ x: -1000, y: -1000 });
+  const rafRef = useRef(0);
+  const lastDropRef = useRef(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const video = videoRef.current;
-    if (!canvas || !video) return;
-    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Render at half res for perf, CSS scales it up
-    const SCALE = 0.5;
     let w = 0;
     let h = 0;
-    let cw = 0;
-    let ch = 0;
-    let buf1: Float32Array;
-    let buf2: Float32Array;
-    let rafId = 0;
-    const DAMPING = 0.96;
-
-    const mouse = { x: -1000, y: -1000 };
-    const trail: { x: number; y: number; age: number; str: number }[] = [];
-
-    // Offscreen canvas for reading clean video frame
-    const offCanvas = document.createElement("canvas");
-    const offCtx = offCanvas.getContext("2d", { willReadFrequently: true })!;
 
     const resize = () => {
       w = window.innerWidth;
       h = window.innerHeight;
-      cw = Math.round(w * SCALE);
-      ch = Math.round(h * SCALE);
-      canvas.width = cw;
-      canvas.height = ch;
-      canvas.style.width = `${w}px`;
-      canvas.style.height = `${h}px`;
-      offCanvas.width = cw;
-      offCanvas.height = ch;
-      buf1 = new Float32Array(cw * ch);
-      buf2 = new Float32Array(cw * ch);
+      canvas.width = w;
+      canvas.height = h;
     };
     resize();
     window.addEventListener("resize", resize);
 
+    const addRipple = (x: number, y: number, strength: number, maxAge = 90) => {
+      ripplesRef.current.push({ x, y, age: 0, maxAge, strength });
+      if (ripplesRef.current.length > 60) ripplesRef.current.splice(0, 10);
+    };
+
     const onMouseMove = (e: MouseEvent) => {
-      const px = mouse.x;
-      const py = mouse.y;
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-      const dx = e.clientX - px;
-      const dy = e.clientY - py;
+      const prev = mouseRef.current;
+      mouseRef.current = { x: e.clientX, y: e.clientY };
+
+      const dx = e.clientX - prev.x;
+      const dy = e.clientY - prev.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
 
-      if (dist > 1) {
-        trail.push({ x: e.clientX, y: e.clientY, age: 0, str: Math.min(dist / 5, 1) });
-        if (trail.length > 80) trail.splice(0, 10);
-      }
-
-      // Drop ripple into buffer (in canvas coords)
-      const rx = Math.round(e.clientX * SCALE);
-      const ry = Math.round(e.clientY * SCALE);
-      const radius = 6;
-      const strength = Math.min(dist * 2, 512);
-      for (let oy = -radius; oy <= radius; oy++) {
-        for (let ox = -radius; ox <= radius; ox++) {
-          const bx = rx + ox;
-          const by = ry + oy;
-          if (bx >= 0 && bx < cw && by >= 0 && by < ch) {
-            const d = Math.sqrt(ox * ox + oy * oy);
-            if (d <= radius) {
-              buf1[by * cw + bx] += strength * (1 - d / radius);
-            }
-          }
-        }
+      // Drop ripples as you move — throttle to every ~40ms
+      const now = performance.now();
+      if (dist > 4 && now - lastDropRef.current > 40) {
+        lastDropRef.current = now;
+        addRipple(e.clientX, e.clientY, Math.min(dist / 10, 1));
       }
     };
     window.addEventListener("mousemove", onMouseMove);
 
     const onClick = (e: MouseEvent) => {
-      // Big splash on click
-      const rx = Math.round(e.clientX * SCALE);
-      const ry = Math.round(e.clientY * SCALE);
-      const radius = 14;
-      for (let oy = -radius; oy <= radius; oy++) {
-        for (let ox = -radius; ox <= radius; ox++) {
-          const bx = rx + ox;
-          const by = ry + oy;
-          if (bx >= 0 && bx < cw && by >= 0 && by < ch) {
-            const d = Math.sqrt(ox * ox + oy * oy);
-            if (d <= radius) {
-              buf1[by * cw + bx] += 800 * (1 - d / radius);
-            }
-          }
-        }
-      }
+      addRipple(e.clientX, e.clientY, 1.5, 120);
     };
     window.addEventListener("click", onClick);
 
     const animate = () => {
-      if (video.readyState < 2) {
-        rafId = requestAnimationFrame(animate);
-        return;
-      }
+      ctx.clearRect(0, 0, w, h);
+      const ripples = ripplesRef.current;
 
-      // Draw video to offscreen at half res
-      offCtx.drawImage(video, 0, 0, cw, ch);
-      // Light tint
-      offCtx.fillStyle = "rgba(232, 232, 232, 0.3)";
-      offCtx.fillRect(0, 0, cw, ch);
+      for (let i = ripples.length - 1; i >= 0; i--) {
+        const r = ripples[i];
+        r.age++;
+        if (r.age > r.maxAge) {
+          ripples.splice(i, 1);
+          continue;
+        }
 
-      const srcData = offCtx.getImageData(0, 0, cw, ch);
-      const src = srcData.data;
+        const life = r.age / r.maxAge;
+        const fadeIn = Math.min(r.age / 8, 1);
+        const fadeOut = 1 - life;
+        const opacity = fadeIn * fadeOut * r.strength;
 
-      // Propagate ripples
-      for (let y = 1; y < ch - 1; y++) {
-        for (let x = 1; x < cw - 1; x++) {
-          const i = y * cw + x;
-          buf2[i] = (
-            buf1[(y - 1) * cw + x] +
-            buf1[(y + 1) * cw + x] +
-            buf1[y * cw + (x - 1)] +
-            buf1[y * cw + (x + 1)]
-          ) / 2 - buf2[i];
-          buf2[i] *= DAMPING;
+        // Expanding ring
+        const radius = life * 250 * r.strength;
+        const ringWidth = 2 + (1 - life) * 6;
+
+        // Outer ring — light refraction
+        ctx.beginPath();
+        ctx.arc(r.x, r.y, radius, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.35})`;
+        ctx.lineWidth = ringWidth;
+        ctx.stroke();
+
+        // Inner shadow ring
+        if (radius > ringWidth * 2) {
+          ctx.beginPath();
+          ctx.arc(r.x, r.y, radius - ringWidth * 1.5, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(0, 0, 0, ${opacity * 0.12})`;
+          ctx.lineWidth = ringWidth * 0.6;
+          ctx.stroke();
+        }
+
+        // Center glow (bright caustic spot)
+        if (life < 0.3) {
+          const glowOpacity = (1 - life / 0.3) * r.strength * 0.4;
+          const g = ctx.createRadialGradient(r.x, r.y, 0, r.x, r.y, 60);
+          g.addColorStop(0, `rgba(255, 255, 255, ${glowOpacity})`);
+          g.addColorStop(0.5, `rgba(200, 220, 255, ${glowOpacity * 0.3})`);
+          g.addColorStop(1, "rgba(200, 220, 255, 0)");
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.arc(r.x, r.y, 60, 0, Math.PI * 2);
+          ctx.fill();
         }
       }
 
-      // Displace pixels
-      const dst = ctx.createImageData(cw, ch);
-      const out = dst.data;
-
-      for (let y = 1; y < ch - 1; y++) {
-        for (let x = 1; x < cw - 1; x++) {
-          const i = y * cw + x;
-          // Gradient gives displacement direction
-          const dispX = buf2[i - 1] - buf2[i + 1];
-          const dispY = buf2[i - cw] - buf2[i + cw];
-
-          // Source pixel with displacement
-          const sx = Math.max(0, Math.min(cw - 1, Math.round(x + dispX * 0.4)));
-          const sy = Math.max(0, Math.min(ch - 1, Math.round(y + dispY * 0.4)));
-
-          const di = i * 4;
-          const si = (sy * cw + sx) * 4;
-          // Add slight brightness where ripple is strong (caustic effect)
-          const rippleStrength = Math.abs(buf2[i]) * 0.003;
-          out[di] = Math.min(255, src[si] + rippleStrength * 60);
-          out[di + 1] = Math.min(255, src[si + 1] + rippleStrength * 60);
-          out[di + 2] = Math.min(255, src[si + 2] + rippleStrength * 40);
-          out[di + 3] = 255;
-        }
-      }
-
-      ctx.putImageData(dst, 0, 0);
-
-      // Swap buffers
-      const tmp = buf1;
-      buf1 = buf2;
-      buf2 = tmp;
-
-      // Cursor glow (draw at canvas coords)
-      const mx = mouse.x * SCALE;
-      const my = mouse.y * SCALE;
-      if (mouse.x > -500) {
-        const g = ctx.createRadialGradient(mx, my, 0, mx, my, 140 * SCALE);
-        g.addColorStop(0, "rgba(255,255,255,0.12)");
-        g.addColorStop(0.4, "rgba(255,252,245,0.05)");
-        g.addColorStop(1, "rgba(255,250,240,0)");
+      // Cursor glow — always visible
+      const mx = mouseRef.current.x;
+      const my = mouseRef.current.y;
+      if (mx > -500) {
+        const g = ctx.createRadialGradient(mx, my, 0, mx, my, 180);
+        g.addColorStop(0, "rgba(255, 255, 255, 0.15)");
+        g.addColorStop(0.3, "rgba(220, 235, 255, 0.06)");
+        g.addColorStop(1, "rgba(200, 220, 255, 0)");
         ctx.fillStyle = g;
         ctx.beginPath();
-        ctx.arc(mx, my, 140 * SCALE, 0, Math.PI * 2);
+        ctx.arc(mx, my, 180, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      // Trail
-      for (let i = trail.length - 1; i >= 0; i--) {
-        const p = trail[i];
-        p.age++;
-        if (p.age > 60) { trail.splice(i, 1); continue; }
-        const life = 1 - p.age / 60;
-        const alpha = life * life * 0.15 * p.str;
-        const r = (80 + (1 - life) * 50) * SCALE;
-        const g = ctx.createRadialGradient(p.x * SCALE, p.y * SCALE, 0, p.x * SCALE, p.y * SCALE, r);
-        g.addColorStop(0, `rgba(255,255,255,${alpha})`);
-        g.addColorStop(1, "rgba(255,255,255,0)");
-        ctx.fillStyle = g;
-        ctx.beginPath();
-        ctx.arc(p.x * SCALE, p.y * SCALE, r, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      rafId = requestAnimationFrame(animate);
+      rafRef.current = requestAnimationFrame(animate);
     };
 
-    video.addEventListener("canplay", () => { rafId = requestAnimationFrame(animate); });
-    if (video.readyState >= 2) rafId = requestAnimationFrame(animate);
+    rafRef.current = requestAnimationFrame(animate);
 
     return () => {
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("click", onClick);
-      cancelAnimationFrame(rafId);
+      cancelAnimationFrame(rafRef.current);
     };
   }, []);
 
   return (
-    <>
+    <div className="fixed inset-0 z-0 overflow-hidden">
+      {/* Video background — plays normally, no canvas pixel reading */}
       <video
-        ref={videoRef}
         autoPlay
         muted
         loop
         playsInline
         preload="auto"
-        className="hidden"
+        className="absolute inset-0 w-full h-full object-cover"
       >
         <source
           src="https://videos.pexels.com/video-files/3571264/3571264-hd_1920_1080_30fps.mp4"
           type="video/mp4"
         />
       </video>
+      {/* Lighten the video */}
+      <div className="absolute inset-0 bg-white/40" />
+      {/* Ripple overlay canvas */}
       <canvas
         ref={canvasRef}
-        className="fixed inset-0 z-0"
-        style={{ imageRendering: "auto" }}
+        className="absolute inset-0 z-[1] pointer-events-none"
       />
-    </>
+    </div>
   );
 }
