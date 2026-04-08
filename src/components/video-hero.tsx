@@ -28,7 +28,7 @@ export function VideoHero({
     <>
       {/* ═══ PRELOADER ═══ */}
       <div
-        className="fixed inset-0 z-[100] bg-[#030303] flex items-center justify-center pointer-events-none"
+        className="fixed inset-0 z-[100] bg-[#060a10] flex items-center justify-center pointer-events-none"
         style={{
           opacity: phase === "preloader" ? 1 : 0,
           transition: "opacity 0.9s cubic-bezier(0.76, 0, 0.24, 1)",
@@ -51,8 +51,8 @@ export function VideoHero({
 
       {/* ═══ HERO CONTENT — sits over the layout background video ═══ */}
       <section className="relative z-[1] min-h-screen flex flex-col justify-between">
-        {/* Dark overlay for hero readability */}
-        <div className="absolute inset-0 bg-black/40 z-0" />
+        {/* Subtle overlay for text contrast */}
+        <div className="absolute inset-0 bg-black/20 z-0" />
         {/* Main heading */}
         <div className="relative z-[1] flex-1 flex items-center px-6 md:px-12 lg:px-20 pt-20">
           <div className="w-full max-w-[1800px] mx-auto">
