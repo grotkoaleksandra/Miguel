@@ -3,9 +3,8 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Full interactive water surface simulation.
- * No video — pure canvas with 2-buffer wave propagation.
- * Mouse creates ripples, scroll creates waves, ambient drops keep it alive.
+ * Full interactive water surface — dark palette.
+ * Mouse creates ripples, scroll creates directional waves.
  */
 export function LiquidBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -16,12 +15,8 @@ export function LiquidBackground() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Simulation at lower res for performance
     const SIM_SCALE = 0.25;
-    let w = 0;
-    let h = 0;
-    let sw = 0;
-    let sh = 0;
+    let w = 0, h = 0, sw = 0, sh = 0;
     let buf1: Float32Array;
     let buf2: Float32Array;
     let rafId = 0;
@@ -30,6 +25,7 @@ export function LiquidBackground() {
     const mouse = { x: -1000, y: -1000, prevX: -1000, prevY: -1000 };
     let lastScroll = 0;
     let scrollVel = 0;
+    let scrollAccum = 0;
 
     const resize = () => {
       w = window.innerWidth;
@@ -46,7 +42,6 @@ export function LiquidBackground() {
     resize();
     window.addEventListener("resize", resize);
 
-    // Drop a disturbance into the height field
     const drop = (cx: number, cy: number, radius: number, strength: number) => {
       const rx = Math.round(cx * SIM_SCALE);
       const ry = Math.round(cy * SIM_SCALE);
@@ -58,9 +53,7 @@ export function LiquidBackground() {
           if (bx >= 0 && bx < sw && by >= 0 && by < sh) {
             const d = Math.sqrt(ox * ox + oy * oy);
             if (d <= r) {
-              // Cosine falloff for smooth ripple
-              const falloff = 0.5 * (1 + Math.cos(Math.PI * d / r));
-              buf1[by * sw + bx] += strength * falloff;
+              buf1[by * sw + bx] += strength * 0.5 * (1 + Math.cos(Math.PI * d / r));
             }
           }
         }
@@ -72,144 +65,91 @@ export function LiquidBackground() {
       mouse.prevY = mouse.y;
       mouse.x = e.clientX;
       mouse.y = e.clientY;
-
       const dx = mouse.x - mouse.prevX;
       const dy = mouse.y - mouse.prevY;
       const speed = Math.sqrt(dx * dx + dy * dy);
-
       if (speed > 1) {
-        // Continuous ripples along the path
-        const strength = Math.min(speed * 1.5, 200);
-        const radius = 15 + Math.min(speed * 0.5, 25);
-        drop(e.clientX, e.clientY, radius, strength);
+        drop(e.clientX, e.clientY, 15 + Math.min(speed * 0.5, 25), Math.min(speed * 1.5, 200));
       }
     };
     window.addEventListener("mousemove", onMouseMove);
 
-    const onClick = (e: MouseEvent) => {
-      drop(e.clientX, e.clientY, 60, 500);
-    };
+    const onClick = (e: MouseEvent) => drop(e.clientX, e.clientY, 60, 500);
     window.addEventListener("click", onClick);
 
-    // Scroll creates a directional wave front — scattered drops that
-    // flow in the scroll direction, not a uniform line
-    let scrollAccum = 0;
-
     const onScroll = () => {
-      const currentScroll = window.scrollY;
-      scrollVel = currentScroll - lastScroll;
-      lastScroll = currentScroll;
-
-      const absVel = Math.abs(scrollVel);
-      if (absVel > 1) {
-        scrollAccum += absVel;
-      }
+      const s = window.scrollY;
+      scrollVel = s - lastScroll;
+      lastScroll = s;
+      if (Math.abs(scrollVel) > 1) scrollAccum += Math.abs(scrollVel);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
 
-    // Process scroll waves in the animation loop for smoother results
-    const processScrollWaves = () => {
-      if (scrollAccum < 3) { scrollAccum = 0; return; }
-
-      const strength = Math.min(scrollAccum * 2.5, 180);
-      const goingDown = scrollVel > 0;
-
-      // Scatter 4-8 drop points across the width, biased to the leading edge
-      const numDrops = 4 + Math.floor(Math.random() * 5);
-      for (let i = 0; i < numDrops; i++) {
-        const px = Math.random() * w;
-        // Drops cluster near the leading edge but spread inward
-        const edgeBias = Math.random() * Math.random(); // quadratic — clusters near 0
-        const depth = edgeBias * h * 0.4;
-        const py = goingDown
-          ? depth                   // from top when scrolling down
-          : h - depth;              // from bottom when scrolling up
-
-        const dropStr = strength * (0.5 + Math.random() * 0.5);
-        const dropRad = 20 + Math.random() * 30;
-        drop(px, py, dropRad, dropStr);
-      }
-
-      scrollAccum = 0;
-    };
-
-    // Ambient drops — keep the surface alive
     let ambientTimer = 0;
-    const ambientInterval = 80; // every ~80 frames
 
-    // Water color palette
-    const BASE_R = 180, BASE_G = 210, BASE_B = 230;    // light blue-gray
-    const DEEP_R = 120, DEEP_G = 160, DEEP_B = 195;    // deeper blue
-    const HIGHLIGHT_R = 245, HIGHLIGHT_G = 250, HIGHLIGHT_B = 255; // white highlight
+    // Dark water palette
+    const BASE_R = 8, BASE_G = 12, BASE_B = 18;       // near-black base
+    const DEEP_R = 3, DEEP_G = 5, DEEP_B = 10;        // shadow
+    const HIGH_R = 25, HIGH_G = 40, HIGH_B = 55;       // subtle highlight
 
     const animate = () => {
-      // Propagate wave equation
+      // Propagate
       for (let y = 1; y < sh - 1; y++) {
         for (let x = 1; x < sw - 1; x++) {
           const i = y * sw + x;
-          buf2[i] = (
-            buf1[i - 1] +
-            buf1[i + 1] +
-            buf1[i - sw] +
-            buf1[i + sw]
-          ) * 0.5 - buf2[i];
+          buf2[i] = (buf1[i - 1] + buf1[i + 1] + buf1[i - sw] + buf1[i + sw]) * 0.5 - buf2[i];
           buf2[i] *= DAMPING;
         }
       }
 
-      // Scroll-driven directional waves
-      processScrollWaves();
-
-      // Ambient drops
-      ambientTimer++;
-      if (ambientTimer >= ambientInterval) {
-        ambientTimer = 0;
-        drop(
-          Math.random() * w,
-          Math.random() * h,
-          20 + Math.random() * 20,
-          30 + Math.random() * 50,
-        );
+      // Scroll waves
+      if (scrollAccum > 3) {
+        const str = Math.min(scrollAccum * 2.5, 180);
+        const down = scrollVel > 0;
+        for (let n = 0; n < 4 + Math.floor(Math.random() * 5); n++) {
+          const bias = Math.random() * Math.random();
+          drop(Math.random() * w, down ? bias * h * 0.4 : h - bias * h * 0.4, 20 + Math.random() * 30, str * (0.5 + Math.random() * 0.5));
+        }
+        scrollAccum = 0;
       }
 
-      // Render — compute normals from height field and shade
+      // Ambient
+      ambientTimer++;
+      if (ambientTimer >= 80) {
+        ambientTimer = 0;
+        drop(Math.random() * w, Math.random() * h, 20 + Math.random() * 20, 30 + Math.random() * 50);
+      }
+
+      // Render
       const img = ctx.createImageData(sw, sh);
       const data = img.data;
 
       for (let y = 1; y < sh - 1; y++) {
         for (let x = 1; x < sw - 1; x++) {
           const i = y * sw + x;
-
-          // Surface normal from height gradient
           const dx = buf2[i + 1] - buf2[i - 1];
           const dy = buf2[i + sw] - buf2[i - sw];
+          const light = Math.max(-1, Math.min(1, (dx * -0.7 + dy * -0.7) * 0.004));
 
-          // Light direction (top-left)
-          const light = (dx * -0.7 + dy * -0.7) * 0.004;
-          const clamped = Math.max(-1, Math.min(1, light));
-
-          // Blend between deep color, base color, and highlight
           let r: number, g: number, b: number;
-          if (clamped > 0) {
-            // Highlight (light hitting surface)
-            r = BASE_R + (HIGHLIGHT_R - BASE_R) * clamped;
-            g = BASE_G + (HIGHLIGHT_G - BASE_G) * clamped;
-            b = BASE_B + (HIGHLIGHT_B - BASE_B) * clamped;
+          if (light > 0) {
+            r = BASE_R + (HIGH_R - BASE_R) * light;
+            g = BASE_G + (HIGH_G - BASE_G) * light;
+            b = BASE_B + (HIGH_B - BASE_B) * light;
           } else {
-            // Shadow (troughs)
-            const s = -clamped;
+            const s = -light;
             r = BASE_R + (DEEP_R - BASE_R) * s;
             g = BASE_G + (DEEP_G - BASE_G) * s;
             b = BASE_B + (DEEP_B - BASE_B) * s;
           }
 
-          // Add caustic sparkle near strong ripples
-          const height = Math.abs(buf2[i]);
-          if (height > 20) {
-            const caustic = Math.min((height - 20) * 0.01, 0.5);
-            r = r + (255 - r) * caustic;
-            g = g + (255 - g) * caustic;
-            b = b + (255 - b) * caustic;
+          // Caustic shimmer
+          const h2 = Math.abs(buf2[i]);
+          if (h2 > 20) {
+            const c = Math.min((h2 - 20) * 0.008, 0.4);
+            r += (60 - r) * c;
+            g += (80 - g) * c;
+            b += (120 - b) * c;
           }
 
           const pi = i * 4;
@@ -220,32 +160,24 @@ export function LiquidBackground() {
         }
       }
 
-      // Fill edges
+      // Edges
       for (let x = 0; x < sw; x++) {
-        const topI = x * 4;
-        const botI = ((sh - 1) * sw + x) * 4;
-        data[topI] = BASE_R; data[topI + 1] = BASE_G; data[topI + 2] = BASE_B; data[topI + 3] = 255;
-        data[botI] = BASE_R; data[botI + 1] = BASE_G; data[botI + 2] = BASE_B; data[botI + 3] = 255;
+        const t = x * 4, bt = ((sh - 1) * sw + x) * 4;
+        data[t] = BASE_R; data[t+1] = BASE_G; data[t+2] = BASE_B; data[t+3] = 255;
+        data[bt] = BASE_R; data[bt+1] = BASE_G; data[bt+2] = BASE_B; data[bt+3] = 255;
       }
       for (let y = 0; y < sh; y++) {
-        const leftI = (y * sw) * 4;
-        const rightI = (y * sw + sw - 1) * 4;
-        data[leftI] = BASE_R; data[leftI + 1] = BASE_G; data[leftI + 2] = BASE_B; data[leftI + 3] = 255;
-        data[rightI] = BASE_R; data[rightI + 1] = BASE_G; data[rightI + 2] = BASE_B; data[rightI + 3] = 255;
+        const l = y * sw * 4, ri = (y * sw + sw - 1) * 4;
+        data[l] = BASE_R; data[l+1] = BASE_G; data[l+2] = BASE_B; data[l+3] = 255;
+        data[ri] = BASE_R; data[ri+1] = BASE_G; data[ri+2] = BASE_B; data[ri+3] = 255;
       }
 
       ctx.putImageData(img, 0, 0);
-
-      // Swap buffers
-      const tmp = buf1;
-      buf1 = buf2;
-      buf2 = tmp;
-
+      const tmp = buf1; buf1 = buf2; buf2 = tmp;
       rafId = requestAnimationFrame(animate);
     };
 
     rafId = requestAnimationFrame(animate);
-
     return () => {
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMouseMove);
