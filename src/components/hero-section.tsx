@@ -29,6 +29,20 @@ export function HeroSection({ dict }: { dict: Dictionary }) {
       style={{ minHeight: "100vh", paddingTop: 120 }}
     >
       <div className="mx-auto px-5 md:px-5" style={{ maxWidth: "100%" }}>
+        {/* Giant wordmark */}
+        <div
+          className="text-white font-bold uppercase leading-[0.85] tracking-[-0.04em] select-none"
+          style={{
+            fontSize: "clamp(60px, 14vw, 260px)",
+            fontFamily: "'Helvetica Neue', Helvetica, sans-serif",
+            opacity: revealed ? 1 : 0,
+            transform: revealed ? "translateY(0)" : "translateY(20px)",
+            transition: "opacity 0.8s ease 100ms, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 100ms",
+          }}
+        >
+          Syrena<br />Creative
+        </div>
+
         {/* Title */}
         <h1
           className="type-title-serif text-white"
