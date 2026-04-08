@@ -91,16 +91,9 @@ export function LiquidBackground() {
     };
     window.addEventListener("click", onClick);
 
-    // Push a horizontal wave front into the buffer along one edge
-    const pushWaveFront = (strength: number, fromTop: boolean) => {
-      const edgeY = fromTop ? 1 : sh - 2;
-      const str = Math.min(strength, 250);
-      for (let x = 0; x < sw; x++) {
-        // Slight randomness so it doesn't look perfectly uniform
-        const noise = 0.7 + Math.random() * 0.6;
-        buf1[edgeY * sw + x] += str * noise;
-      }
-    };
+    // Scroll creates a directional wave front — scattered drops that
+    // flow in the scroll direction, not a uniform line
+    let scrollAccum = 0;
 
     const onScroll = () => {
       const currentScroll = window.scrollY;
@@ -108,13 +101,37 @@ export function LiquidBackground() {
       lastScroll = currentScroll;
 
       const absVel = Math.abs(scrollVel);
-      if (absVel > 2) {
-        const strength = Math.min(absVel * 4, 250);
-        // Scrolling down = wave enters from top, scrolling up = from bottom
-        pushWaveFront(strength, scrollVel > 0);
+      if (absVel > 1) {
+        scrollAccum += absVel;
       }
     };
     window.addEventListener("scroll", onScroll, { passive: true });
+
+    // Process scroll waves in the animation loop for smoother results
+    const processScrollWaves = () => {
+      if (scrollAccum < 3) { scrollAccum = 0; return; }
+
+      const strength = Math.min(scrollAccum * 2.5, 180);
+      const goingDown = scrollVel > 0;
+
+      // Scatter 4-8 drop points across the width, biased to the leading edge
+      const numDrops = 4 + Math.floor(Math.random() * 5);
+      for (let i = 0; i < numDrops; i++) {
+        const px = Math.random() * w;
+        // Drops cluster near the leading edge but spread inward
+        const edgeBias = Math.random() * Math.random(); // quadratic — clusters near 0
+        const depth = edgeBias * h * 0.4;
+        const py = goingDown
+          ? depth                   // from top when scrolling down
+          : h - depth;              // from bottom when scrolling up
+
+        const dropStr = strength * (0.5 + Math.random() * 0.5);
+        const dropRad = 20 + Math.random() * 30;
+        drop(px, py, dropRad, dropStr);
+      }
+
+      scrollAccum = 0;
+    };
 
     // Ambient drops — keep the surface alive
     let ambientTimer = 0;
@@ -139,6 +156,9 @@ export function LiquidBackground() {
           buf2[i] *= DAMPING;
         }
       }
+
+      // Scroll-driven directional waves
+      processScrollWaves();
 
       // Ambient drops
       ambientTimer++;
