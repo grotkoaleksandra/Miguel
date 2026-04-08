@@ -45,7 +45,7 @@ export default async function LangLayout({
   // Other pages (about, contact, intranet) get the normal navbar/footer layout
 
   return (
-    <div style={{ fontFamily: fontFamilyMap[lang] }} className="relative h-screen overflow-hidden bg-[#060a10]">
+    <div style={{ fontFamily: fontFamilyMap[lang] }} className="relative h-screen overflow-hidden bg-[#f5f0eb]">
       <AuthProvider>
         <CustomCursor />
         <LiquidBackground />

@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Full interactive water surface — dark palette.
+ * Full interactive water surface — light cream palette.
  * Mouse creates ripples, scroll creates directional waves.
  */
 export function LiquidBackground() {
@@ -87,10 +87,10 @@ export function LiquidBackground() {
 
     let ambientTimer = 0;
 
-    // Dark water palette
-    const BASE_R = 8, BASE_G = 12, BASE_B = 18;       // near-black base
-    const DEEP_R = 3, DEEP_G = 5, DEEP_B = 10;        // shadow
-    const HIGH_R = 25, HIGH_G = 40, HIGH_B = 55;       // subtle highlight
+    // Light cream/warm water palette
+    const BASE_R = 240, BASE_G = 235, BASE_B = 228;   // warm cream base
+    const DEEP_R = 225, DEEP_G = 218, DEEP_B = 208;   // shadow (slightly darker warm)
+    const HIGH_R = 252, HIGH_G = 250, HIGH_B = 247;   // highlight (near white)
 
     const animate = () => {
       // Propagate
@@ -143,13 +143,13 @@ export function LiquidBackground() {
             b = BASE_B + (DEEP_B - BASE_B) * s;
           }
 
-          // Caustic shimmer
+          // Caustic shimmer — warm tint on light theme
           const h2 = Math.abs(buf2[i]);
           if (h2 > 20) {
             const c = Math.min((h2 - 20) * 0.008, 0.4);
-            r += (60 - r) * c;
-            g += (80 - g) * c;
-            b += (120 - b) * c;
+            r += (255 - r) * c;
+            g += (248 - g) * c;
+            b += (240 - b) * c;
           }
 
           const pi = i * 4;

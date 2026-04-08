@@ -4,7 +4,7 @@ import { useExperience } from "@/contexts/experience-context";
 
 /**
  * CSS 3D wireframe torus (donut) that rotates with the mouse.
- * Built from circular ring slices arranged around a central axis.
+ * Dark wireframe on light background for visibility.
  */
 export function Centerpiece() {
   const { entered, mouse } = useExperience();
@@ -16,9 +16,9 @@ export function Centerpiece() {
   const rotY = ((mouse.x / vw) - 0.5) * 40;
   const rotX = ((mouse.y / vh) - 0.5) * -40;
 
-  const R = 120; // major radius (center of hole to center of tube)
-  const r = 50;  // minor radius (tube thickness)
-  const slices = 24; // number of rings around the donut
+  const R = 120;
+  const r = 50;
+  const slices = 24;
 
   return (
     <div className="fixed inset-0 z-10 flex items-center justify-center pointer-events-none">
@@ -40,7 +40,7 @@ export function Centerpiece() {
             animation: "torusDrift 30s linear infinite",
           }}
         >
-          {/* Longitudinal rings — slices through the donut */}
+          {/* Longitudinal rings */}
           {Array.from({ length: slices }).map((_, i) => {
             const angle = (360 / slices) * i;
             return (
@@ -55,7 +55,7 @@ export function Centerpiece() {
                   marginTop: -r,
                   marginLeft: -r,
                   borderRadius: "50%",
-                  border: "1px solid rgba(255,255,255,0.07)",
+                  border: "1px solid rgba(0,0,0,0.12)",
                   transformStyle: "preserve-3d",
                   transform: `rotateY(${angle}deg) translateX(${R}px)`,
                 }}
@@ -63,10 +63,9 @@ export function Centerpiece() {
             );
           })}
 
-          {/* Latitudinal rings — circles going around the tube */}
+          {/* Latitudinal rings */}
           {Array.from({ length: 8 }).map((_, i) => {
             const angle = (360 / 8) * i;
-            // Each lat ring is a circle of radius R, offset by r in the tube direction
             const offsetY = Math.sin((angle * Math.PI) / 180) * r;
             const ringR = R + Math.cos((angle * Math.PI) / 180) * r;
             return (
@@ -81,7 +80,7 @@ export function Centerpiece() {
                   marginTop: -ringR,
                   marginLeft: -ringR,
                   borderRadius: "50%",
-                  border: "1px solid rgba(255,255,255,0.05)",
+                  border: "1px solid rgba(0,0,0,0.08)",
                   transform: `rotateX(90deg) translateZ(${offsetY}px)`,
                 }}
               />
@@ -99,7 +98,7 @@ export function Centerpiece() {
               marginTop: -R,
               marginLeft: -R,
               borderRadius: "50%",
-              border: "1px solid rgba(255,255,255,0.12)",
+              border: "1px solid rgba(0,0,0,0.18)",
               transform: "rotateX(90deg)",
             }}
           />
