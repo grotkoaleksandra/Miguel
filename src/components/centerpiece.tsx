@@ -1,20 +1,49 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { useExperience } from "@/contexts/experience-context";
 
 /**
- * CSS 3D wireframe torus (donut) that rotates with the mouse.
- * Dark wireframe on light background for visibility.
+ * CSS 3D wireframe torus that smoothly turns toward the mouse.
+ * Uses rAF for buttery interpolation — no CSS animation override.
  */
 export function Centerpiece() {
   const { entered, mouse } = useExperience();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const currentRot = useRef({ x: -20, y: 0 });
+  const baseAngle = useRef(0);
+  const rafRef = useRef(0);
+
+  useEffect(() => {
+    if (!entered) return;
+    const el = containerRef.current;
+    if (!el) return;
+
+    const animate = () => {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+
+      // Mouse-driven target: ±60° range so the turn is obvious
+      const targetY = ((mouse.x / vw) - 0.5) * 120;
+      const targetX = ((mouse.y / vh) - 0.5) * -60;
+
+      // Slow base drift (0.15°/frame ≈ full rotation in ~40s)
+      baseAngle.current += 0.15;
+
+      // Smooth interpolation toward target
+      currentRot.current.x += (targetX - 20 - currentRot.current.x) * 0.06;
+      currentRot.current.y += (targetY + baseAngle.current - currentRot.current.y) * 0.06;
+
+      el.style.transform = `rotateX(${currentRot.current.x}deg) rotateY(${currentRot.current.y}deg)`;
+
+      rafRef.current = requestAnimationFrame(animate);
+    };
+
+    rafRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [entered, mouse]);
 
   if (!entered) return null;
-
-  const vw = typeof window !== "undefined" ? window.innerWidth : 1920;
-  const vh = typeof window !== "undefined" ? window.innerHeight : 1080;
-  const rotY = ((mouse.x / vw) - 0.5) * 40;
-  const rotX = ((mouse.y / vh) - 0.5) * -40;
 
   const R = 120;
   const r = 50;
@@ -30,14 +59,13 @@ export function Centerpiece() {
         }}
       >
         <div
+          ref={containerRef}
           style={{
             width: "100%",
             height: "100%",
             position: "relative",
             transformStyle: "preserve-3d",
-            transform: `rotateX(${rotX - 20}deg) rotateY(${rotY}deg)`,
-            transition: "transform 0.15s ease-out",
-            animation: "torusDrift 30s linear infinite",
+            transform: "rotateX(-20deg) rotateY(0deg)",
           }}
         >
           {/* Longitudinal rings */}
