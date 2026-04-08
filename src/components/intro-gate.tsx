@@ -24,7 +24,7 @@ export function IntroGate() {
 
   return (
     <div
-      className="fixed inset-0 z-[90] bg-[#060a10] flex items-center justify-center cursor-pointer"
+      className="fixed inset-0 z-[90] bg-[#f5f0eb] flex items-center justify-center cursor-pointer"
       onClick={() => phase === "ready" && enter()}
       style={{
         opacity: phase === "exiting" ? 0 : 1,
@@ -38,12 +38,12 @@ export function IntroGate() {
             phase === "loading" ? "opacity-100" : "opacity-0 -translate-y-4"
           }`}
         >
-          <div className="text-white/50 text-[10px] tracking-[0.4em] uppercase mb-8">Est. 2025</div>
-          <div className="text-white text-2xl md:text-3xl tracking-[0.08em] font-light">
+          <div className="text-black/30 text-[10px] tracking-[0.4em] uppercase mb-8">Est. 2025</div>
+          <div className="text-[#1a1a1a] text-2xl md:text-3xl tracking-[0.08em] font-light">
             Syrena Creative
           </div>
-          <div className="mt-10 w-32 h-[1px] bg-white/10 mx-auto overflow-hidden">
-            <div className="h-full bg-white/60 animate-loading-bar" />
+          <div className="mt-10 w-32 h-[1px] bg-black/10 mx-auto overflow-hidden">
+            <div className="h-full bg-black/50 animate-loading-bar" />
           </div>
         </div>
 
@@ -53,16 +53,16 @@ export function IntroGate() {
           }`}
         >
           <div className="text-center">
-            <div className="text-white text-2xl md:text-3xl tracking-[0.08em] font-light mb-12">
+            <div className="text-[#1a1a1a] text-2xl md:text-3xl tracking-[0.08em] font-light mb-12">
               Syrena Creative
             </div>
             <div className="group inline-flex flex-col items-center gap-3">
-              <div className="w-16 h-16 rounded-full border border-white/15 flex items-center justify-center group-hover:border-white/40 group-hover:scale-110 transition-all duration-700">
-                <svg className="w-4 h-4 text-white/40 group-hover:text-white/80 transition-colors duration-500" fill="currentColor" viewBox="0 0 24 24">
+              <div className="w-16 h-16 rounded-full border border-black/15 flex items-center justify-center group-hover:border-black/40 group-hover:scale-110 transition-all duration-700">
+                <svg className="w-4 h-4 text-black/40 group-hover:text-black/80 transition-colors duration-500" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8 5v14l11-7z" />
                 </svg>
               </div>
-              <span className="text-white/25 text-[10px] tracking-[0.3em] uppercase group-hover:text-white/50 transition-colors duration-500">
+              <span className="text-black/25 text-[10px] tracking-[0.3em] uppercase group-hover:text-black/50 transition-colors duration-500">
                 Enter
               </span>
             </div>
