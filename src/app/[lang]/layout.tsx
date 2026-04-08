@@ -4,6 +4,7 @@ import { getDictionary } from "@/i18n/get-dictionary";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { AuthProvider } from "@/contexts/auth-context";
+import { PageLoader } from "@/components/page-loader";
 
 export async function generateStaticParams() {
   return i18n.locales.map((locale) => ({ lang: locale }));
@@ -22,12 +23,6 @@ export async function generateMetadata({
   };
 }
 
-const fontFamilyMap: Record<Locale, string> = {
-  en: "var(--font-geist), sans-serif",
-  fr: "var(--font-geist), sans-serif",
-  es: "var(--font-geist), sans-serif",
-};
-
 export default async function LangLayout({
   children,
   params,
@@ -40,8 +35,9 @@ export default async function LangLayout({
   const dict = await getDictionary(lang);
 
   return (
-    <div style={{ fontFamily: fontFamilyMap[lang] }} className="relative min-h-screen bg-[#f7f7f5]">
+    <div className="relative min-h-screen bg-black text-white">
       <AuthProvider>
+        <PageLoader />
         <Navbar dict={dict} lang={lang} />
         <main>{children}</main>
         <Footer dict={dict} />

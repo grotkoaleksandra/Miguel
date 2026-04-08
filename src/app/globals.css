@@ -1,11 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f7f7f5;
-  --foreground: #111111;
+  --primary: #000000;
+  --secondary: #ffffff;
+  --background: #000000;
+  --foreground: #ffffff;
   --accent: #DA382E;
   --muted: #888888;
-  --border: #e5e5e3;
+  --border: #222222;
+  --spacing-1: 10px;
+  --spacing-2: 20px;
+  --spacing-3: 30px;
+  --spacing-4: 60px;
+  --spacing-5: 120px;
 }
 
 @theme inline {
@@ -20,8 +27,8 @@
 }
 
 ::selection {
-  background: #111111;
-  color: #f7f7f5;
+  background: #fff;
+  color: #000;
 }
 
 html {
@@ -29,78 +36,129 @@ html {
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist, "Helvetica Neue", Helvetica, Arial, sans-serif);
+  background: #000;
+  color: #fff;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ---- Animations ---- */
+/* ---- Type scale (matching Stink Studios) ---- */
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(40px); }
-  to { opacity: 1; transform: translateY(0); }
+.type-title-serif {
+  font-family: "Times New Roman", var(--font-serif), serif;
+  font-weight: 400;
+  font-size: 60px;
+  line-height: 1;
+  letter-spacing: -0.05em;
 }
-.animate-fade-up {
-  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  opacity: 0;
+@media (max-width: 768px) {
+  .type-title-serif {
+    font-size: 27px;
+    line-height: 30px;
+  }
 }
+
+.type-subtitle {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 23px;
+  line-height: 130%;
+  letter-spacing: -0.03em;
+}
+
+.type-text {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 23px;
+  line-height: 130%;
+  letter-spacing: -0.02em;
+}
+@media (max-width: 768px) {
+  .type-text {
+    font-size: 16px;
+    line-height: 125%;
+    letter-spacing: 0.01em;
+  }
+}
+
+.type-caption {
+  font-family: "Courier New", Courier, monospace;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 143%;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+@media (max-width: 768px) {
+  .type-caption {
+    font-size: 12px;
+  }
+}
+
+/* ---- Animations ---- */
 
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes wordReveal {
+  from { opacity: 0; transform: translateY(100%); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes loaderFadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; visibility: hidden; }
+}
+
 .animate-fade-in {
   animation: fadeIn 0.6s ease-out forwards;
   opacity: 0;
 }
 
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(80px); }
-  to { opacity: 1; transform: translateY(0); }
+.animate-fade-up {
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
 }
 
-/* Link hover underline */
-.link-hover {
-  position: relative;
-  display: inline-block;
-}
-.link-hover::after {
-  content: "";
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0;
-  height: 1px;
-  background: currentColor;
-  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.link-hover:hover::after {
-  width: 100%;
-}
-
-/* Smoother image loading */
-img {
-  transition: opacity 0.5s ease;
+/* Link underline */
+.link-underline {
+  text-decoration: underline;
+  text-underline-offset: 0.08em;
+  text-decoration-thickness: 1px;
 }
 
 /* Serif utility */
 .font-display {
-  font-family: var(--font-serif), "Georgia", "Times New Roman", serif;
+  font-family: var(--font-serif), "Times New Roman", serif;
 }
 
 /* Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 0px;
 }
-::-webkit-scrollbar-track {
-  background: transparent;
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.5);
 }
-::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.12);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.25);
+.divider-dark {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.15);
 }

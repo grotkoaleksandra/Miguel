@@ -1,25 +1,83 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import type { Dictionary } from "@/i18n/types";
 
+/**
+ * Full-viewport hero — black bg, large serif title with word-by-word reveal.
+ * Category tags below in monospace. Matches Stink Studios layout.
+ */
 export function HeroSection({ dict }: { dict: Dictionary }) {
+  const [revealed, setRevealed] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Delay reveal to sync with loader exit
+    const t = setTimeout(() => setRevealed(true), 1400);
+    return () => clearTimeout(t);
+  }, []);
+
+  const fullText = `${dict.home.hero.line1} ${dict.home.hero.line2} ${dict.home.hero.line3}`;
+  const words = fullText.split(" ");
+
+  const tags = ["Websites", "Apps", "Branding"];
+
   return (
-    <section className="relative min-h-screen flex items-end pb-16 md:pb-24 px-6 md:px-12 lg:px-20 bg-[#0a0a0a]">
-      <div className="max-w-[1400px] w-full mx-auto">
-        <h1 className="text-[clamp(2.5rem,8vw,7rem)] font-semibold leading-[0.95] tracking-[-0.03em] text-white">
-          <span className="block animate-fade-up" style={{ animationDelay: "200ms" }}>
-            {dict.home.hero.line1}
-          </span>
-          <span className="block animate-fade-up" style={{ animationDelay: "350ms" }}>
-            {dict.home.hero.line2}
-          </span>
-          <span className="block animate-fade-up" style={{ animationDelay: "500ms" }}>
-            {dict.home.hero.line3}
-          </span>
+    <section
+      ref={ref}
+      className="relative bg-black"
+      style={{ minHeight: "100vh", paddingTop: 120 }}
+    >
+      <div className="mx-auto px-5 md:px-5" style={{ maxWidth: "100%" }}>
+        {/* Title */}
+        <h1
+          className="type-title-serif text-white"
+          style={{
+            marginTop: 120,
+            maxWidth: "75%",
+            textWrap: "balance",
+          }}
+        >
+          {words.map((word, i) => (
+            <span
+              key={i}
+              className="inline-block overflow-hidden mr-[0.25em]"
+            >
+              <span
+                className="inline-block"
+                style={{
+                  transform: revealed ? "translateY(0)" : "translateY(100%)",
+                  opacity: revealed ? 1 : 0,
+                  transition: `transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${200 + i * 60}ms, opacity 0.4s ease ${200 + i * 60}ms`,
+                }}
+              >
+                {word}
+              </span>
+            </span>
+          ))}
         </h1>
-        <p className="mt-8 text-white/40 text-[15px] md:text-[17px] max-w-lg leading-relaxed animate-fade-up" style={{ animationDelay: "700ms" }}>
-          {dict.metadata.description}
-        </p>
+
+        {/* Tags */}
+        <div
+          className="flex flex-wrap gap-x-4 gap-y-2 mt-5"
+          style={{
+            opacity: revealed ? 1 : 0,
+            transition: "opacity 0.6s ease 1.2s",
+          }}
+        >
+          {tags.map((tag) => (
+            <span
+              key={tag}
+              className="type-caption text-white link-underline"
+              style={{ textDecorationColor: "rgba(255,255,255,0.5)" }}
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        {/* Bottom spacer */}
+        <div style={{ height: 120 }} />
       </div>
     </section>
   );

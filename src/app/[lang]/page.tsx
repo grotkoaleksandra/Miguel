@@ -3,7 +3,6 @@ import type { Locale } from "@/i18n/config";
 import { HeroSection } from "@/components/hero-section";
 import { ProjectsGrid } from "@/components/projects-grid";
 import { ServicesSection } from "@/components/services-section";
-import { CtaSection } from "@/components/cta-section";
 
 export default async function HomePage({
   params,
@@ -19,7 +18,6 @@ export default async function HomePage({
       <HeroSection dict={dict} />
       <ProjectsGrid dict={dict} />
       <ServicesSection dict={dict} />
-      <CtaSection dict={dict} lang={lang} />
     </>
   );
 }
