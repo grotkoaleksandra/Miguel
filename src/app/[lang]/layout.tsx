@@ -4,8 +4,6 @@ import { getDictionary } from "@/i18n/get-dictionary";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { AuthProvider } from "@/contexts/auth-context";
-import { CustomCursor } from "@/components/custom-cursor";
-import { LiquidBackground } from "@/components/liquid-background";
 
 export async function generateStaticParams() {
   return i18n.locales.map((locale) => ({ lang: locale }));
@@ -41,15 +39,12 @@ export default async function LangLayout({
   const lang = rawLang as Locale;
   const dict = await getDictionary(lang);
 
-  // Detect if we're on the homepage (children will be the immersive experience)
-  // Other pages (about, contact, intranet) get the normal navbar/footer layout
-
   return (
-    <div style={{ fontFamily: fontFamilyMap[lang] }} className="relative h-screen overflow-hidden bg-[#f5f0eb]">
+    <div style={{ fontFamily: fontFamilyMap[lang] }} className="relative min-h-screen bg-[#f7f7f5]">
       <AuthProvider>
-        <CustomCursor />
-        <LiquidBackground />
-        {children}
+        <Navbar dict={dict} lang={lang} />
+        <main>{children}</main>
+        <Footer dict={dict} />
       </AuthProvider>
     </div>
   );
