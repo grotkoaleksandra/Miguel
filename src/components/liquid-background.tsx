@@ -3,55 +3,52 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Ocean video background with interactive water ripple distortion.
- * - Video renders to canvas at full res
- * - Ripple simulation at 1/4 res for performance
- * - Mouse movement creates propagating ripple waves
- * - Cursor glow + fading trail overlay
- *
- * Uses SVG feTurbulence + feDisplacementMap driven by a dynamic ripple texture
- * for GPU-accelerated distortion (no per-pixel JS loop).
+ * Renders video to canvas with real water ripple distortion on mouse move.
+ * Uses classic 2-buffer wave propagation + pixel displacement.
+ * Runs at half resolution for performance.
  */
 export function LiquidBackground() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const rippleCanvasRef = useRef<HTMLCanvasElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const glowCanvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const rippleCanvas = rippleCanvasRef.current;
-    const glowCanvas = glowCanvasRef.current;
-    if (!rippleCanvas || !glowCanvas) return;
-    const rCtx = rippleCanvas.getContext("2d")!;
-    const gCtx = glowCanvas.getContext("2d")!;
+    const canvas = canvasRef.current;
+    const video = videoRef.current;
+    if (!canvas || !video) return;
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    if (!ctx) return;
 
-    let w = window.innerWidth;
-    let h = window.innerHeight;
-    // Ripple sim resolution
-    const SCALE = 4;
-    let rw = Math.ceil(w / SCALE);
-    let rh = Math.ceil(h / SCALE);
-    let buf1 = new Float32Array(rw * rh);
-    let buf2 = new Float32Array(rw * rh);
-    const damping = 0.965;
+    // Render at half res for perf, CSS scales it up
+    const SCALE = 0.5;
+    let w = 0;
+    let h = 0;
+    let cw = 0;
+    let ch = 0;
+    let buf1: Float32Array;
+    let buf2: Float32Array;
     let rafId = 0;
+    const DAMPING = 0.96;
 
     const mouse = { x: -1000, y: -1000 };
     const trail: { x: number; y: number; age: number; str: number }[] = [];
 
+    // Offscreen canvas for reading clean video frame
+    const offCanvas = document.createElement("canvas");
+    const offCtx = offCanvas.getContext("2d", { willReadFrequently: true })!;
+
     const resize = () => {
       w = window.innerWidth;
       h = window.innerHeight;
-      rw = Math.ceil(w / SCALE);
-      rh = Math.ceil(h / SCALE);
-      rippleCanvas.width = rw;
-      rippleCanvas.height = rh;
-      glowCanvas.width = w;
-      glowCanvas.height = h;
-      glowCanvas.style.width = `${w}px`;
-      glowCanvas.style.height = `${h}px`;
-      buf1 = new Float32Array(rw * rh);
-      buf2 = new Float32Array(rw * rh);
+      cw = Math.round(w * SCALE);
+      ch = Math.round(h * SCALE);
+      canvas.width = cw;
+      canvas.height = ch;
+      canvas.style.width = `${w}px`;
+      canvas.style.height = `${h}px`;
+      offCanvas.width = cw;
+      offCanvas.height = ch;
+      buf1 = new Float32Array(cw * ch);
+      buf2 = new Float32Array(cw * ch);
     };
     resize();
     window.addEventListener("resize", resize);
@@ -66,24 +63,23 @@ export function LiquidBackground() {
       const dist = Math.sqrt(dx * dx + dy * dy);
 
       if (dist > 1) {
-        const str = Math.min(dist / 5, 1);
-        trail.push({ x: e.clientX, y: e.clientY, age: 0, str });
-        if (trail.length > 100) trail.splice(0, 15);
+        trail.push({ x: e.clientX, y: e.clientY, age: 0, str: Math.min(dist / 5, 1) });
+        if (trail.length > 80) trail.splice(0, 10);
       }
 
-      // Drop into ripple buffer
-      const rx = ((e.clientX / w) * rw) | 0;
-      const ry = ((e.clientY / h) * rh) | 0;
-      const rad = 4;
-      const strength = Math.min(dist * 1.5, 400);
-      for (let dy2 = -rad; dy2 <= rad; dy2++) {
-        for (let dx2 = -rad; dx2 <= rad; dx2++) {
-          const px2 = rx + dx2;
-          const py2 = ry + dy2;
-          if (px2 >= 0 && px2 < rw && py2 >= 0 && py2 < rh) {
-            const d = Math.sqrt(dx2 * dx2 + dy2 * dy2);
-            if (d <= rad) {
-              buf1[py2 * rw + px2] += strength * (1 - d / rad);
+      // Drop ripple into buffer (in canvas coords)
+      const rx = Math.round(e.clientX * SCALE);
+      const ry = Math.round(e.clientY * SCALE);
+      const radius = 6;
+      const strength = Math.min(dist * 2, 512);
+      for (let oy = -radius; oy <= radius; oy++) {
+        for (let ox = -radius; ox <= radius; ox++) {
+          const bx = rx + ox;
+          const by = ry + oy;
+          if (bx >= 0 && bx < cw && by >= 0 && by < ch) {
+            const d = Math.sqrt(ox * ox + oy * oy);
+            if (d <= radius) {
+              buf1[by * cw + bx] += strength * (1 - d / radius);
             }
           }
         }
@@ -91,137 +87,153 @@ export function LiquidBackground() {
     };
     window.addEventListener("mousemove", onMouseMove);
 
+    const onClick = (e: MouseEvent) => {
+      // Big splash on click
+      const rx = Math.round(e.clientX * SCALE);
+      const ry = Math.round(e.clientY * SCALE);
+      const radius = 14;
+      for (let oy = -radius; oy <= radius; oy++) {
+        for (let ox = -radius; ox <= radius; ox++) {
+          const bx = rx + ox;
+          const by = ry + oy;
+          if (bx >= 0 && bx < cw && by >= 0 && by < ch) {
+            const d = Math.sqrt(ox * ox + oy * oy);
+            if (d <= radius) {
+              buf1[by * cw + bx] += 800 * (1 - d / radius);
+            }
+          }
+        }
+      }
+    };
+    window.addEventListener("click", onClick);
+
     const animate = () => {
-      // --- Ripple propagation ---
-      for (let y = 1; y < rh - 1; y++) {
-        for (let x = 1; x < rw - 1; x++) {
-          const i = y * rw + x;
+      if (video.readyState < 2) {
+        rafId = requestAnimationFrame(animate);
+        return;
+      }
+
+      // Draw video to offscreen at half res
+      offCtx.drawImage(video, 0, 0, cw, ch);
+      // Light tint
+      offCtx.fillStyle = "rgba(232, 232, 232, 0.3)";
+      offCtx.fillRect(0, 0, cw, ch);
+
+      const srcData = offCtx.getImageData(0, 0, cw, ch);
+      const src = srcData.data;
+
+      // Propagate ripples
+      for (let y = 1; y < ch - 1; y++) {
+        for (let x = 1; x < cw - 1; x++) {
+          const i = y * cw + x;
           buf2[i] = (
-            buf1[(y - 1) * rw + x] +
-            buf1[(y + 1) * rw + x] +
-            buf1[y * rw + (x - 1)] +
-            buf1[y * rw + (x + 1)]
+            buf1[(y - 1) * cw + x] +
+            buf1[(y + 1) * cw + x] +
+            buf1[y * cw + (x - 1)] +
+            buf1[y * cw + (x + 1)]
           ) / 2 - buf2[i];
-          buf2[i] *= damping;
+          buf2[i] *= DAMPING;
         }
       }
 
-      // Render ripple as a displacement map texture (grayscale: 128 = neutral)
-      const imgData = rCtx.createImageData(rw, rh);
-      const d = imgData.data;
-      for (let y = 1; y < rh - 1; y++) {
-        for (let x = 1; x < rw - 1; x++) {
-          const i = y * rw + x;
-          // Horizontal displacement → R channel
-          const dx = (buf2[y * rw + (x - 1)] - buf2[y * rw + (x + 1)]) * 0.5;
-          // Vertical displacement → G channel
-          const dy = (buf2[(y - 1) * rw + x] - buf2[(y + 1) * rw + x]) * 0.5;
-          const pi = i * 4;
-          d[pi] = Math.max(0, Math.min(255, 128 + dx * 2));     // R
-          d[pi + 1] = Math.max(0, Math.min(255, 128 + dy * 2)); // G
-          d[pi + 2] = 128; // B unused
-          d[pi + 3] = 255;
+      // Displace pixels
+      const dst = ctx.createImageData(cw, ch);
+      const out = dst.data;
+
+      for (let y = 1; y < ch - 1; y++) {
+        for (let x = 1; x < cw - 1; x++) {
+          const i = y * cw + x;
+          // Gradient gives displacement direction
+          const dispX = buf2[i - 1] - buf2[i + 1];
+          const dispY = buf2[i - cw] - buf2[i + cw];
+
+          // Source pixel with displacement
+          const sx = Math.max(0, Math.min(cw - 1, Math.round(x + dispX * 0.4)));
+          const sy = Math.max(0, Math.min(ch - 1, Math.round(y + dispY * 0.4)));
+
+          const di = i * 4;
+          const si = (sy * cw + sx) * 4;
+          // Add slight brightness where ripple is strong (caustic effect)
+          const rippleStrength = Math.abs(buf2[i]) * 0.003;
+          out[di] = Math.min(255, src[si] + rippleStrength * 60);
+          out[di + 1] = Math.min(255, src[si + 1] + rippleStrength * 60);
+          out[di + 2] = Math.min(255, src[si + 2] + rippleStrength * 40);
+          out[di + 3] = 255;
         }
       }
-      rCtx.putImageData(imgData, 0, 0);
 
-      // Update the SVG feImage with the ripple canvas data URL
-      const feImg = document.getElementById("ripple-map-image");
-      if (feImg) {
-        feImg.setAttribute("href", rippleCanvas.toDataURL());
-      }
+      ctx.putImageData(dst, 0, 0);
 
       // Swap buffers
       const tmp = buf1;
       buf1 = buf2;
       buf2 = tmp;
 
-      // --- Glow canvas (cursor + trail) ---
-      gCtx.clearRect(0, 0, w, h);
-
+      // Cursor glow (draw at canvas coords)
+      const mx = mouse.x * SCALE;
+      const my = mouse.y * SCALE;
       if (mouse.x > -500) {
-        const g = gCtx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 280);
-        g.addColorStop(0, "rgba(255, 255, 255, 0.18)");
-        g.addColorStop(0.25, "rgba(255, 252, 245, 0.10)");
-        g.addColorStop(0.6, "rgba(255, 250, 240, 0.03)");
-        g.addColorStop(1, "rgba(255, 250, 240, 0)");
-        gCtx.fillStyle = g;
-        gCtx.beginPath();
-        gCtx.arc(mouse.x, mouse.y, 280, 0, Math.PI * 2);
-        gCtx.fill();
+        const g = ctx.createRadialGradient(mx, my, 0, mx, my, 140 * SCALE);
+        g.addColorStop(0, "rgba(255,255,255,0.12)");
+        g.addColorStop(0.4, "rgba(255,252,245,0.05)");
+        g.addColorStop(1, "rgba(255,250,240,0)");
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(mx, my, 140 * SCALE, 0, Math.PI * 2);
+        ctx.fill();
       }
 
+      // Trail
       for (let i = trail.length - 1; i >= 0; i--) {
         const p = trail[i];
         p.age++;
-        if (p.age > 70) { trail.splice(i, 1); continue; }
-        const life = 1 - p.age / 70;
-        const alpha = life * life * 0.2 * p.str;
-        const r = 100 + (1 - life) * 70;
-        const g = gCtx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r);
+        if (p.age > 60) { trail.splice(i, 1); continue; }
+        const life = 1 - p.age / 60;
+        const alpha = life * life * 0.15 * p.str;
+        const r = (80 + (1 - life) * 50) * SCALE;
+        const g = ctx.createRadialGradient(p.x * SCALE, p.y * SCALE, 0, p.x * SCALE, p.y * SCALE, r);
         g.addColorStop(0, `rgba(255,255,255,${alpha})`);
         g.addColorStop(1, "rgba(255,255,255,0)");
-        gCtx.fillStyle = g;
-        gCtx.beginPath();
-        gCtx.arc(p.x, p.y, r, 0, Math.PI * 2);
-        gCtx.fill();
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(p.x * SCALE, p.y * SCALE, r, 0, Math.PI * 2);
+        ctx.fill();
       }
 
       rafId = requestAnimationFrame(animate);
     };
 
-    rafId = requestAnimationFrame(animate);
+    video.addEventListener("canplay", () => { rafId = requestAnimationFrame(animate); });
+    if (video.readyState >= 2) rafId = requestAnimationFrame(animate);
 
     return () => {
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("click", onClick);
       cancelAnimationFrame(rafId);
     };
   }, []);
 
   return (
     <>
-      {/* SVG displacement filter — GPU accelerated */}
-      <svg className="hidden" width="0" height="0">
-        <defs>
-          <filter id="liquid-ripple" x="0%" y="0%" width="100%" height="100%" colorInterpolationFilters="sRGB">
-            <feImage id="ripple-map-image" href="" result="rippleMap" x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" />
-            <feDisplacementMap in="SourceGraphic" in2="rippleMap" scale="60" xChannelSelector="R" yChannelSelector="G" />
-          </filter>
-        </defs>
-      </svg>
-
-      {/* Hidden ripple displacement canvas */}
-      <canvas ref={rippleCanvasRef} className="hidden" />
-
-      {/* Video + tint, distorted by the SVG filter */}
-      <div
-        ref={containerRef}
-        className="fixed inset-0 z-0 overflow-hidden"
-        style={{ filter: "url(#liquid-ripple)" }}
+      <video
+        ref={videoRef}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        className="hidden"
       >
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          className="w-full h-full object-cover"
-        >
-          <source
-            src="https://videos.pexels.com/video-files/3571264/3571264-hd_1920_1080_30fps.mp4"
-            type="video/mp4"
-          />
-        </video>
-        {/* Light wash so content is readable */}
-        <div className="absolute inset-0 bg-white/35" />
-      </div>
-
-      {/* Glow + trail overlay */}
+        <source
+          src="https://videos.pexels.com/video-files/3571264/3571264-hd_1920_1080_30fps.mp4"
+          type="video/mp4"
+        />
+      </video>
       <canvas
-        ref={glowCanvasRef}
-        className="fixed inset-0 z-[1] pointer-events-none"
+        ref={canvasRef}
+        className="fixed inset-0 z-0"
+        style={{ imageRendering: "auto" }}
       />
     </>
   );
