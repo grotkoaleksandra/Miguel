@@ -12,7 +12,8 @@ export function HeroSection({ dict }: { dict: Dictionary }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const t = setTimeout(() => setRevealed(true), 1400);
+    // Sync with loader: scramble(600) + resolve(1200) + hold(400) + fade(600) ≈ 2800ms
+    const t = setTimeout(() => setRevealed(true), 2600);
     return () => clearTimeout(t);
   }, []);
 
