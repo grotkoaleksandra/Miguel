@@ -91,21 +91,27 @@ export function LiquidBackground() {
     };
     window.addEventListener("click", onClick);
 
+    // Push a horizontal wave front into the buffer along one edge
+    const pushWaveFront = (strength: number, fromTop: boolean) => {
+      const edgeY = fromTop ? 1 : sh - 2;
+      const str = Math.min(strength, 250);
+      for (let x = 0; x < sw; x++) {
+        // Slight randomness so it doesn't look perfectly uniform
+        const noise = 0.7 + Math.random() * 0.6;
+        buf1[edgeY * sw + x] += str * noise;
+      }
+    };
+
     const onScroll = () => {
       const currentScroll = window.scrollY;
       scrollVel = currentScroll - lastScroll;
       lastScroll = currentScroll;
 
-      // Create wave disturbance across the width based on scroll speed
-      const strength = Math.min(Math.abs(scrollVel) * 3, 300);
-      if (strength > 5) {
-        // Drop waves at several random points across the screen
-        const count = Math.min(Math.floor(Math.abs(scrollVel) / 3), 8);
-        for (let i = 0; i < count; i++) {
-          const x = Math.random() * w;
-          const y = Math.random() * h;
-          drop(x, y, 30 + Math.random() * 30, strength * (0.5 + Math.random() * 0.5));
-        }
+      const absVel = Math.abs(scrollVel);
+      if (absVel > 2) {
+        const strength = Math.min(absVel * 4, 250);
+        // Scrolling down = wave enters from top, scrolling up = from bottom
+        pushWaveFront(strength, scrollVel > 0);
       }
     };
     window.addEventListener("scroll", onScroll, { passive: true });
