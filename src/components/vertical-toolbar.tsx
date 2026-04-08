@@ -2,11 +2,16 @@
 
 import { useExperience } from "@/contexts/experience-context";
 
-const sections = [
-  { id: "work" as const, label: "Work" },
-  { id: "services" as const, label: "Services" },
-  { id: "about" as const, label: "About" },
-  { id: "contact" as const, label: "Contact" },
+/**
+ * Menu items scattered around the central torus at organic positions.
+ * Each label sits at a different offset from center with a small dot connector.
+ */
+
+const menuItems = [
+  { id: "work" as const, label: "Work", x: -280, y: -160, align: "right" as const },
+  { id: "services" as const, label: "Services", x: 240, y: -120, align: "left" as const },
+  { id: "about" as const, label: "About", x: -220, y: 150, align: "right" as const },
+  { id: "contact" as const, label: "Contact", x: 260, y: 130, align: "left" as const },
 ];
 
 export function VerticalToolbar() {
@@ -15,31 +20,68 @@ export function VerticalToolbar() {
   if (!entered) return null;
 
   return (
-    <div className="fixed right-0 top-0 bottom-0 z-[60] w-16 md:w-20 flex flex-col items-center justify-center gap-8">
-      {sections.map((s) => {
-        const isActive = activeSection === s.id;
+    <div className="fixed inset-0 z-[60] pointer-events-none flex items-center justify-center">
+      {menuItems.map((item) => {
+        const isActive = activeSection === item.id;
         return (
           <button
-            key={s.id}
-            onClick={() => setActiveSection(s.id)}
-            className="group relative flex flex-col items-center gap-2 cursor-pointer"
+            key={item.id}
+            onClick={() => setActiveSection(item.id)}
+            className="absolute pointer-events-auto group cursor-pointer flex items-center gap-3"
+            style={{
+              transform: `translate(${item.x}px, ${item.y}px)`,
+            }}
             data-cursor-hover
           >
-            {/* Dot indicator */}
-            <div
-              className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${
-                isActive ? "bg-white scale-100" : "bg-white/20 scale-75 group-hover:bg-white/50 group-hover:scale-100"
-              }`}
-            />
-            {/* Label */}
-            <span
-              className={`text-[9px] tracking-[0.2em] uppercase transition-colors duration-500 ${
-                isActive ? "text-white/80" : "text-white/20 group-hover:text-white/50"
-              }`}
-              style={{ writingMode: "vertical-rl", textOrientation: "mixed" }}
-            >
-              {s.label}
-            </span>
+            {item.align === "right" ? (
+              <>
+                <span
+                  className={`text-[11px] tracking-[0.2em] uppercase transition-all duration-700 ${
+                    isActive
+                      ? "text-white/90"
+                      : "text-white/25 group-hover:text-white/60 group-hover:tracking-[0.3em]"
+                  }`}
+                >
+                  {item.label}
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span
+                    className={`block h-[1px] transition-all duration-700 ${
+                      isActive ? "w-8 bg-white/40" : "w-4 bg-white/10 group-hover:w-8 group-hover:bg-white/30"
+                    }`}
+                  />
+                  <span
+                    className={`block w-1.5 h-1.5 rounded-full transition-all duration-500 ${
+                      isActive ? "bg-white scale-100" : "bg-white/20 scale-75 group-hover:bg-white/60 group-hover:scale-100"
+                    }`}
+                  />
+                </span>
+              </>
+            ) : (
+              <>
+                <span className="flex items-center gap-1.5">
+                  <span
+                    className={`block w-1.5 h-1.5 rounded-full transition-all duration-500 ${
+                      isActive ? "bg-white scale-100" : "bg-white/20 scale-75 group-hover:bg-white/60 group-hover:scale-100"
+                    }`}
+                  />
+                  <span
+                    className={`block h-[1px] transition-all duration-700 ${
+                      isActive ? "w-8 bg-white/40" : "w-4 bg-white/10 group-hover:w-8 group-hover:bg-white/30"
+                    }`}
+                  />
+                </span>
+                <span
+                  className={`text-[11px] tracking-[0.2em] uppercase transition-all duration-700 ${
+                    isActive
+                      ? "text-white/90"
+                      : "text-white/25 group-hover:text-white/60 group-hover:tracking-[0.3em]"
+                  }`}
+                >
+                  {item.label}
+                </span>
+              </>
+            )}
           </button>
         );
       })}
