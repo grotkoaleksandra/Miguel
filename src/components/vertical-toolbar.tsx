@@ -31,10 +31,10 @@ export function VerticalToolbar() {
             {item.align === "right" ? (
               <>
                 <span
-                  className={`text-[11px] tracking-[0.2em] uppercase transition-all duration-700 ${
+                  className={`text-[13px] font-semibold tracking-[0.15em] uppercase transition-all duration-700 ${
                     isActive
-                      ? "text-[#1a1a1a]/90"
-                      : "text-[#1a1a1a]/30 group-hover:text-[#1a1a1a]/60 group-hover:tracking-[0.3em]"
+                      ? "text-[#1a1a1a]"
+                      : "text-[#1a1a1a]/50 group-hover:text-[#1a1a1a]/80 group-hover:tracking-[0.25em]"
                   }`}
                 >
                   {item.label}
@@ -42,12 +42,12 @@ export function VerticalToolbar() {
                 <span className="flex items-center gap-1.5">
                   <span
                     className={`block h-[1px] transition-all duration-700 ${
-                      isActive ? "w-8 bg-[#1a1a1a]/40" : "w-4 bg-[#1a1a1a]/10 group-hover:w-8 group-hover:bg-[#1a1a1a]/30"
+                      isActive ? "w-8 bg-[#1a1a1a]/60" : "w-4 bg-[#1a1a1a]/20 group-hover:w-8 group-hover:bg-[#1a1a1a]/40"
                     }`}
                   />
                   <span
-                    className={`block w-1.5 h-1.5 rounded-full transition-all duration-500 ${
-                      isActive ? "bg-[#1a1a1a] scale-100" : "bg-[#1a1a1a]/20 scale-75 group-hover:bg-[#1a1a1a]/60 group-hover:scale-100"
+                    className={`block w-2 h-2 rounded-full transition-all duration-500 ${
+                      isActive ? "bg-[#1a1a1a] scale-100" : "bg-[#1a1a1a]/30 scale-75 group-hover:bg-[#1a1a1a]/70 group-hover:scale-100"
                     }`}
                   />
                 </span>
@@ -56,21 +56,21 @@ export function VerticalToolbar() {
               <>
                 <span className="flex items-center gap-1.5">
                   <span
-                    className={`block w-1.5 h-1.5 rounded-full transition-all duration-500 ${
-                      isActive ? "bg-[#1a1a1a] scale-100" : "bg-[#1a1a1a]/20 scale-75 group-hover:bg-[#1a1a1a]/60 group-hover:scale-100"
+                    className={`block w-2 h-2 rounded-full transition-all duration-500 ${
+                      isActive ? "bg-[#1a1a1a] scale-100" : "bg-[#1a1a1a]/30 scale-75 group-hover:bg-[#1a1a1a]/70 group-hover:scale-100"
                     }`}
                   />
                   <span
                     className={`block h-[1px] transition-all duration-700 ${
-                      isActive ? "w-8 bg-[#1a1a1a]/40" : "w-4 bg-[#1a1a1a]/10 group-hover:w-8 group-hover:bg-[#1a1a1a]/30"
+                      isActive ? "w-8 bg-[#1a1a1a]/60" : "w-4 bg-[#1a1a1a]/20 group-hover:w-8 group-hover:bg-[#1a1a1a]/40"
                     }`}
                   />
                 </span>
                 <span
-                  className={`text-[11px] tracking-[0.2em] uppercase transition-all duration-700 ${
+                  className={`text-[13px] font-semibold tracking-[0.15em] uppercase transition-all duration-700 ${
                     isActive
-                      ? "text-[#1a1a1a]/90"
-                      : "text-[#1a1a1a]/30 group-hover:text-[#1a1a1a]/60 group-hover:tracking-[0.3em]"
+                      ? "text-[#1a1a1a]"
+                      : "text-[#1a1a1a]/50 group-hover:text-[#1a1a1a]/80 group-hover:tracking-[0.25em]"
                   }`}
                 >
                   {item.label}
