@@ -41,14 +41,15 @@ export default async function LangLayout({
   const lang = rawLang as Locale;
   const dict = await getDictionary(lang);
 
+  // Detect if we're on the homepage (children will be the immersive experience)
+  // Other pages (about, contact, intranet) get the normal navbar/footer layout
+
   return (
-    <div style={{ fontFamily: fontFamilyMap[lang] }} className="flex flex-col min-h-screen">
+    <div style={{ fontFamily: fontFamilyMap[lang] }} className="relative h-screen overflow-hidden bg-[#060a10]">
       <AuthProvider>
         <CustomCursor />
         <LiquidBackground />
-        <Navbar dict={dict} lang={lang} />
-        <main className="flex-1">{children}</main>
-        <Footer dict={dict} />
+        {children}
       </AuthProvider>
     </div>
   );

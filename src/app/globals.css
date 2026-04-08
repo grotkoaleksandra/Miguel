@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --background: #e8e8e8;
-  --foreground: #030303;
+  --background: #060a10;
+  --foreground: #ffffff;
   --accent: #DA382E;
   --muted: #7a7a7a;
-  --border: #d0d0d0;
+  --border: #1a1f2a;
 }
 
 @theme inline {
@@ -20,21 +20,22 @@
 }
 
 ::selection {
-  background: var(--foreground);
-  color: var(--background);
+  background: white;
+  color: #060a10;
 }
 
-html {
-  scroll-behavior: smooth;
+html, body {
+  overflow: hidden;
+  height: 100vh;
+  height: 100dvh;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: #060a10;
+  color: white;
   font-family: var(--font-geist, "Helvetica Neue", Helvetica, Arial, sans-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
 }
 
 /* ---- Animations ---- */
@@ -47,40 +48,32 @@ body {
   animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   opacity: 0;
 }
-.animate-delay-1 { animation-delay: 0.1s; }
-.animate-delay-2 { animation-delay: 0.2s; }
-.animate-delay-3 { animation-delay: 0.3s; }
-.animate-delay-4 { animation-delay: 0.4s; }
-.animate-delay-5 { animation-delay: 0.5s; }
 
-@keyframes gradientShift {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(10%, -10%) scale(1.1); }
-  50% { transform: translate(-5%, 15%) scale(1.05); }
-  75% { transform: translate(-10%, -5%) scale(1.15); }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
-.animate-gradient-shift {
-  animation: gradientShift 15s ease-in-out infinite;
-}
-.animate-gradient-shift-reverse {
-  animation: gradientShift 20s ease-in-out infinite reverse;
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
 }
 
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-.animate-marquee {
-  animation: marquee linear infinite;
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes pulseLine {
-  0%, 100% { opacity: 0.15; transform: scaleY(1); }
-  50% { opacity: 0.5; transform: scaleY(1.15); }
+@keyframes slowSpin {
+  from { transform: rotateX(0deg) rotateY(0deg); }
+  to { transform: rotateX(360deg) rotateY(360deg); }
 }
-.animate-pulse-line {
-  animation: pulseLine 2.5s ease-in-out infinite;
-  transform-origin: top;
+
+@keyframes loadingBar {
+  0% { width: 0; }
+  60% { width: 70%; }
+  100% { width: 100%; }
+}
+.animate-loading-bar {
+  animation: loadingBar 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Link hover underline */
@@ -102,41 +95,6 @@ body {
   width: 100%;
 }
 
-@keyframes expandLine {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
-}
-.animate-expand-line {
-  transform-origin: left;
-  animation: expandLine 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  transform: scaleX(0);
-}
-
-@keyframes loadingBar {
-  0% { width: 0; }
-  60% { width: 70%; }
-  100% { width: 100%; }
-}
-.animate-loading-bar {
-  animation: loadingBar 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes counterUp {
-  from { transform: translateY(100%); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-.animate-counter-up {
-  animation: counterUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  opacity: 0;
-}
-
-/* Smooth section transitions */
-section {
-  position: relative;
-}
-
-/* Texture is now handled by the interactive TextureOverlay canvas component */
-
 /* Smoother image loading */
 img {
   transition: opacity 0.5s ease;
@@ -145,4 +103,16 @@ img {
 /* Serif utility */
 .font-display {
   font-family: var(--font-serif), "Georgia", "Times New Roman", serif;
+}
+
+/* Scrollbar for panels */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
 }
