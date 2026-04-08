@@ -3,79 +3,106 @@
 import { useExperience } from "@/contexts/experience-context";
 
 /**
- * CSS 3D octahedron that rotates with the mouse.
- * 8 triangular faces using clip-path, translucent with subtle borders.
+ * CSS 3D wireframe torus (donut) that rotates with the mouse.
+ * Built from circular ring slices arranged around a central axis.
  */
 export function Centerpiece() {
   const { entered, mouse } = useExperience();
 
-  // Map mouse to rotation (-15 to 15 degrees)
-  const vw = typeof window !== "undefined" ? window.innerWidth : 1920;
-  const vh = typeof window !== "undefined" ? window.innerHeight : 1080;
-  const rotY = ((mouse.x / vw) - 0.5) * 30;
-  const rotX = ((mouse.y / vh) - 0.5) * -30;
-
   if (!entered) return null;
 
-  const size = 140; // half-size of the octahedron
-  const faces = [
-    // Top 4 faces
-    { vertices: "50% 0%, 100% 50%, 50% 50%", rx: -35, ry: 45, tz: 0 },
-    { vertices: "50% 0%, 50% 50%, 0% 50%", rx: -35, ry: -45, tz: 0 },
-    { vertices: "50% 0%, 0% 50%, 50% 50%", rx: -35, ry: -135, tz: 0 },
-    { vertices: "50% 0%, 50% 50%, 100% 50%", rx: -35, ry: 135, tz: 0 },
-    // Bottom 4 faces
-    { vertices: "50% 100%, 100% 50%, 50% 50%", rx: 35, ry: 45, tz: 0 },
-    { vertices: "50% 100%, 50% 50%, 0% 50%", rx: 35, ry: -45, tz: 0 },
-    { vertices: "50% 100%, 0% 50%, 50% 50%", rx: 35, ry: -135, tz: 0 },
-    { vertices: "50% 100%, 50% 50%, 100% 50%", rx: 35, ry: 135, tz: 0 },
-  ];
+  const vw = typeof window !== "undefined" ? window.innerWidth : 1920;
+  const vh = typeof window !== "undefined" ? window.innerHeight : 1080;
+  const rotY = ((mouse.x / vw) - 0.5) * 40;
+  const rotX = ((mouse.y / vh) - 0.5) * -40;
+
+  const R = 120; // major radius (center of hole to center of tube)
+  const r = 50;  // minor radius (tube thickness)
+  const slices = 24; // number of rings around the donut
 
   return (
     <div className="fixed inset-0 z-10 flex items-center justify-center pointer-events-none">
       <div
-        className="relative"
         style={{
-          width: size * 2,
-          height: size * 2,
-          perspective: "1200px",
+          width: (R + r) * 2,
+          height: (R + r) * 2,
+          perspective: "1400px",
         }}
       >
         <div
-          className="w-full h-full"
           style={{
+            width: "100%",
+            height: "100%",
+            position: "relative",
             transformStyle: "preserve-3d",
-            transform: `rotateX(${rotX}deg) rotateY(${rotY}deg)`,
-            transition: "transform 0.1s ease-out",
-            animation: "slowSpin 40s linear infinite",
+            transform: `rotateX(${rotX - 20}deg) rotateY(${rotY}deg)`,
+            transition: "transform 0.15s ease-out",
+            animation: "torusDrift 30s linear infinite",
           }}
         >
-          {faces.map((face, i) => (
-            <div
-              key={i}
-              className="absolute inset-0"
-              style={{
-                clipPath: `polygon(${face.vertices})`,
-                transform: `rotateX(${face.rx}deg) rotateY(${face.ry}deg) translateZ(${size * 0.7}px)`,
-                background: `linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01))`,
-                border: "1px solid rgba(255,255,255,0.06)",
-                backfaceVisibility: "hidden",
-              }}
-            />
-          ))}
+          {/* Longitudinal rings — slices through the donut */}
+          {Array.from({ length: slices }).map((_, i) => {
+            const angle = (360 / slices) * i;
+            return (
+              <div
+                key={`lon-${i}`}
+                className="absolute"
+                style={{
+                  width: r * 2,
+                  height: r * 2,
+                  top: "50%",
+                  left: "50%",
+                  marginTop: -r,
+                  marginLeft: -r,
+                  borderRadius: "50%",
+                  border: "1px solid rgba(255,255,255,0.07)",
+                  transformStyle: "preserve-3d",
+                  transform: `rotateY(${angle}deg) translateX(${R}px)`,
+                }}
+              />
+            );
+          })}
 
-          {/* Wireframe edges for more definition */}
-          {[0, 60, 120, 180, 240, 300].map((deg) => (
-            <div
-              key={`edge-${deg}`}
-              className="absolute top-1/2 left-1/2 w-[1px] origin-bottom"
-              style={{
-                height: size,
-                background: "rgba(255,255,255,0.04)",
-                transform: `translate(-50%, -100%) rotateY(${deg}deg) rotateX(-55deg)`,
-              }}
-            />
-          ))}
+          {/* Latitudinal rings — circles going around the tube */}
+          {Array.from({ length: 8 }).map((_, i) => {
+            const angle = (360 / 8) * i;
+            // Each lat ring is a circle of radius R, offset by r in the tube direction
+            const offsetY = Math.sin((angle * Math.PI) / 180) * r;
+            const ringR = R + Math.cos((angle * Math.PI) / 180) * r;
+            return (
+              <div
+                key={`lat-${i}`}
+                className="absolute"
+                style={{
+                  width: ringR * 2,
+                  height: ringR * 2,
+                  top: "50%",
+                  left: "50%",
+                  marginTop: -ringR,
+                  marginLeft: -ringR,
+                  borderRadius: "50%",
+                  border: "1px solid rgba(255,255,255,0.05)",
+                  transform: `rotateX(90deg) translateZ(${offsetY}px)`,
+                }}
+              />
+            );
+          })}
+
+          {/* Accent highlight ring */}
+          <div
+            className="absolute"
+            style={{
+              width: R * 2,
+              height: R * 2,
+              top: "50%",
+              left: "50%",
+              marginTop: -R,
+              marginLeft: -R,
+              borderRadius: "50%",
+              border: "1px solid rgba(255,255,255,0.12)",
+              transform: "rotateX(90deg)",
+            }}
+          />
         </div>
       </div>
     </div>
