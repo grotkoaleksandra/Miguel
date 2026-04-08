@@ -210,7 +210,7 @@ export function LiquidBackground() {
           className="w-full h-full object-cover"
         >
           <source
-            src="https://videos.pexels.com/video-files/1918465/1918465-hd_1920_1080_24fps.mp4"
+            src="https://videos.pexels.com/video-files/3571264/3571264-hd_1920_1080_30fps.mp4"
             type="video/mp4"
           />
         </video>
