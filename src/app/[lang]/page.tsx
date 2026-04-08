@@ -125,19 +125,19 @@ export default async function HomePage({
         </section>
 
         {/* ─── SERVICES ─── */}
-        <section className="py-32 md:py-48 px-6 md:px-12 lg:px-20 bg-[#030303]/90 backdrop-blur-sm text-white">
+        <section className="py-32 md:py-48 px-6 md:px-12 lg:px-20 bg-white/60 backdrop-blur-sm">
           <div className="max-w-[1400px] mx-auto">
             <div className="grid grid-cols-12 gap-x-4 md:gap-x-8 mb-20 md:mb-28">
               <div className="col-span-12 md:col-span-3">
                 <ScrollReveal>
-                  <h2 className="text-[11px] tracking-[0.3em] uppercase text-white/25">
+                  <h2 className="text-[11px] tracking-[0.3em] uppercase text-foreground/25">
                     {dict.home.services.title}
                   </h2>
                 </ScrollReveal>
               </div>
               <div className="col-span-12 md:col-span-5 md:col-start-5 mt-6 md:mt-0">
                 <ScrollReveal delay={0.1}>
-                  <p className="text-white/30 text-[14px] leading-relaxed">
+                  <p className="text-foreground/35 text-[14px] leading-relaxed">
                     We combine design, development, and strategy to build digital products that work — and look the part.
                   </p>
                 </ScrollReveal>
@@ -147,16 +147,16 @@ export default async function HomePage({
             <div>
               {dict.home.services.list.map((service, i) => (
                 <ScrollReveal key={service.title} delay={i * 0.05}>
-                  <div className="group border-t border-white/[0.06] last:border-b py-8 md:py-10 flex items-start md:items-center justify-between gap-6 cursor-pointer transition-colors duration-700 hover:border-white/[0.12]" data-cursor-hover>
+                  <div className="group border-t border-foreground/[0.06] last:border-b py-8 md:py-10 flex items-start md:items-center justify-between gap-6 cursor-pointer transition-colors duration-700 hover:border-foreground/[0.12]" data-cursor-hover>
                     <div className="flex items-start md:items-center gap-6 md:gap-12">
-                      <span className="text-white/[0.06] text-[11px] tabular-nums font-mono mt-1 md:mt-0 tracking-wider">
+                      <span className="text-foreground/[0.08] text-[11px] tabular-nums font-mono mt-1 md:mt-0 tracking-wider">
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <h3 className="text-xl md:text-2xl font-light tracking-[-0.01em] group-hover:text-white/60 transition-colors duration-500">
+                      <h3 className="text-xl md:text-2xl font-light tracking-[-0.01em] group-hover:text-foreground/50 transition-colors duration-500">
                         {service.title}
                       </h3>
                     </div>
-                    <span className="text-white/[0.06] group-hover:text-white/30 group-hover:translate-x-1 transition-all duration-500 text-sm">
+                    <span className="text-foreground/[0.08] group-hover:text-foreground/30 group-hover:translate-x-1 transition-all duration-500 text-sm">
                       →
                     </span>
                   </div>
