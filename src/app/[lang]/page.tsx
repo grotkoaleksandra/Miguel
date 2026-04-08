@@ -1,11 +1,9 @@
 import { getDictionary } from "@/i18n/get-dictionary";
 import type { Locale } from "@/i18n/config";
-import { ExperienceProvider } from "@/contexts/experience-context";
-import { IntroGate } from "@/components/intro-gate";
-import { Centerpiece } from "@/components/centerpiece";
-import { VerticalToolbar } from "@/components/vertical-toolbar";
-import { ContentPanel } from "@/components/content-panel";
-import { BrandMark } from "@/components/brand-mark";
+import { HeroSection } from "@/components/hero-section";
+import { ProjectsGrid } from "@/components/projects-grid";
+import { ServicesSection } from "@/components/services-section";
+import { CtaSection } from "@/components/cta-section";
 
 export default async function HomePage({
   params,
@@ -17,13 +15,11 @@ export default async function HomePage({
   const dict = await getDictionary(lang);
 
   return (
-    <ExperienceProvider>
-      <IntroGate />
-      {/* LiquidBackground is in the layout at z-0 */}
-      <Centerpiece />
-      <ContentPanel dict={dict} />
-      <VerticalToolbar />
-      <BrandMark />
-    </ExperienceProvider>
+    <>
+      <HeroSection dict={dict} />
+      <ProjectsGrid dict={dict} />
+      <ServicesSection dict={dict} />
+      <CtaSection dict={dict} lang={lang} />
+    </>
   );
 }
