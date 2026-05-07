@@ -24,17 +24,35 @@ export function HeroSection({ dict }: { dict: Dictionary }) {
 
   return (
     <>
-      {/* ---- Screen 1: Giant wordmark filling viewport ---- */}
+      {/* ---- Screen 1: Giant wordmark over video background ---- */}
       <section
         ref={ref}
         className="relative bg-black flex items-center overflow-hidden"
         style={{ height: "100vh" }}
       >
+        {/* Background video */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{
+            opacity: revealed ? 0.85 : 0,
+            transition: "opacity 1.2s ease 200ms",
+          }}
+        >
+          <source src="/Miguel/studio.mp4" type="video/mp4" />
+        </video>
+
+        {/* Wordmark — blend-mode difference auto-contrasts against video */}
         <div
-          className="w-full px-3 md:px-4 text-white font-bold uppercase select-none leading-[0.82] tracking-[-0.05em]"
+          className="relative w-full px-3 md:px-4 font-bold uppercase select-none leading-[0.82] tracking-[-0.05em]"
           style={{
             fontSize: "clamp(80px, 18vw, 350px)",
             fontFamily: "'Helvetica Neue', Helvetica, sans-serif",
+            color: "#ffffff",
+            mixBlendMode: "difference",
             opacity: revealed ? 1 : 0,
             transform: revealed ? "translateY(0)" : "translateY(30px)",
             transition: "opacity 1s ease 200ms, transform 1s cubic-bezier(0.16, 1, 0.3, 1) 200ms",
