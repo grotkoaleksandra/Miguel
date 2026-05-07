@@ -80,11 +80,29 @@ export function PageLoader() {
         cursor: "progress",
       }}
     >
+      {/* Background video */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ opacity: 0.85 }}
+      >
+        <source
+          src="https://videos.pexels.com/video-files/2169307/2169307-uhd_3840_2160_30fps.mp4"
+          type="video/mp4"
+        />
+      </video>
+
+      {/* Scrambling text — blend-mode difference auto-contrasts against video */}
       <div
-        className="w-full px-3 md:px-4 text-white font-bold uppercase select-none leading-[0.82] tracking-[-0.05em]"
+        className="relative w-full px-3 md:px-4 font-bold uppercase select-none leading-[0.82] tracking-[-0.05em]"
         style={{
           fontSize: "clamp(80px, 18vw, 350px)",
           fontFamily: "'Helvetica Neue', Helvetica, sans-serif",
+          color: "#ffffff",
+          mixBlendMode: "difference",
         }}
       >
         <div>{line1}</div>
