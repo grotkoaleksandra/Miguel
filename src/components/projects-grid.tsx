@@ -4,44 +4,91 @@ import { useEffect, useRef, useState } from "react";
 import type { Dictionary } from "@/i18n/types";
 
 const projectImages: Record<string, string> = {
-  "Syrena Travel": "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1600&h=900&fit=crop",
-  "Max Kennedy": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1600&h=900&fit=crop",
-  "Yoga Studio": "https://images.unsplash.com/photo-1545389336-cf090694435e?w=1600&h=900&fit=crop",
-  "Massage Therapist": "https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=1600&h=900&fit=crop",
-  "Art Marketplace": "https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=1600&h=900&fit=crop",
-  "Cultural Magazine": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=1600&h=900&fit=crop",
+  "Syrena Travel": "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&h=800&fit=crop",
+  "Max Kennedy": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&h=800&fit=crop",
+  "Yoga Studio": "https://images.unsplash.com/photo-1545389336-cf090694435e?w=1200&h=800&fit=crop",
+  "Massage Therapist": "https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=1200&h=800&fit=crop",
+  "Art Marketplace": "https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=1200&h=800&fit=crop",
+  "Cultural Magazine": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=1200&h=800&fit=crop",
 };
 
-// Cinematic rhythm: each project in its own row with intentional offset.
-// Wide → narrow-right → wide-left → narrow-right → wide-centered → narrow-left.
-const layouts = [
-  { col: "md:col-start-1 md:col-span-10", aspect: 56 },         // wide hero
-  { col: "md:col-start-7 md:col-span-6",  aspect: 75 },         // narrow tall right
-  { col: "md:col-start-2 md:col-span-7",  aspect: 60 },         // wide-ish left
-  { col: "md:col-start-8 md:col-span-5",  aspect: 75 },         // narrow tall right
-  { col: "md:col-start-3 md:col-span-8",  aspect: 56 },         // centered wide
-  { col: "md:col-start-1 md:col-span-6",  aspect: 70 },         // narrow left
-];
-
+/**
+ * Editorial index list — each project is a row of text. Hovering reveals
+ * a floating image preview that tracks the cursor.
+ */
 export function ProjectsGrid({ dict }: { dict: Dictionary }) {
   const projects = dict.home.projects.list;
+  const [hovered, setHovered] = useState<string | null>(null);
+  const [cursor, setCursor] = useState({ x: 0, y: 0 });
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      const rect = sectionRef.current?.getBoundingClientRect();
+      if (!rect) return;
+      setCursor({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    };
+    window.addEventListener("mousemove", onMove);
+    return () => window.removeEventListener("mousemove", onMove);
+  }, []);
 
   return (
-    <section className="bg-black text-white" style={{ paddingTop: 180, paddingBottom: 120 }}>
-      <div className="mx-auto px-5 md:px-5">
-        <div className="grid grid-cols-12 gap-x-5" style={{ rowGap: 180 }}>
+    <section
+      ref={sectionRef}
+      className="relative bg-black text-white overflow-hidden"
+      style={{ paddingTop: 180, paddingBottom: 180 }}
+    >
+      <div className="px-5 md:px-10">
+        {/* Section label */}
+        <div className="grid grid-cols-12 gap-x-5 mb-16">
+          <div className="col-span-12 md:col-span-3">
+            <span className="type-caption text-white/50">Selected Work — {String(projects.length).padStart(2, "0")}</span>
+          </div>
+        </div>
+
+        {/* Project list */}
+        <ul className="border-t border-white/15">
           {projects.map((p, i) => (
-            <ProjectCard
+            <ProjectRow
               key={p.title}
               project={p}
               index={i}
-              layout={layouts[i % layouts.length]}
+              isHovered={hovered === p.title}
+              onHover={(h) => setHovered(h ? p.title : null)}
             />
           ))}
-        </div>
+        </ul>
+      </div>
 
-        <div className="divider mt-32 mb-5" />
+      {/* Floating hover preview — follows cursor */}
+      <div
+        className="pointer-events-none fixed top-0 left-0 z-30 hidden md:block"
+        style={{
+          transform: `translate3d(${cursor.x + (sectionRef.current?.getBoundingClientRect().left ?? 0)}px, ${cursor.y + (sectionRef.current?.getBoundingClientRect().top ?? 0)}px, 0) translate(-50%, -50%)`,
+          transition: "transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+        }}
+      >
+        {projects.map((p) => (
+          <img
+            key={p.title}
+            src={projectImages[p.title] || p.image}
+            alt=""
+            aria-hidden
+            className="absolute top-0 left-0 object-cover"
+            style={{
+              width: 420,
+              height: 280,
+              transform: "translate(-50%, -50%)",
+              opacity: hovered === p.title ? 1 : 0,
+              transition: "opacity 0.5s ease",
+              willChange: "opacity",
+            }}
+          />
+        ))}
+      </div>
 
+      {/* All projects link */}
+      <div className="px-5 md:px-10 mt-16">
         <div className="flex justify-end">
           <span className="type-text text-white opacity-40 hover:opacity-100 transition-opacity duration-200 cursor-pointer">
             {dict.home.projects.viewAll} →
@@ -52,114 +99,83 @@ export function ProjectsGrid({ dict }: { dict: Dictionary }) {
   );
 }
 
-function ProjectCard({
+function ProjectRow({
   project,
   index,
-  layout,
+  isHovered,
+  onHover,
 }: {
   project: { title: string; category: string; description: string; image: string; status: string };
   index: number;
-  layout: { col: string; aspect: number };
+  isHovered: boolean;
+  onHover: (h: boolean) => void;
 }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const imgRef = useRef<HTMLImageElement>(null);
+  const ref = useRef<HTMLLIElement>(null);
   const [visible, setVisible] = useState(false);
 
-  // Reveal once when entering viewport
   useEffect(() => {
-    const el = cardRef.current;
+    const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); } },
-      { threshold: 0.1, rootMargin: "0px 0px -10% 0px" }
+      { threshold: 0.3 }
     );
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
 
-  // Scroll-linked parallax — image drifts vertically as the card moves through viewport
-  useEffect(() => {
-    let rafId = 0;
-    let ticking = false;
-
-    const update = () => {
-      ticking = false;
-      const card = cardRef.current;
-      const img = imgRef.current;
-      if (!card || !img) return;
-
-      const rect = card.getBoundingClientRect();
-      const vh = window.innerHeight;
-      // Progress: -1 when below viewport, 0 when centered, 1 when above
-      const progress = ((rect.top + rect.height / 2) - vh / 2) / vh;
-      const clamped = Math.max(-1, Math.min(1, progress));
-      const translateY = clamped * -40; // ±40px parallax range
-      img.style.transform = `translate3d(0, ${translateY}px, 0) scale(1.15)`;
-    };
-
-    const onScroll = () => {
-      if (!ticking) {
-        rafId = requestAnimationFrame(update);
-        ticking = true;
-      }
-    };
-
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", update);
-    return () => {
-      cancelAnimationFrame(rafId);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", update);
-    };
-  }, []);
-
-  const stagger = (index % 3) * 100; // small stagger so adjacent reveals don't sync
-
   return (
-    <div
-      ref={cardRef}
-      className={`col-span-12 ${layout.col} group cursor-pointer`}
+    <li
+      ref={ref}
+      className="border-b border-white/15 group cursor-pointer"
+      onMouseEnter={() => onHover(true)}
+      onMouseLeave={() => onHover(false)}
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : "translateY(60px)",
-        transition: `opacity 1s ease ${stagger}ms, transform 1s cubic-bezier(0.16, 1, 0.3, 1) ${stagger}ms`,
+        transform: visible ? "translateY(0)" : "translateY(20px)",
+        transition: `opacity 0.7s ease ${index * 80}ms, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${index * 80}ms`,
       }}
     >
-      <div
-        className="relative overflow-hidden bg-[#0a0a0a]"
-        style={{ paddingTop: `${layout.aspect}%` }}
-      >
-        <img
-          ref={imgRef}
-          src={projectImages[project.title] || project.image}
-          alt={project.title}
-          className="absolute inset-0 w-full h-full object-cover will-change-transform"
-          style={{ transform: "translate3d(0,0,0) scale(1.15)" }}
-          loading="lazy"
-        />
-        {/* Subtle vignette on hover */}
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/15 transition-colors duration-700" />
-      </div>
-
-      <div className="mt-5 flex flex-col">
-        <h3 className="type-subtitle text-white">
-          <span className="inline-block transition-transform duration-500 group-hover:translate-x-1">
-            {project.title}
-          </span>
-        </h3>
-        <p className="type-text text-white/80 mt-[0.2em]" style={{ fontWeight: 300 }}>
-          {project.description}
-        </p>
-        <div className="flex flex-wrap gap-x-5 mt-5">
-          <span className="type-caption text-white link-underline" style={{ textDecorationColor: "rgba(255,255,255,0.5)" }}>
-            {project.category}
-          </span>
+      <div className="grid grid-cols-12 gap-x-5 items-baseline py-8 md:py-10">
+        {/* Index number */}
+        <div className="col-span-2 md:col-span-1">
           <span className="type-caption text-white/40">
-            {project.status}
+            {String(index + 1).padStart(2, "0")}
+          </span>
+        </div>
+
+        {/* Title */}
+        <div className="col-span-10 md:col-span-6">
+          <h3
+            className="font-medium uppercase tracking-[-0.02em] leading-[0.9] transition-colors duration-500"
+            style={{
+              fontSize: "clamp(28px, 5vw, 64px)",
+              fontFamily: "'Helvetica Neue', Helvetica, sans-serif",
+              color: isHovered ? "#ffffff" : "rgba(255,255,255,0.6)",
+            }}
+          >
+            <span className="inline-block transition-transform duration-500 group-hover:translate-x-2">
+              {project.title}
+            </span>
+          </h3>
+        </div>
+
+        {/* Category */}
+        <div className="hidden md:block md:col-span-3">
+          <span className="type-caption text-white/50">{project.category}</span>
+        </div>
+
+        {/* Status / arrow */}
+        <div className="hidden md:flex md:col-span-2 items-baseline justify-end gap-3">
+          <span className="type-caption text-white/30">{project.status}</span>
+          <span
+            className="text-white/40 transition-all duration-500 group-hover:text-white group-hover:translate-x-1"
+            style={{ fontSize: "18px" }}
+          >
+            →
           </span>
         </div>
       </div>
-    </div>
+    </li>
   );
 }
