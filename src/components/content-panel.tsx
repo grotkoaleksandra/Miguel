@@ -127,8 +127,8 @@ function AboutContent({ dict }: { dict: Dictionary }) {
           </div>
           <div>
             <span className="text-[#1a1a1a]/15 text-[9px] tracking-[0.3em] uppercase block mb-2">Contact</span>
-            <a href="mailto:hello@syrenacreative.com" className="text-[#1a1a1a]/50 text-sm link-hover hover:text-[#1a1a1a]/80 transition-colors" data-cursor-hover>
-              hello@syrenacreative.com
+            <a href="mailto:hello@vixencreative.com" className="text-[#1a1a1a]/50 text-sm link-hover hover:text-[#1a1a1a]/80 transition-colors" data-cursor-hover>
+              hello@vixencreative.com
             </a>
           </div>
           <div>
@@ -152,7 +152,7 @@ function ContactContent() {
           Free consultation for your first project.
         </p>
         <a
-          href="mailto:hello@syrenacreative.com"
+          href="mailto:hello@vixencreative.com"
           className="inline-flex items-center gap-3 text-[11px] tracking-[0.2em] uppercase border border-[#1a1a1a]/15 rounded-full px-10 py-4 text-[#1a1a1a]/60 hover:bg-[#1a1a1a] hover:text-[#f5f0eb] transition-all duration-500"
           data-cursor-hover
         >
@@ -163,8 +163,8 @@ function ContactContent() {
         <div className="space-y-6">
           <div>
             <span className="text-[#1a1a1a]/15 text-[9px] tracking-[0.3em] uppercase block mb-2">Email</span>
-            <a href="mailto:hello@syrenacreative.com" className="text-[#1a1a1a]/50 text-sm" data-cursor-hover>
-              hello@syrenacreative.com
+            <a href="mailto:hello@vixencreative.com" className="text-[#1a1a1a]/50 text-sm" data-cursor-hover>
+              hello@vixencreative.com
             </a>
           </div>
           <div>

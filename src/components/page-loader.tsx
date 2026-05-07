@@ -2,13 +2,13 @@
 
 import { useEffect, useState, useRef, useCallback } from "react";
 
-const TARGET_LINE1 = "SYRENA";
+const TARGET_LINE1 = "VIXEN";
 const TARGET_LINE2 = "CREATIVE";
 const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*+÷×≈∆∑∏Ω§†‡¶©®™";
 
 /**
  * Full-screen loader — random symbols scramble rapidly, then resolve
- * letter-by-letter into "SYRENA CREATIVE". Once resolved, fades out.
+ * letter-by-letter into "VIXEN CREATIVE". Once resolved, fades out.
  */
 export function PageLoader() {
   const [phase, setPhase] = useState<"scramble" | "exiting" | "gone">("scramble");

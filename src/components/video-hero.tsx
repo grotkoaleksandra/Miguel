@@ -41,7 +41,7 @@ export function VideoHero({
             Est. 2025
           </div>
           <div className="text-white text-2xl md:text-3xl tracking-[0.08em] font-light">
-            Syrena Creative
+            Vixen Creative
           </div>
           <div className="mt-12 w-32 h-[1px] bg-white/10 mx-auto overflow-hidden">
             <div className="h-full bg-white/60 animate-loading-bar" />

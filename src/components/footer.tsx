@@ -22,7 +22,7 @@ export function Footer({ dict }: { dict: Dictionary }) {
             paddingTop: 20,
           }}
         >
-          Syrena<br />Creative
+          Vixen<br />Creative
         </div>
 
         {/* Divider */}
@@ -42,7 +42,7 @@ export function Footer({ dict }: { dict: Dictionary }) {
 
           {/* Company links */}
           <div className="col-span-6 md:col-span-3 space-y-1">
-            <FooterLink href="mailto:hello@syrenacreative.com">hello@syrenacreative.com</FooterLink>
+            <FooterLink href="mailto:hello@vixencreative.com">hello@vixencreative.com</FooterLink>
             <span className="type-text block text-black/60" style={{ fontSize: 23 }}>Warsaw, Poland</span>
             <span className="type-text block text-black/40" style={{ fontSize: 23 }}>CET (GMT+1)</span>
           </div>

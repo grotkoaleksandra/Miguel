@@ -71,7 +71,7 @@ export function Navbar({ dict, lang }: { dict: Dictionary; lang: Locale }) {
             href={`/${lang}`}
             className="type-subtitle uppercase text-white leading-[0.9] relative z-[60]"
           >
-            Syrena<br className="hidden md:block" /> Creative
+            Vixen<br className="hidden md:block" /> Creative
           </Link>
 
           {/* Desktop nav */}
@@ -127,8 +127,8 @@ export function Navbar({ dict, lang }: { dict: Dictionary; lang: Locale }) {
             ))}
           </div>
           <div className="space-y-1">
-            <a href="mailto:hello@syrenacreative.com" className="block type-caption text-white/50">
-              hello@syrenacreative.com
+            <a href="mailto:hello@vixencreative.com" className="block type-caption text-white/50">
+              hello@vixencreative.com
             </a>
             <span className="block type-caption text-white/50">Warsaw, Poland</span>
             {!loading && user && (
