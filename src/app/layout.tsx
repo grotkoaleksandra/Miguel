@@ -15,7 +15,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Syrena Creative",
+  title: "Vixen Creative",
   description: "Creative agency in Warsaw — websites, apps, and social media for businesses, artists, and startups.",
 };
 

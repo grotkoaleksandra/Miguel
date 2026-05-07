@@ -58,7 +58,7 @@ export function HeroSection({ dict }: { dict: Dictionary }) {
             transition: "opacity 1s ease 200ms, transform 1s cubic-bezier(0.16, 1, 0.3, 1) 200ms",
           }}
         >
-          Syrena<br />Creative
+          Vixen<br />Creative
         </div>
       </section>
 

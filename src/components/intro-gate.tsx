@@ -40,7 +40,7 @@ export function IntroGate() {
         >
           <div className="text-black/30 text-[10px] tracking-[0.4em] uppercase mb-8">Est. 2025</div>
           <div className="text-[#1a1a1a] text-2xl md:text-3xl tracking-[0.08em] font-light">
-            Syrena Creative
+            Vixen Creative
           </div>
           <div className="mt-10 w-32 h-[1px] bg-black/10 mx-auto overflow-hidden">
             <div className="h-full bg-black/50 animate-loading-bar" />
@@ -54,7 +54,7 @@ export function IntroGate() {
         >
           <div className="text-center">
             <div className="text-[#1a1a1a] text-2xl md:text-3xl tracking-[0.08em] font-light mb-12">
-              Syrena Creative
+              Vixen Creative
             </div>
             <div className="group inline-flex flex-col items-center gap-3">
               <div className="w-16 h-16 rounded-full border border-black/15 flex items-center justify-center group-hover:border-black/40 group-hover:scale-110 transition-all duration-700">

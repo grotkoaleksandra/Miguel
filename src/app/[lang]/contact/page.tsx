@@ -121,11 +121,11 @@ export default async function ContactPage({
                     Email
                   </h3>
                   <a
-                    href="mailto:hello@syrenacreative.com"
+                    href="mailto:hello@vixencreative.com"
                     className="text-xl link-hover hover:text-accent transition-colors duration-500"
                     data-cursor-hover
                   >
-                    hello@syrenacreative.com
+                    hello@vixencreative.com
                   </a>
                 </div>
 
