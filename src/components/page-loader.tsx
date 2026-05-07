@@ -89,10 +89,7 @@ export function PageLoader() {
         className="absolute inset-0 w-full h-full object-cover"
         style={{ opacity: 0.85 }}
       >
-        <source
-          src="https://videos.pexels.com/video-files/2169307/2169307-uhd_3840_2160_30fps.mp4"
-          type="video/mp4"
-        />
+        <source src="/Miguel/studio.mp4" type="video/mp4" />
       </video>
 
       {/* Scrambling text — blend-mode difference auto-contrasts against video */}
