@@ -3,31 +3,31 @@
 import { useEffect, useRef, useState } from "react";
 import type { Dictionary } from "@/i18n/types";
 
-// Pexels stock — paired thoughtfully with each project's domain.
+// Pexels stock — verified hotlink-friendly URLs (HD 1080p variants).
 const projectMedia: Record<string, { video: string; poster: string }> = {
   "Syrena Travel": {
-    video: "https://videos.pexels.com/video-files/2169307/2169307-uhd_3840_2160_30fps.mp4",
-    poster: "https://images.pexels.com/videos/2169307/free-video-2169307.jpg?w=1600",
+    video: "https://videos.pexels.com/video-files/853874/853874-hd_1920_1080_25fps.mp4",
+    poster: "https://images.pexels.com/videos/853874/free-video-853874.jpg?w=1600",
   },
   "Max Kennedy": {
-    video: "https://videos.pexels.com/video-files/3129957/3129957-uhd_3840_2160_25fps.mp4",
+    video: "https://videos.pexels.com/video-files/3129957/3129957-hd_1920_1080_25fps.mp4",
     poster: "https://images.pexels.com/videos/3129957/free-video-3129957.jpg?w=1600",
   },
   "Yoga Studio": {
-    video: "https://videos.pexels.com/video-files/4761426/4761426-uhd_3840_2160_25fps.mp4",
-    poster: "https://images.pexels.com/videos/4761426/free-video-4761426.jpg?w=1600",
+    video: "https://videos.pexels.com/video-files/856967/856967-hd_1920_1080_25fps.mp4",
+    poster: "https://images.pexels.com/videos/856967/free-video-856967.jpg?w=1600",
   },
   "Massage Therapist": {
-    video: "https://videos.pexels.com/video-files/3209211/3209211-uhd_3840_2160_25fps.mp4",
+    video: "https://videos.pexels.com/video-files/3209211/3209211-hd_1920_1080_25fps.mp4",
     poster: "https://images.pexels.com/videos/3209211/free-video-3209211.jpg?w=1600",
   },
   "Art Marketplace": {
-    video: "https://videos.pexels.com/video-files/8717592/8717592-uhd_3840_2160_25fps.mp4",
-    poster: "https://images.pexels.com/videos/8717592/free-video-8717592.jpg?w=1600",
+    video: "https://videos.pexels.com/video-files/855414/855414-hd_1920_1080_25fps.mp4",
+    poster: "https://images.pexels.com/videos/855414/free-video-855414.jpg?w=1600",
   },
   "Cultural Magazine": {
-    video: "https://videos.pexels.com/video-files/3045163/3045163-uhd_3840_2160_25fps.mp4",
-    poster: "https://images.pexels.com/videos/3045163/free-video-3045163.jpg?w=1600",
+    video: "https://videos.pexels.com/video-files/1739010/1739010-hd_1920_1080_30fps.mp4",
+    poster: "https://images.pexels.com/videos/1739010/free-video-1739010.jpg?w=1600",
   },
 };
 
