@@ -34,15 +34,9 @@ const projectMedia: Record<string, { video: string; poster: string }> = {
   },
 };
 
-// One project per row with intentional offset.
-const layouts = [
-  { col: "md:col-start-1 md:col-span-9",  aspect: 56 },
-  { col: "md:col-start-7 md:col-span-6",  aspect: 75 },
-  { col: "md:col-start-2 md:col-span-7",  aspect: 60 },
-  { col: "md:col-start-8 md:col-span-5",  aspect: 75 },
-  { col: "md:col-start-3 md:col-span-8",  aspect: 56 },
-  { col: "md:col-start-1 md:col-span-6",  aspect: 70 },
-];
+// Editorial spread: image + caption per row, alternating sides.
+// Uniform 16:10 aspect for cinematic-still feel; caption sits in the remaining ~3 cols.
+const SPREAD_ASPECT = 62.5;
 
 export function ProjectsGrid({ dict }: { dict: Dictionary }) {
   const projects = dict.home.projects.list;
@@ -72,14 +66,13 @@ export function ProjectsGrid({ dict }: { dict: Dictionary }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-12 gap-x-5" style={{ rowGap: 200 }}>
+        <div className="flex flex-col" style={{ rowGap: 140 }}>
           {projects.map((p, i) => (
             <ProjectCard
               key={p.title}
               ref={(el) => { triggerRefs.current[i] = el; }}
               project={p}
               index={i}
-              layout={layouts[i % layouts.length]}
               onOpen={() => setOpenIndex(i)}
             />
           ))}
@@ -108,11 +101,10 @@ export function ProjectsGrid({ dict }: { dict: Dictionary }) {
 type ProjectCardProps = {
   project: Project;
   index: number;
-  layout: { col: string; aspect: number };
   onOpen: () => void;
 };
 
-const ProjectCard = ({ ref, project, index, layout, onOpen }: ProjectCardProps & { ref?: (el: HTMLDivElement | null) => void }) => {
+const ProjectCard = ({ ref, project, index, onOpen }: ProjectCardProps & { ref?: (el: HTMLDivElement | null) => void }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [visible, setVisible] = useState(false);
@@ -153,7 +145,7 @@ const ProjectCard = ({ ref, project, index, layout, onOpen }: ProjectCardProps &
   };
 
   const media = projectMedia[project.title];
-  const stagger = (index % 2) * 100;
+  const isEven = index % 2 === 1; // 0-indexed: 2nd, 4th, 6th projects flip sides
 
   return (
     <div
@@ -165,7 +157,7 @@ const ProjectCard = ({ ref, project, index, layout, onOpen }: ProjectCardProps &
       tabIndex={0}
       aria-haspopup="dialog"
       aria-label={`Open project details: ${project.title}`}
-      className={`col-span-12 ${layout.col} group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60`}
+      className="group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
       onClick={onOpen}
@@ -173,67 +165,79 @@ const ProjectCard = ({ ref, project, index, layout, onOpen }: ProjectCardProps &
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "translateY(0)" : "translateY(60px)",
-        transition: `opacity 1s ease ${stagger}ms, transform 1s cubic-bezier(0.16, 1, 0.3, 1) ${stagger}ms`,
+        transition: "opacity 1s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
-      <div
-        className="relative overflow-hidden bg-[#0a0a0a]"
-        style={{ paddingTop: `${layout.aspect}%` }}
-      >
-        {/* Poster image (always visible) */}
-        <img
-          src={media?.poster || project.image}
-          alt={project.title}
-          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
-          style={{ opacity: hovered ? 0 : 1 }}
-          loading="lazy"
-        />
-
-        {/* Video (plays on hover) */}
-        <video
-          ref={videoRef}
-          src={media?.video}
-          muted
-          loop
-          playsInline
-          preload="none"
-          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
-          style={{ opacity: hovered ? 1 : 0 }}
-        />
-
-        {/* Play indicator */}
-        <div
-          className="absolute bottom-5 right-5 flex items-center gap-2 type-caption text-white/80 transition-opacity duration-300"
-          style={{ opacity: hovered ? 0 : 0.7 }}
-        >
-          <span className="block w-1.5 h-1.5 rounded-full bg-white/80" />
-          <span>Hover to play</span>
+      <div className="grid grid-cols-12 gap-x-5 items-end">
+        {/* Image side */}
+        <div className={`col-span-12 md:col-span-8 ${isEven ? "md:col-start-5 md:order-2" : "md:col-start-1 md:order-1"}`}>
+          <div
+            className="relative overflow-hidden bg-[#0a0a0a]"
+            style={{ paddingTop: `${SPREAD_ASPECT}%` }}
+          >
+            <img
+              src={media?.poster || project.image}
+              alt={project.title}
+              className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
+              style={{ opacity: hovered ? 0 : 1 }}
+              loading="lazy"
+            />
+            <video
+              ref={videoRef}
+              src={media?.video}
+              muted
+              loop
+              playsInline
+              preload="none"
+              className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
+              style={{ opacity: hovered ? 1 : 0 }}
+            />
+            <div
+              className="absolute bottom-5 right-5 flex items-center gap-2 type-caption text-white/80 transition-opacity duration-300"
+              style={{ opacity: hovered ? 0 : 0.7 }}
+            >
+              <span className="block w-1.5 h-1.5 rounded-full bg-white/80" />
+              <span>Hover to play</span>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div className="mt-5 grid grid-cols-12 gap-x-5">
-        <div className="col-span-12 md:col-span-1">
-          <span className="type-caption text-white/40">
-            {String(index + 1).padStart(2, "0")}
+        {/* Caption side — magazine-style metadata block */}
+        <div className={`col-span-12 md:col-span-3 mt-6 md:mt-0 ${isEven ? "md:col-start-1 md:order-1 md:pr-4" : "md:col-start-10 md:order-2 md:pl-4"}`}>
+          <span className="type-caption text-white/40 block">
+            {String(index + 1).padStart(2, "0")} / 06
           </span>
-        </div>
-        <div className="col-span-12 md:col-span-7">
-          <h3 className="type-subtitle text-white">
+          <h3
+            className="text-white mt-3"
+            style={{
+              fontFamily: '"Times New Roman", serif',
+              fontStyle: "italic",
+              fontWeight: 400,
+              fontSize: "clamp(28px, 2.6vw, 38px)",
+              lineHeight: 1.05,
+              letterSpacing: "-0.02em",
+            }}
+          >
             <span className="inline-block transition-transform duration-500 group-hover:translate-x-1">
               {project.title}
             </span>
           </h3>
-          <p className="type-text text-white/70 mt-1" style={{ fontWeight: 300 }}>
+          <p
+            className="type-text text-white/70 mt-4"
+            style={{ fontWeight: 300, fontSize: "15px", lineHeight: 1.5 }}
+          >
             {project.description}
           </p>
-        </div>
-        <div className="col-span-6 md:col-span-2 mt-3 md:mt-0">
-          <span className="type-caption text-white link-underline" style={{ textDecorationColor: "rgba(255,255,255,0.5)" }}>
-            {project.category}
-          </span>
-        </div>
-        <div className="col-span-6 md:col-span-2 mt-3 md:mt-0 md:text-right">
-          <span className="type-caption text-white/40">{project.status}</span>
+          <div className="divider mt-8 mb-3" style={{ background: "rgba(255,255,255,0.18)" }} />
+          <div className="flex items-baseline justify-between gap-3">
+            <span
+              className="type-caption text-white"
+              style={{ textDecoration: "underline", textDecorationColor: "rgba(255,255,255,0.4)", textUnderlineOffset: "0.2em" }}
+            >
+              {project.category}
+            </span>
+            <span className="type-caption text-white/40">{project.status}</span>
+          </div>
         </div>
       </div>
     </div>
