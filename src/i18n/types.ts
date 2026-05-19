@@ -27,6 +27,8 @@ export interface Dictionary {
         description: string;
         image: string;
         status: string;
+        modalBody: string;
+        contribution: string;
       }[];
     };
     services: {

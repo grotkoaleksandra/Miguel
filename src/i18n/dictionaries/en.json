@@ -27,42 +27,54 @@
           "category": "Web App",
           "description": "Travel discovery platform connecting explorers with curated experiences.",
           "image": "/Miguel/images/projects/syrena-travel.jpg",
-          "status": "In Progress"
+          "status": "In Progress",
+          "modalBody": "Syrena Travel is a travel app that doesn't want to be everyone's travel app. It's built on the bet that the best recommendations come from a small, trusted network — people whose taste you'd actually defer to — not from aggregated reviews by strangers with different priorities. Invite-only by design. The friction is the feature.",
+          "contribution": "Product design, development, brand, ongoing build."
+        },
+        {
+          "title": "Syrena Chocolate",
+          "category": "Brand",
+          "description": "A Warsaw chocolate brand built around a fictional 18th-century chocolatier.",
+          "image": "/Miguel/images/projects/syrena-chocolate.jpg",
+          "status": "In Progress",
+          "modalBody": "Syrena Chocolate is a small-batch chocolate brand rooted in a piece of invented Warsaw mythology: Jan Pańczki, an 18th-century chocolatier whose life story sits somewhere between historical fiction and Herzogian fever dream. The brand is the chocolate, but it's also the world the chocolate lives inside — the founder, the city, the rituals around tasting.\n\nPhase 1 centers on the first production batch, label art by a Warsaw painter, and a tasting event. Phase 2, in development for June, expands into more sophisticated packaging and a larger event format. The reference point is Casa Bosque — chocolate as craft object, not commodity.",
+          "contribution": "Brand identity, packaging design, web presence, community infrastructure."
         },
         {
           "title": "Max Kennedy",
           "category": "Personal App",
           "description": "A bespoke personal app built for fun and daily utility.",
           "image": "/Miguel/images/projects/max-kennedy.jpg",
-          "status": "In Progress"
+          "status": "In Progress",
+          "modalBody": "A bespoke personal app built for fun and daily utility. Lightweight, focused, designed for one person and their habits.",
+          "contribution": "Product design, development."
         },
         {
-          "title": "Yoga Studio",
-          "category": "Website",
-          "description": "Online class platform for a Warsaw yoga studio.",
-          "image": "/Miguel/images/projects/yoga-studio.jpg",
-          "status": "Planned"
+          "title": "Seven Questions Warsaw",
+          "category": "Live Event",
+          "description": "A street activation that turns strangers into people who know each other.",
+          "image": "/Miguel/images/projects/seven-questions.jpg",
+          "status": "In Progress",
+          "modalBody": "Seven Questions Warsaw is built on a simple premise: a city is not a place where you happen to live alongside other people. It is a dense field of possibility — friends you haven't met yet, collaborators, lovers, neighbors who would matter to you if you ever spoke. Most of us walk past all of it.\n\nThe format is direct. Two chairs on the pavement. Two strangers sit down. Seven structured questions guide a conversation that would otherwise never happen. The framing isn't loneliness — it's abundance. The point is to make visible what's already there.\n\nWarsaw is the pilot city. The format is designed to travel: Lisbon, Mexico City, Lagos, Tbilisi, anywhere people live close enough to be strangers.",
+          "contribution": "Concept, format design, production, identity."
         },
         {
-          "title": "Massage Therapist",
-          "category": "Website",
-          "description": "Clean, minimal booking site for a wellness professional.",
-          "image": "/Miguel/images/projects/massage.jpg",
-          "status": "Planned"
+          "title": "Monster Man",
+          "category": "Series",
+          "description": "A found-footage mockumentary series.",
+          "image": "/Miguel/images/projects/monster-man.jpg",
+          "status": "In Development",
+          "modalBody": "Monster Man follows a true believer. He has crossed an ocean to investigate something most people would not investigate, in a city most people would not investigate it in. The footage is what his small crew captures while it happens.\n\nThe companion piece, DISCLOSURE, is a TikTok-native documentary that runs alongside the main series — same world, different surface, more direct relationship with the audience.\n\nThe format takes seriously the question of what happens when sincerity collides with a place that doesn't know what to do with it.",
+          "contribution": "Concept, writing, production."
         },
         {
-          "title": "Art Marketplace",
-          "category": "E-Commerce",
-          "description": "Curated art marketplace connecting artists with collectors, hotels, and restaurants.",
-          "image": "/Miguel/images/projects/art-marketplace.jpg",
-          "status": "Planned"
-        },
-        {
-          "title": "Cultural Magazine",
-          "category": "Digital Platform",
-          "description": "A digital magazine exploring spirituality, art, and Warsaw culture.",
-          "image": "/Miguel/images/projects/magazine.jpg",
-          "status": "Planned"
+          "title": "Thumbs Up",
+          "category": "Series",
+          "description": "A hitchhiking travel series for TikTok and YouTube.",
+          "image": "/Miguel/images/projects/thumbs-up.jpg",
+          "status": "In Production",
+          "modalBody": "Thumbs Up is what happens when you put your thumb out and let the road decide. The premise is unglamorous: hitchhike from one place to another, document who picks you up, see where the day ends.\n\nThe visual grammar is deliberate. Exteriors and the waiting moments are shot in static, composed frames — closer to a quiet film than to travel content. Interiors, inside whichever vehicle has just stopped, are handheld and intimate. The contrast is the show.\n\nIt's also the social-media expression of Syrena Travel: the same instinct that you find better things when you give up a little control, played out at human scale on the side of a road.",
+          "contribution": "Concept, production, post."
         }
       ]
     },

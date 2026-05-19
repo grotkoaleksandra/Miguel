@@ -27,42 +27,54 @@
           "category": "Web App",
           "description": "Plateforme de voyage connectant les explorateurs avec des expériences sélectionnées.",
           "image": "/Miguel/images/projects/syrena-travel.jpg",
-          "status": "En Cours"
+          "status": "En Cours",
+          "modalBody": "Syrena Travel est une app de voyage qui ne veut pas être l'app de voyage de tout le monde. Elle est construite sur le pari que les meilleures recommandations viennent d'un petit réseau de confiance — des gens dont vous respectez vraiment le goût — et non d'avis agrégés par des étrangers aux priorités différentes. Sur invitation, par conception. La friction est la fonctionnalité.",
+          "contribution": "Conception produit, développement, marque, construction continue."
+        },
+        {
+          "title": "Syrena Chocolate",
+          "category": "Marque",
+          "description": "Une marque de chocolat varsovienne construite autour d'un chocolatier fictif du XVIIIe siècle.",
+          "image": "/Miguel/images/projects/syrena-chocolate.jpg",
+          "status": "En Cours",
+          "modalBody": "Syrena Chocolate est une marque de chocolat artisanale enracinée dans un fragment de mythologie inventée de Varsovie : Jan Pańczki, un chocolatier du XVIIIe siècle dont l'histoire se situe quelque part entre fiction historique et rêve fiévreux herzogien. La marque est le chocolat, mais c'est aussi le monde dans lequel le chocolat vit — le fondateur, la ville, les rituels de dégustation.\n\nLa Phase 1 se concentre sur la première production, l'art de l'étiquette par un peintre varsovien, et un événement de dégustation. La Phase 2, en développement pour juin, s'étend à un emballage plus sophistiqué et à un format d'événement plus grand. La référence est Casa Bosque — le chocolat comme objet artisanal, non comme marchandise.",
+          "contribution": "Identité de marque, design d'emballage, présence web, infrastructure communautaire."
         },
         {
           "title": "Max Kennedy",
           "category": "App Personnelle",
           "description": "Une app personnelle sur mesure, créée pour le plaisir et l'utilité quotidienne.",
           "image": "/Miguel/images/projects/max-kennedy.jpg",
-          "status": "En Cours"
+          "status": "En Cours",
+          "modalBody": "Une app personnelle sur mesure construite pour le plaisir et l'utilité quotidienne. Légère, focalisée, conçue pour une personne et ses habitudes.",
+          "contribution": "Conception produit, développement."
         },
         {
-          "title": "Studio de Yoga",
-          "category": "Site Web",
-          "description": "Plateforme de cours en ligne pour un studio de yoga à Varsovie.",
-          "image": "/Miguel/images/projects/yoga-studio.jpg",
-          "status": "Planifié"
+          "title": "Seven Questions Warsaw",
+          "category": "Événement",
+          "description": "Une activation de rue qui transforme des étrangers en personnes qui se connaissent.",
+          "image": "/Miguel/images/projects/seven-questions.jpg",
+          "status": "En Cours",
+          "modalBody": "Seven Questions Warsaw repose sur une prémisse simple : une ville n'est pas un lieu où vous vivez aux côtés d'autres personnes. C'est un champ dense de possibilités — des amis que vous n'avez pas encore rencontrés, des collaborateurs, des amants, des voisins qui compteraient pour vous si jamais vous parliez. La plupart d'entre nous passons à côté de tout cela.\n\nLe format est direct. Deux chaises sur le trottoir. Deux étrangers s'assoient. Sept questions structurées guident une conversation qui autrement n'aurait jamais lieu. Le cadre n'est pas la solitude — c'est l'abondance. L'idée est de rendre visible ce qui est déjà là.\n\nVarsovie est la ville pilote. Le format est conçu pour voyager : Lisbonne, Mexico, Lagos, Tbilissi, partout où les gens vivent assez près pour être des étrangers.",
+          "contribution": "Concept, design du format, production, identité."
         },
         {
-          "title": "Massothérapeute",
-          "category": "Site Web",
-          "description": "Site de réservation épuré et minimal pour un professionnel du bien-être.",
-          "image": "/Miguel/images/projects/massage.jpg",
-          "status": "Planifié"
+          "title": "Monster Man",
+          "category": "Série",
+          "description": "Une série mockumentaire en found-footage.",
+          "image": "/Miguel/images/projects/monster-man.jpg",
+          "status": "En Développement",
+          "modalBody": "Monster Man suit un véritable croyant. Il a traversé un océan pour enquêter sur quelque chose que la plupart n'enquêteraient pas, dans une ville où la plupart ne le feraient pas. Le métrage est ce que sa petite équipe capture pendant que ça se passe.\n\nLa pièce compagnon, DISCLOSURE, est un documentaire natif de TikTok qui se déroule en parallèle de la série principale — même monde, surface différente, relation plus directe avec le public.\n\nLe format prend au sérieux la question de ce qui se passe lorsque la sincérité se heurte à un endroit qui ne sait pas quoi en faire.",
+          "contribution": "Concept, écriture, production."
         },
         {
-          "title": "Marché de l'Art",
-          "category": "E-Commerce",
-          "description": "Marché d'art sélectionné connectant artistes avec collectionneurs, hôtels et restaurants.",
-          "image": "/Miguel/images/projects/art-marketplace.jpg",
-          "status": "Planifié"
-        },
-        {
-          "title": "Magazine Culturel",
-          "category": "Plateforme Digitale",
-          "description": "Un magazine digital explorant la spiritualité, l'art et la culture de Varsovie.",
-          "image": "/Miguel/images/projects/magazine.jpg",
-          "status": "Planifié"
+          "title": "Thumbs Up",
+          "category": "Série",
+          "description": "Une série de voyage en auto-stop pour TikTok et YouTube.",
+          "image": "/Miguel/images/projects/thumbs-up.jpg",
+          "status": "En Production",
+          "modalBody": "Thumbs Up est ce qui se passe quand vous tendez le pouce et laissez la route décider. La prémisse est sans glamour : faire de l'auto-stop d'un endroit à un autre, documenter qui vous prend, voir où se termine la journée.\n\nLa grammaire visuelle est délibérée. Les extérieurs et les moments d'attente sont filmés en plans statiques et composés — plus proches d'un film calme que d'un contenu de voyage. Les intérieurs, à bord du véhicule qui vient de s'arrêter, sont filmés caméra à l'épaule et intimes. Le contraste est le show.\n\nC'est aussi l'expression sur les réseaux sociaux de Syrena Travel : le même instinct selon lequel vous trouvez de meilleures choses quand vous abandonnez un peu de contrôle, joué à échelle humaine au bord de la route.",
+          "contribution": "Concept, production, post."
         }
       ]
     },
