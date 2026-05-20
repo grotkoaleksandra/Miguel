@@ -17,8 +17,8 @@ const projectMedia: Record<string, { video: string; poster: string }> = {
     poster: "https://images.pexels.com/videos/2324293/free-video-2324293.jpg?w=1600",
   },
   "TL App": {
-    video: "https://videos.pexels.com/video-files/3163534/3163534-hd_1920_1080_30fps.mp4",
-    poster: "https://images.pexels.com/videos/3163534/free-video-3163534.jpg?w=1600",
+    video: "/Miguel/tl-app.mp4",
+    poster: "/Miguel/tl-app.jpg",
   },
   "Seven Questions Warsaw": {
     video: "https://videos.pexels.com/video-files/854100/854100-hd_1920_1080_25fps.mp4",
