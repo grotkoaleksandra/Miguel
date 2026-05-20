@@ -78,13 +78,7 @@ export function ProjectsGrid({ dict }: { dict: Dictionary }) {
           ))}
         </div>
 
-        <div className="divider mt-32 mb-5" />
-
-        <div className="flex justify-end">
-          <span className="type-text text-white opacity-40 hover:opacity-100 transition-opacity duration-200 cursor-pointer">
-            {dict.home.projects.viewAll} →
-          </span>
-        </div>
+        <div className="divider mt-32" />
       </div>
 
       {openIndex !== null && (
