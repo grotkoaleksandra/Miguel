@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import type { Dictionary } from "@/i18n/types";
 
 type Project = Dictionary["home"]["projects"]["list"][number];
@@ -38,7 +39,7 @@ const projectMedia: Record<string, { video: string; poster: string }> = {
 // Uniform 16:10 aspect for cinematic-still feel; caption sits in the remaining ~3 cols.
 const SPREAD_ASPECT = 62.5;
 
-export function ProjectsGrid({ dict }: { dict: Dictionary }) {
+export function ProjectsGrid({ dict, viewAllHref }: { dict: Dictionary; viewAllHref?: string }) {
   const projects = dict.home.projects.list;
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const triggerRefs = useRef<Array<HTMLDivElement | null>>([]);
@@ -78,7 +79,18 @@ export function ProjectsGrid({ dict }: { dict: Dictionary }) {
           ))}
         </div>
 
-        <div className="divider mt-32" />
+        <div className="divider mt-32 mb-5" />
+
+        {viewAllHref && (
+          <div className="flex justify-end">
+            <Link
+              href={viewAllHref}
+              className="type-text text-white opacity-40 hover:opacity-100 transition-opacity duration-200"
+            >
+              {dict.home.projects.viewAll} →
+            </Link>
+          </div>
+        )}
       </div>
 
       {openIndex !== null && (

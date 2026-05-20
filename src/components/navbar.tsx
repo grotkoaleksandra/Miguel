@@ -41,7 +41,7 @@ export function Navbar({ dict, lang }: { dict: Dictionary; lang: Locale }) {
   if (pathname.includes("/intranet")) return null;
 
   const navLinks = [
-    { href: `/${lang}`, label: dict.nav.work },
+    { href: `/${lang}/work`, label: dict.nav.work },
     { href: `/${lang}/about`, label: dict.nav.about },
     { href: `/${lang}/contact`, label: dict.nav.contact },
   ];

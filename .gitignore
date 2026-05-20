@@ -10,3 +10,4 @@ out/
 CLAUDE.local.md
 docs/CREDENTIALS.md
 .setup-state.json
+tsconfig.tsbuildinfo

@@ -16,7 +16,7 @@ export default async function HomePage({
   return (
     <>
       <HeroSection dict={dict} />
-      <ProjectsGrid dict={dict} />
+      <ProjectsGrid dict={dict} viewAllHref={`/${lang}/work`} />
       <ServicesSection dict={dict} />
     </>
   );
