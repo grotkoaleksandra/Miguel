@@ -216,12 +216,11 @@ const ProjectCard = ({ ref, project, index, onOpen }: ProjectCardProps & { ref?:
           <h3
             className="text-white mt-3"
             style={{
-              fontFamily: '"Times New Roman", serif',
-              fontStyle: "italic",
-              fontWeight: 400,
-              fontSize: "clamp(28px, 2.6vw, 38px)",
-              lineHeight: 1.05,
-              letterSpacing: "-0.02em",
+              fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+              fontWeight: 300,
+              fontSize: "clamp(26px, 2.4vw, 34px)",
+              lineHeight: 1.1,
+              letterSpacing: "-0.03em",
             }}
           >
             <span className="inline-block transition-transform duration-500 group-hover:translate-x-1">
