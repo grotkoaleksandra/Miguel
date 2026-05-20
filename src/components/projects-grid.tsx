@@ -26,8 +26,8 @@ const projectMedia: Record<string, { video: string; poster: string }> = {
     poster: "https://images.pexels.com/videos/854100/free-video-854100.jpg?w=1600",
   },
   "Monster Man": {
-    video: "https://videos.pexels.com/video-files/3045163/3045163-hd_1920_1080_25fps.mp4",
-    poster: "https://images.pexels.com/videos/3045163/free-video-3045163.jpg?w=1600",
+    video: "/Miguel/monster-man.mp4",
+    poster: "/Miguel/monster-man.jpg",
   },
   "Thumbs Up": {
     video: "https://videos.pexels.com/video-files/2519660/2519660-hd_1920_1080_24fps.mp4",
