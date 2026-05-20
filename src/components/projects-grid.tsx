@@ -9,28 +9,28 @@ type Project = Dictionary["home"]["projects"]["list"][number];
 // Filenames mirror predictable scheme — drop in real hero assets later (e.g. /Miguel/videos/syrena-chocolate-hero.mp4).
 const projectMedia: Record<string, { video: string; poster: string }> = {
   "Syrena Travel": {
-    video: "https://videos.pexels.com/video-files/853874/853874-hd_1920_1080_25fps.mp4",
-    poster: "https://images.pexels.com/videos/853874/free-video-853874.jpg?w=1600",
+    video: "https://videos.pexels.com/video-files/1409899/1409899-hd_1920_1080_25fps.mp4",
+    poster: "https://images.pexels.com/videos/1409899/free-video-1409899.jpg?w=1600",
   },
   "Syrena Chocolate": {
-    video: "https://videos.pexels.com/video-files/3209211/3209211-hd_1920_1080_25fps.mp4",
-    poster: "https://images.pexels.com/videos/3209211/free-video-3209211.jpg?w=1600",
+    video: "https://videos.pexels.com/video-files/2324293/2324293-hd_1920_1080_25fps.mp4",
+    poster: "https://images.pexels.com/videos/2324293/free-video-2324293.jpg?w=1600",
   },
-  "Max Kennedy": {
-    video: "https://videos.pexels.com/video-files/3129957/3129957-hd_1920_1080_25fps.mp4",
-    poster: "https://images.pexels.com/videos/3129957/free-video-3129957.jpg?w=1600",
+  "TL App": {
+    video: "https://videos.pexels.com/video-files/3163534/3163534-hd_1920_1080_30fps.mp4",
+    poster: "https://images.pexels.com/videos/3163534/free-video-3163534.jpg?w=1600",
   },
   "Seven Questions Warsaw": {
-    video: "https://videos.pexels.com/video-files/1739010/1739010-hd_1920_1080_30fps.mp4",
-    poster: "https://images.pexels.com/videos/1739010/free-video-1739010.jpg?w=1600",
+    video: "https://videos.pexels.com/video-files/854100/854100-hd_1920_1080_25fps.mp4",
+    poster: "https://images.pexels.com/videos/854100/free-video-854100.jpg?w=1600",
   },
   "Monster Man": {
-    video: "https://videos.pexels.com/video-files/856967/856967-hd_1920_1080_25fps.mp4",
-    poster: "https://images.pexels.com/videos/856967/free-video-856967.jpg?w=1600",
+    video: "https://videos.pexels.com/video-files/3045163/3045163-hd_1920_1080_25fps.mp4",
+    poster: "https://images.pexels.com/videos/3045163/free-video-3045163.jpg?w=1600",
   },
   "Thumbs Up": {
-    video: "https://videos.pexels.com/video-files/855414/855414-hd_1920_1080_25fps.mp4",
-    poster: "https://images.pexels.com/videos/855414/free-video-855414.jpg?w=1600",
+    video: "https://videos.pexels.com/video-files/2519660/2519660-hd_1920_1080_24fps.mp4",
+    poster: "https://images.pexels.com/videos/2519660/free-video-2519660.jpg?w=1600",
   },
 };
 
